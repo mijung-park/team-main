@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="org.zerock.mapper.BoardMapper">
+
+<sql id="criteria">
+   <where>
+	   <foreach item="type" separator="OR" collection="typeArr">
+	     <choose>
+	     	<when test='type == "T"'>
+	     		b.title LIKE CONCAT('%', #{keyword}, '%')
+	     	</when>
+	     	<when test='type == "W"'>
+	     		b.writer LIKE CONCAT('%', #{keyword}, '%')
+	     	</when>
+	     	<when test='type == "C"'>
+	     		b.content LIKE CONCAT('%', #{keyword}, '%')
+	     	</when>
+	   	</choose>
+	   </foreach>
+   </where>	
+</sql>
+
+<select id="getListWithPaging" resultType="org.zerock.domain.BoardVO">
+	SELECT 
+    	c.bno bno,
+    	c.title title,
+    	c.content content,
+    	c.writer writer,
+    	c.nickName nickName,
+    	c.wrdate wrdate
+     FROM cs_list c LEFT JOIN reply_list r ON c.bno = r.bno
+	<include refid="criteria"></include>
+     ORDER BY bno DESC
+     LIMIT #{from}, #{amount}
+  </select>
+
+
+</mapper>
