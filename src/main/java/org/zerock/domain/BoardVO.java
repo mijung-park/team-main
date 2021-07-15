@@ -15,4 +15,6 @@ public class BoardVO {
 	private String nickName;
 	private Date wrdate;
 	private int replyCnt;
+	
+	private String fileName;
 }

@@ -26,12 +26,11 @@
 <select id="getListWithPaging" resultType="org.zerock.domain.BoardVO">
 	SELECT 
     	c.bno bno,
-    	c.title title,
     	c.content content,
     	c.writer writer,
     	c.nickName nickName,
     	c.wrdate wrdate
-     FROM cs_list c LEFT JOIN reply_list r ON c.bno = r.bno
+     FROM cs_list
 	<include refid="criteria"></include>
      ORDER BY bno DESC
      LIMIT #{from}, #{amount}
