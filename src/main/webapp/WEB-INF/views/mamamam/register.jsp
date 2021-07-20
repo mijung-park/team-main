@@ -1,5 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,17 +14,27 @@
 
 	<div class="row">
 		<div class="col-12">
-			<form action="${appRoot }/board/write" method="post" enctype="multipart/form-data">
+			<form action="${appRoot }/board/register" method="post" enctype="multipart/form-data">
 				<div class="form-group">
 					<label for="input2">NAME</label>
 					<input id="input2" hidden value="" readonly class="form-control" name="writer">
-					<input value="${pinfo.member.userName }" readonly class="form-control">
+					<input value="" readonly class="form-control">
 				</div>	
 				<div class="form-group">
 					<label for="input1">TITLE</label>
 					<input id="input1" class="form-control" name="title">
 				</div>
-				<div>분류</div>
+				<div>
+					<label for="input4">CLASSIFY</label>
+					<select id="input4" name="sort" class="form-control mr-sm-2">
+				  		<option value="">--</option>
+				  		<option value="order">주문</option>
+				  		<option value="price" }>상품</option>
+				  		<option value="delivery" >배송</option>
+				  		<option value="etc">기타</option>
+			  		</select>
+				</div>
+				
 				<div class="form-group">
 					<label for="textarea1">CONTENT</label>
 					<textarea id="textarea1" class="form-control" name="content"></textarea>

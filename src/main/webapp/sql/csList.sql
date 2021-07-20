@@ -1,35 +1,35 @@
-CREATE DATABASE untact;
-use untact;
 
-CREATE TABLE csList (
-	bno INT PRIMARY KEY AUTO_INCREMENT,
-    sort VARCHAR(255) NOT NULL,
-    content VARCHAR(2000) NOT NULL,
-    writer VARCHAR(50) NOT NULL,
-    wrdate TIMESTAMP DEFAULT NOW()
+CREATE TABLE tbl_cslist (
+	cs_seq INT(11) PRIMARY KEY AUTO_INCREMENT,
+    cs_category VARCHAR(50) NOT NULL,
+    cs_title VARCHAR(50) NOT NULL,
+    cs_writer VARCHAR(30) NOT NULL,
+    cs_readcnt INT(11) DEFAULT 0,
+    cs_content VARCHAR(2000) NOT NULL,
+    cs_secret VARCHAR(50) DEFAULT '모두에게',
+    cs_status VARCHAR(50) DEFAULT '답변 대기중',
+    cs_filename VARCHAR(50),
+    cs_replycnt INT(11) DEFAULT 0,
+    cs_regdate TIMESTAMP DEFAULT NOW(),
+    cs_updatedate TIMESTAMP DEFAULT NOW()
 );
 
-DESC csList;
+ALTER TABLE tbl_cslist MODIFY cs_filename VARCHAR(500);
 
-INSERT INTO csList
-(sort, content, writer)
-VALUES ('주문', '냥냥냥', '미정');
+DESC tbl_cslist;
 
-select * From csLbnoist;
-
-DESC csList;
-
-SELECT * FROM csList;
-
-ALTER TABLE csList add nickName VARCHAR(50);
-
-CREATE TABLE reply_list (
-	rno INT PRIMARY KEY AUTO_INCREMENT,
-    bno INT NOT NULL,
-    reply VARCHAR(2000) NOT NULL,
-    replyer VARCHAR(50) NOT NULL,
-    replyDate TIMESTAMP DEFAULT NOW(),
-    FOREIGN KEY (bno) REFERENCES cs_list(bno)
+CREATE TABLE tbl_reply (
+	reply_seq INT(11) PRIMARY KEY AUTO_INCREMENT,
+    reply_content VARCHAR(1000) NOT NULL,
+    reply_writer VARCHAR(30) NOT NULL,
+    reply_regdate TIMESTAMP DEFAULT NOW(),
+    reply_updatedate TIMESTAMP DEFAULT NOW(),
+    reply_boardname VARCHAR(10) NOT NULL,
+    reply_boardseq INT(11) NOT NULL,
+    reply_filename VARCHAR(500)
 );
 
-RENAME TABLE csList TO cs_list;
+DESC tbl_reply;
+
+CREATE TABLE tbl_user (
+	private

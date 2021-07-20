@@ -17,4 +17,10 @@
 	</security:authentication-provider>
 </security:authentication-manager>
 
+<bean id="bcryptPasswordEncoder" 
+	class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+	
+<bean id="customUserDetailsService"
+	class="org.zerock.security.CustomUserDetailsService"></bean>
+
 </beans>

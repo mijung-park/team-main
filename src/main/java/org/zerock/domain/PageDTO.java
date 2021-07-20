@@ -22,18 +22,16 @@ public class PageDTO {
 		int current = cri.getPageNum();
 		int numPerPage = cri.getAmount();
 	
-		this.endPage = ((current-1) / 10 + 1) * 10;
-		this.startPage = endPage - 9;
+		this.endPage = (int) Math.ceil(cri.getPageNum() / 5.0) * 5;
+		this.startPage = endPage - 4;
 		
 		int realEnd = total / numPerPage;
 		
 		if (total % numPerPage != 0) {
 			realEnd = realEnd + 1;
-		}
-		
+		}		
 
 		this.endPage = Math.min(endPage, realEnd);
-	
 
 		this.prev = this.startPage > 1;
 		this.next = this.endPage < realEnd;

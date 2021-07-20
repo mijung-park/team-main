@@ -3,6 +3,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +15,17 @@
 </head>
 
 <c:url value="/board/list" var="listUrl">
+	<c:if test="${not empty cri.pageNum }">
+		<c:param name="pageNum" value="${cri.pageNum }"></c:param>
+	</c:if>
+	<c:if test="${not empty cri.amount }">
+		<c:param name="amount" value="${cri.amount }"></c:param>
+	</c:if>
+		<c:param name="keyword" value="${cri.keyword }"></c:param>
+		<c:param name="type" value="${cri.type }"></c:param>
+</c:url>
+
+<c:url value="/board/register" var="registerUrl">
 	<c:if test="${not empty cri.pageNum }">
 		<c:param name="pageNum" value="${cri.pageNum }"></c:param>
 	</c:if>
@@ -83,10 +95,13 @@
     
     <input type="hidden" name="pageNum" value="1">
     <input type="hidden" name="amount" value="${cri.amount }">
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> 
+    
+    <br>
+    
+ 	<input onClick="location.href='${registerUrl}'" type="button" value="글쓰기" id="btn1" class="btn btn-outline-primary" />
  </form>
- 
- 	<input type="submit" value="글쓰기" id="btn1" class="btn btn-outline-primary" />
+  
   
 </div>
 
@@ -113,7 +128,7 @@
 	</c:if>
   </ul>
 </nav>
-<%-- 페이지 링크용 from --%>
+<%-- 페이지 링크용 form --%>
 <div style="display: none;">
 	<form id="actionForm" action="${appRoot }/board/list" method="get">
 		<input name="pageNum" value="${cri.pageNum }" />
@@ -124,7 +139,24 @@
 </div>
 </div>
 
-
+<div id="board-modal1" class="modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">${messageTitle }</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>${messageBody }</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
