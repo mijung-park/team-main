@@ -28,26 +28,25 @@
 
 
    <select id="getListWithPaging" resultType="org.zerock.domain.CsVO">
-   	SELECT c.cs_seq cs_seq,
-   		   c.cs_category cs_category,
-   		   c.cs_title cs_title,
-   		   c.cs_writer cs_writer,
-   		   c.cs_readcnt cs_readcnt,
-   		   c.cs_content cs_content,
-   		   c.cs_secret cs_secret,
-   		   c.cs_status cs_status,
-   		   c.cs_filename cs_filename,
-   		   c.cs_replycnt cs_replycnt,
-   		   c.cs_reply_admin, cs_reply_admin,
-   		   c.cs_regdate cs_regdate,
-   		   c.cs_updatedate cs_updatedate
-   	FROM tbl_cslist c LEFT JOIN tbl_reply r ON c.cs_seq = r.reply_seq
-   						   JOIN tbl_member m ON c.cs_writer = m.member_id
+   	SELECT cs_seq cs_seq,
+   		   cs_category cs_category,
+   		   cs_title cs_title,
+   		   cs_writer cs_writer,
+   		   cs_readcnt cs_readcnt,
+   		   cs_content cs_content,
+   		   cs_secret cs_secret,
+   		   cs_status cs_status,
+   		   cs_filename cs_filename,
+   		   cs_replycnt cs_replycnt,
+   		   cs_regdate cs_regdate,
+   		   cs_updatedate cs_updatedate
+   	FROM tbl_cslist LEFT JOIN tbl_reply ON tbl_cslist.cs_seq = tbl_reply.reply_seq
+   						   JOIN tbl_member ON tbl_cslist.cs_writer = tbl_member.member_id
    						   
    	<include refid="criteria"></include>
-   	GROUP BY c.cs_seq
-   	ORDER BY c.cs_seq DESC
-   	LIMIT #{from), #{amount}
+   	GROUP BY tbl_cslist.cs_seq
+   	ORDER BY tbl_cslist.cs_seq DESC
+   	LIMIT 0, 10
    </select>
    
    

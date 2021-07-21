@@ -38,15 +38,15 @@ public class CsVO {
 	private Date cs_regdate;
 	private Date cs_updatedate;	
 	
-	private int qa_replycnt_admin;
-	private String qa_password;
+	private int cs_replycnt_admin;
+	private String cs_password;
 	
-	public Date getCs_regdateKST() {
-		return Date.from(cs_regdate.toInstant().plus(9, ChronoUnit.HOURS));
-	}
-	
-	public Date getCa_updatedateKST() {
-		return Date.from(cs_updatedate.toInstant().plus(9, ChronoUnit.HOURS));
-	}
+//	public Date getCs_regdateKST() {
+//		return Date.from(cs_regdate.toInstant().plus(9, ChronoUnit.HOURS));
+//	}
+//	
+//	public Date getCa_updatedateKST() {
+//		return Date.from(cs_updatedate.toInstant().plus(9, ChronoUnit.HOURS));
+//	}
 	
 }
