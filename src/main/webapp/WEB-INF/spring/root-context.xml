@@ -12,7 +12,7 @@
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 	<!-- 
 		<property name="driverClassName" value="org.mariadb.jdbc.Driver"></property>
-		<property name="jdbcUrl" value="jdbc:mariadb://13.125.118.27/test"></property>
+		<property name="jdbcUrl" value="jdbc:mariadb://3.36.73.238/test"></property>
 	 -->
 	 	<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
 		<property name="jdbcUrl" value="jdbc:log4jdbc:mariadb://3.36.73.238/untact"></property>

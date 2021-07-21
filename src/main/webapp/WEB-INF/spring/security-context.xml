@@ -17,4 +17,8 @@
 	</security:authentication-provider>
 </security:authentication-manager>
 
+<bean id="bcryptPasswordEncoder" 
+	class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+	
+
 </beans>

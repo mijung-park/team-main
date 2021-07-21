@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="org.zerock.mapper.CsMapper">
+	
+	<sql id="criteria">
+	 <where>
+	     <foreach item="type" separator="or" collection="typeArr">
+	     	<choose>
+	     		<when test='type == "T"'>
+	     			c.cs_title LIKE CONCAT('%', #{keyword}, '%')
+	     		</when>
+	     		<when test='type == "W"'>
+	     			c.cs_writer LIKE CONCAT('%', #{keyword}, '%')
+	     		</when>
+	     		<when test='type == "C"'>
+	     			c.cs_content LIKE CONCAT('%', #{keyword}, '%')
+	     		</when>
+	     		<when test='type == "S"'>
+	     			c.cs_category LIKE CONCAT('%', #{keyword}, '%')
+	     		</when>
+	     	</choose>
+	     </foreach>
+     </where>
+	</sql>
+
+
+   <select id="getListWithPaging" resultType="org.zerock.domain.CsVO">
+   	SELECT cs_seq cs_seq,
+   		   cs_category cs_category,
+   		   cs_title cs_title,
+   		   cs_writer cs_writer,
+   		   cs_readcnt cs_readcnt,
+   		   cs_content cs_content,
+   		   cs_secret cs_secret,
+   		   cs_status cs_status,
+   		   cs_filename cs_filename,
+   		   cs_replycnt cs_replycnt,
+   		   cs_regdate cs_regdate,
+   		   cs_updatedate cs_updatedate
+   	FROM tbl_cslist LEFT JOIN tbl_reply ON tbl_cslist.cs_seq = tbl_reply.reply_seq
+   						   JOIN tbl_member ON tbl_cslist.cs_writer = tbl_member.member_id
+   						   
+   	<include refid="criteria"></include>
+   	GROUP BY tbl_cslist.cs_seq
+   	ORDER BY tbl_cslist.cs_seq DESC
+   	LIMIT 0, 10
+   </select>
+   
+   
+   <select id="getList" resultType="org.zerock.domain.CsVO">
+   <![CDATA[
+      SELECT * FROM tbl_cslist WHERE cs_seq > 0
+   ]]>
+   </select>   
+   
+   
+   <select id="read" resultType="org.zerock.domain.CsVO">
+      SELECT * FROM tbl_cslist WHERE cs_seq = #{cs_seq}
+   </select>
+   
+   <select id="read_secret" resultType="org.zerock.domain.CsVO">
+      SELECT * FROM tbl_cslist WHERE cs_seq = #{cs_seq}
+   </select>
+   
+   <insert id="insert">
+      INSERT INTO tbl_cslist (
+      cs_seq, cs_category, cs_title, cs_content, cs_writer, cs_secret, cs_regdate, cs_filename) 
+      VALUES ((SELECT * FROM (SELECT MAX(cs_seq)+1 FROM tbl_cslist) next), 
+      		  #{cs_category}, #{cs_title}, #{cs_content}, #{cs_writer}, #{cs_secret}, NOW(), #{cs_filename})
+   </insert>
+      
+   <insert id="insertSelectKey" useGeneratedKeys="true" keyProperty="cs_seq" keyColumn="cs_seq">
+      INSERT INTO tbl_cslist (
+      cs_seq, cs_category, cs_title, cs_content, cs_writer, cs_secret, cs_regdate, cs_filename) 
+      VALUES ((SELECT * FROM (SELECT MAX(cs_seq)+1 FROM tbl_cslist) next), 
+      		  #{cs_category}, #{cs_title}, #{cs_content}, #{cs_writer}, #{cs_secret}, NOW(), #{cs_filename})
+   </insert>
+   
+   
+   <delete id="delete">
+      DELETE FROM tbl_cslist WHERE cs_seq = #{cs_seq}
+   </delete>
+   
+   <update id="update">
+      UPDATE tbl_cslist 
+      SET
+      	cs_category = #{cs_category}, 
+      	cs_title = #{cs_title}, 
+      	cs_content = #{cs_content}, 
+      	cs_updatedate = NOW(),
+      	cs_secret = #{cs_secret},
+      	cs_filename = #{cs_filename} 
+      WHERE cs_seq = #{cs_seq}
+   </update>
+
+   
+   <select id="getTotalCount" resultType="int">
+   SELECT count(*) FROM tbl_cslist c
+   <include refid="criteria"></include>
+   </select>
+   
+   <update id="updateReplyCnt">
+    UPDATE tbl_cslist 
+    SET cs_replycnt = cs_replycnt + #{amount}
+	WHERE cs_seq = #{cs_seq}
+   </update>
+   
+   <update id="updateReplyCnt_admin">
+	UPDATE tbl_cslist 
+    SET cs_replycnt_admin = cs_replycnt_admin + #{amount}
+    WHERE cs_seq = #{cs_seq}
+   </update>
+   
+   
+   <select id="readCnt" resultType="int">
+   		SELECT cs_readcnt FROM tbl_cslist
+		WHERE cs_seq = #{cs_seq}   
+   </select>
+
+   <update id="addCnt">
+   		UPDATE tbl_cslist
+   		SET cs_readcnt = cs_readcnt + 1  
+		WHERE cs_seq = #{cs_seq}
+   </update>
+   
+</mapper>
