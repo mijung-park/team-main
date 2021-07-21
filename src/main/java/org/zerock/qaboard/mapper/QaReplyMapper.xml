@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="org.zerock.qaboard.mapper.QaReplyMapper">
+
+   <select id="getList" resultType="org.zerock.qaboard.domain.QaReplyVO">
+   <![CDATA[
+      SELECT * FROM tbl_reply WHERE reply_boardname = 'qaboard' AND reply_boardseq = #{reply_boardseq} AND reply_seq > 0
+   ]]>
+   </select> 
+   
+   <insert id="insertSelectKey" useGeneratedKeys="true" keyProperty="reply_seq" keyColumn="reply_seq">
+      INSERT INTO tbl_reply 
+     	 (reply_seq, reply_content, reply_writer, reply_regdate, reply_boardname, reply_boardseq) 
+      VALUES 
+     	 (#{reply_seq}, #{reply_content}, #{reply_writer}, NOW(), 'qaboard', #{reply_boardseq})
+   </insert>  
+   
+   <insert id="insertSelectKey_admin" useGeneratedKeys="true" keyProperty="reply_seq" keyColumn="reply_seq">
+      INSERT INTO tbl_reply 
+     	 (reply_seq, reply_content, reply_writer, reply_regdate, reply_boardname, reply_boardseq) 
+      VALUES 
+     	 (#{reply_seq}, #{reply_content}, #{reply_writer}, NOW(), 'qaboard', #{reply_boardseq})
+   </insert> 
+   
+   <delete id="delete">
+		DELETE FROM tbl_reply WHERE reply_seq = #{reply_seq}
+	</delete>
+	
+	<delete id="delete_admin">
+		DELETE FROM tbl_reply WHERE reply_seq = #{reply_seq}
+	</delete>
+	
+	<update id="update">
+		UPDATE tbl_reply 
+		SET 
+			reply_content = #{reply_content}, 
+			reply_updatedate = NOW(); 
+		WHERE reply_seq = #{reply_seq}
+	</update>
+	
+	<select id="get" resultType="org.zerock.qaboard.domain.QaReplyVO">
+      SELECT * FROM tbl_reply 
+      WHERE reply_seq = #{reply_seq}
+   </select>
+
+ 
+   
+</mapper>
