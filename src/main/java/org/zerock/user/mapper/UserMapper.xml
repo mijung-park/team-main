@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.zerock.user.mapper.UserMapper">
+	<select id="getList" resultType="org.zerock.user.domain.UserVO">
+<![CDATA[
+		SELECT * FROM tbl_user WHERE user_seq > 0 ORDER BY user_seq DESC
+]]>			
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO tbl_user 
+			(user_id, user_name, user_nickname, user_password, user_address,
+			user_addresscode, user_phone, user_birth, user_regdate)
+		VALUES (#{user_id}, #{user_name}, #{user_nickname}, #{user_password}, 
+			#{user_address}, #{user_addresscode}, #{user_phone}, #{user_birth}, NOW())
+	</insert>
+
+	<sql id="criteria">
+		<where>
+			<foreach item="type" collection="typeArr" separator="OR">
+				<choose>
+					<when test="type == 'N'.toString()">
+						(user_name) LIKE CONCAT('%', #{keyword}, '%')
+					</when>
+					<when test="type == 'I'.toString()">
+						(user_id) LIKE CONCAT('%', #{keyword}, '%')
+					</when>
+					<when test="type == 'G'.toString()">
+						(user_gender) LIKE CONCAT('%', #{keyword}, '%')
+					</when>
+					<when test="type == 'P'.toString()">
+						(user_phone) LIKE CONCAT('%', #{keyword}, '%')
+					</when>
+				</choose>
+			</foreach>
+	</where>
+	</sql>
+	
+	<select id="getListWithPaging" resultType="org.zerock.user.domain.UserVO">
+	<![CDATA[
+		SELECT 
+			user_seq, user_id, user_name, user_phone, user_grade, user_regdate
+		FROM
+			(
+			SELECT
+				user_seq, user_id, user_name, user_phone, user_grade, user_regdate 
+			FROM tbl_user
+	]]>
+		<include refid="criteria"></include>
+	<![CDATA[
+			) u
+			WHERE
+				user_seq BETWEEN (#{pageNum} - 1) * #{amount} + 1 AND #{pageNum} * #{amount}
+	]]>	
+	</select>
+	
+	<select id="getTotalCount" resultType="int">
+		SELECT COUNT(*) FROM tbl_user
+		<include refid="criteria"></include>
+	</select>
+
+	<select id="getUser" resultType="org.zerock.user.domain.UserVO">
+		SELECT * FROM tbl_user WHERE user_id = #{user_id}
+	</select>
+	
+	<select id="getUserSeq" resultType="org.zerock.user.domain.UserVO">
+		SELECT * FROM tbl_user WHERE user_seq = #{user_seq}
+	</select>
+	
+	<select id="findUser" resultType="org.zerock.user.domain.UserVO">
+		SELECT user_id, user_password, user_name, user_phone, user_regdate 
+		FROM tbl_user 
+		WHERE user_phone = #{user_phone}
+	</select>
+	
+	<select id="idCheck" resultType="int">
+		SELECT COUNT(*) FROM tbl_user WHERE user_id = #{user_id}
+	</select>
+	
+	<select id="nickCheck" resultType="int">
+		SELECT COUNT(*) FROM tbl_user WHERE user_nickname = #{user_nickname}
+	</select>
+	
+	<select id="orderList" resultType="org.zerock.product.domain.OrderVO">
+		SELECT 
+			order_seq order_seq, 
+			order_productseq order_productseq, 
+			order_date order_date, 
+			order_poseq order_poseq, 
+			order_poname order_poname, 
+			order_poprice order_poprice, 
+			order_quantity order_quantity, 
+			order_status order_status, 
+			order_userseq order_userseq, 
+			order_username order_username, 
+			order_useraddress order_useraddress, 
+			order_userphone order_userphone, 
+			order_filename order_filename
+		FROM (
+	     	 SELECT @ROWNUM := @ROWNUM+1 AS rn, tbl_order.* FROM tbl_order
+			 WHERE order_userseq = #{order_userseq} AND order_status = 1		
+         	 ORDER BY order_date DESC) o	
+ 		WHERE order_seq BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} + 1 AND #{cri.pageNum} * #{cri.amount}
+	</select>
+	
+	<select id="cartList" resultType="org.zerock.product.domain.OrderVO">
+		SELECT 
+			order_seq order_seq, 
+			order_productseq order_productseq, 
+			order_date order_date, 
+			order_poseq order_poseq, 
+			order_poname order_poname, 
+			order_poprice order_poprice, 
+			order_quantity order_quantity, 
+			order_status order_status, 
+			order_userseq order_userseq, 
+			order_username order_username, 
+			order_useraddress order_useraddress, 
+			order_userphone order_userphone, 
+			order_filename order_filename
+		FROM (
+			SELECT @ROWNUM := @ROWNUM+1 AS rn, tbl_order.* FROM tbl_order
+			WHERE order_userseq = #{order_userseq} AND order_status = 0 
+			ORDER BY order_date DESC) c	
+		WHERE order_seq BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} + 1 AND #{cri.pageNum} * #{cri.amount}
+	</select>
+	
+	<select id="productList" resultType="org.zerock.product.domain.ProductVO">
+		SELECT 
+			product_seq, 
+			product_name, 
+			product_price, 
+			product_quantity, 
+			product_seller, 
+			product_filename, 
+			product_info, 
+			category_seq, 
+			product_readcnt, 
+			product_status, 
+			product_regdate, 
+			product_updatedate, 
+			user_nickname, 
+			product_like 
+  		FROM (
+    		 SELECT @ROWNUM := @ROWNUM+1 AS rn, tbl_product.* FROM tbl_product 
+    		 WHERE user_nickname = #{user_nickname} 
+    		 ORDER BY prodeuct_regdate DESC  
+     		 ) l
+  		WHERE
+    		product_seq BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} + 1 AND #{cri.pageNum} * #{cri.amount}
+	
+	</select>
+	
+	<select id="orderInfo" resultType="org.zerock.product.domain.OrderVO">
+		SELECT 
+			order_seq order_seq, 
+			order_productseq order_productseq, 
+			order_date order_order_date, 
+			order_poseq order_poseq, 
+			order_poname order_poname, 
+			order_poprice order_poprice,
+			order_quantity order_quantity, 
+			order_status order_status, 
+			order_userseq order_userseq, 
+			order_username order_username, 
+			order_useraddress order_useraddress, 
+			order_userphone order_userphone, 
+			order_filename order_filename
+		FROM (
+			 SELECT @ROWNUM := @ROWNUM+1 AS rn, tbl_order.* FROM tbl_order
+			 ORDER BY order_date DESC
+			) i
+		WHERE order_productseq = #{order_productseq} AND order_status = 1
+	</select>
+	
+	<select id="getOrderInfo" resultType="org.zerock.product.domain.OrderVO">
+		SELECT * FROM tbl_order WHERE order_seq = #{order_seq}	
+	</select>
+	
+	<select id="getProductInfo" resultType="org.zerock.product.domain.ProductVO">
+		SELECT * FROM tbl_product WHERE product_seq = #{product_seq}
+	</select>
+	
+	<select id="getTotalOrderList" resultType="int">
+		SELECT COUNT(*) FROM tbl_order WHERE order_userseq = #{order_userseq}
+	</select>
+	
+	<select id="getTotalCartList" resultType="int">
+		SELECT COUNT(*) FROM tbl_order WHERE order_userseq = #{order_userseq} AND order_status = 0
+	</select>
+	
+	<select id="getTotalProductList" resultType="int">
+		SELECT COUNT(*) FROM tbl_product WHERE user_nickname = #{user_nickname}
+	</select>
+	
+	<select id="getTotalOrderInfoList" resultType="int">
+		SELECT COUNT(*) FROM tbl_order WHERE order_productseq = #{order_productseq} AND order_status = 1
+	</select>
+	
+	<select id="sendList" resultType="org.zerock.product.domain.OrderVO">
+		SELECT 
+			order_seq order_seq, 
+			order_productseq order_productseq, 
+			order_date order_order_date, 
+			order_poseq order_poseq, 
+			order_poname order_poname, 
+			order_poprice order_poprice,
+			order_quantity order_quantity, 
+			order_status order_status, 
+			order_userseq order_userseq, 
+			order_username order_username, 
+			order_useraddress order_useraddress, 
+			order_userphone order_userphone, 
+			order_filename order_filename
+		FROM (
+			SELECT @ROWNUM := @ROWNUM+1 AS rn, tbl_order.* FROM tbl_order
+			WHERE order_productseq = #{order_productseq} AND order_status = 2
+			ORDER BY order_date DESC
+			) s
+			WHERE order_seq BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} + 1 AND #{cri.pageNum} * #{cri.amount}	 
+			
+	</select>
+	
+	<update id="productSend">
+		UPDATE tbl_order
+		SET
+			order_status = 2,
+			order_date = NOW()	
+		WHERE
+			order_seq = #{order_seq}
+	</update>
+	
+	<update id="gradeUpdate">
+		UPDATE tbl_user
+		SET
+			user_grade = #{user_grade}
+		WHERE
+			user_id = #{user_id}
+	</update>
+	
+	<update id="modifyPw">
+		UPDATE tbl_user
+		SET
+			user_password = #{user_password}
+		WHERE
+			user_id = #{user_id}
+	</update>
+	
+	<update id="update">
+		UPDATE tbl_user
+		SET
+		  user_nickname = #{user_nickname},
+		  user_password = #{user_password},
+		  user_address = #{user_address},
+		  user_addresscode = #{user_addresscode}
+		WHERE
+		  user_id = #{user_id}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM tbl_user WHERE user_seq = #{user_seq}
+	</delete>
+	
+	<delete id="userRemove">
+		DELETE FROM tbl_user WHERE user_id = #{user_id}
+	</delete>
+	
+	<delete id="orderDel">
+		DELETE FROM tbl_order WHERE order_seq = #{order_seq}
+	</delete>
+	
+	<delete id="deleteGoodCheck">
+		DELETE FROM tbl_goodcheck WHERE user_seq = #{user_seq}
+	</delete>
+	
+	<delete id="deleteHateCheck">
+		DELETE FROM tbl_hatecheck WHERE user_seq = #{user_seq}
+	</delete>
+	
+
+</mapper>

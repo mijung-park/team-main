@@ -1,41 +1,46 @@
-package org.zerock.service;
+package org.zerock.qaboard.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.zerock.domain.Criteria;
-import org.zerock.domain.CsVO;
-import org.zerock.mapper.CsMapper;
+import org.zerock.qaboard.domain.Criteria;
+import org.zerock.qaboard.domain.QaVO;
+import org.zerock.qaboard.mapper.QaMapper;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 
 @Service
 @AllArgsConstructor
-public class CsServiceImpl implements CsService {
+@Log4j
+public class QaServiceImpl implements QaService {
 
-	@Setter (onMethod_ = @Autowired)
-	private CsMapper mapper;
+	private QaMapper mapper;
 	
-
+//	@Autowired
+//	public BoardServiceImpl(BoardMapper mapper) {
+//		this.mapper = mapper;
+//	}
 	@Override
-	public void register(CsVO board) {
+	public void register(QaVO board) {
 		mapper.insertSelectKey(board);
 	}	
 
 	
 	@Override
-	public List<CsVO> getList(Criteria cri) {
+	public List<QaVO> getList(Criteria cri) {
 		return mapper.getListWithPaging(cri);
 	}
 	
 	@Override
-	public CsVO get(int seq) {
+	public QaVO get(int seq) {
 		return mapper.read(seq);
 	}
 	@Override
-	public CsVO get_secret(int seq) {
+	public QaVO get_secret(int seq) {
 		return mapper.read_secret(seq);
 	}
 	
@@ -46,7 +51,7 @@ public class CsServiceImpl implements CsService {
 	}
 	
 	@Override
-	public boolean modify(CsVO board) {
+	public boolean modify(QaVO board) {
 		
 		return mapper.update(board) == 1;
 	}
@@ -65,4 +70,5 @@ public class CsServiceImpl implements CsService {
 	public int readCnt(int qa_seq) {
 		return mapper.readCnt(qa_seq);
 	}
+	
 }

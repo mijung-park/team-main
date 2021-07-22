@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.zerock.RevBoard.mapper.RevReplyMapper">
+
+
+	<insert id="insert">
+		INSERT INTO tbl_reply 
+			(reply_seq, reply_boardname, reply_boardseq, reply_content, reply_writer, reply_regdate) 
+		VALUES ((SELECT * FROM (SELECT max(reply_seq)+1 FROM tbl_reply), 
+				#{reply_boardname}, #{reply_boardseq}, #{reply_content}, #{reply_writer}, NOW() )
+	</insert>
+	
+	<!-- 댓글 가져오기 -->
+	<!-- SELECT * FROM tbl_reply WHERE reply_boardname = 'RevBoard' AND reply_boardseq = 5;  -->
+	<select id="read" resultType="org.zerock.RevBoard.domain.ReplyVO">
+		SELECT * FROM tbl_reply 
+		WHERE reply_boardname = 'RevBoard' AND reply_seq = #{reply_seq}
+	</select>
+	
+	<!-- 댓글 수정 -->
+	<!-- UPDATE tbl_reply SET reply_content = '댓글을 수정해보자' , reply_updatedate = SYSDATE WHERE reply_boardname = 'RevBoard' AND reply_seq = 21; -->
+	<update id="update">
+		UPDATE tbl_reply 
+		SET reply_content = #{reply_content},
+			reply_updatedate = NOW()
+		WHERE reply_boardname = 'RevBoard'AND reply_seq = #{reply_seq}
+	</update>
+	
+	<!-- 댓글 삭제 -->
+	<!-- DELETE FROM tbl_reply WHERE reply_seq = 21; -->
+	<delete id="remove">
+		DELETE FROM tbl_reply WHERE reply_seq = #{reply_seq}
+	</delete>
+	
+	<!-- 댓글 리스트, 페이징 -->	
+		<select id="getListWithPaging" resultType="org.zerock.RevBoard.domain.ReplyVO">
+			SELECT reply_seq, reply_boardname, reply_boardseq, reply_content, 
+				   reply_writer, reply_regdate, reply_updatedate
+			FROM tbl_reply
+			WHERE reply_boardseq = #{reply_boardseq} AND reply_boardname = 'RevBoard'
+			ORDER BY reply_seq DESC
+		</select>
+	
+</mapper>

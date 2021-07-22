@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="org.zerock.qaboard.mapper.QaMapper">
+	
+	<sql id="criteria">
+	 <where>
+	     <foreach item="type" separator="or" collection="typeArr">
+	     	<choose>
+	     		<when test='type == "T"'>
+	     			qa_title LIKE CONCAT('%', #{keyword}, '%')
+	     		</when>
+	     		<when test='type == "W"'>
+	     			qa_writer LIKE CONCAT('%', #{keyword}, '%')
+	     		</when>
+	     		<when test='type == "C"'>
+	     			qa_content LIKE CONCAT('%', #{keyword}, '%')
+	     		</when>
+	     		<when test='type == "S"'>
+	     			qa_category LIKE CONCAT('%', #{keyword}, '%')
+	     		</when>
+	     	</choose>
+	     </foreach>
+     </where>
+	</sql>
+
+
+   <select id="getListWithPaging" resultType="org.zerock.qaboard.domain.QaVO">
+   	<![CDATA[
+   	SELECT qa_seq qa_seq,
+   		   qa_category qa_category,
+   		   qa_title qa_title,
+   		   qa_writer qa_writer,
+   		   qa_readcnt qa_readcnt,
+   		   qa_content qa_content,
+   		   qa_secret qa_secret,
+   		   qa_status qa_status,
+   		   qa_filename qa_filename,
+   		   qa_replycnt qa_replycnt,
+   		   qa_regdate qa_regdate,
+   		   qa_replycnt_admin qa_replycnt_admin,
+   		   qa_updatedate qa_updatedate
+   	FROM (
+   		 SELECT @ROWNUM := @ROWNUM+1 AS rn, tbl_qaboard.* FROM tbl_qaboard
+         ORDER BY qa_seq DESC) q
+   	   ]]>  						   
+   	<include refid="criteria"></include>
+	<![CDATA[
+    WHERE qa_seq BETWEEN (#{pageNum} - 1) * #{amount} + 1 AND #{pageNum} * #{amount}
+   	 ]]>
+   </select>
+   
+   
+   <select id="getList" resultType="org.zerock.qaboard.domain.QaVO">
+   <![CDATA[
+      SELECT * FROM tbl_qaboard WHERE qa_seq > 0
+   ]]>
+   </select>   
+   
+   
+   <select id="read" resultType="org.zerock.qaboard.domain.QaVO">
+      SELECT * FROM tbl_qaboard WHERE qa_seq = #{qa_seq}
+   </select>
+   
+   <select id="read_secret" resultType="org.zerock.qaboard.domain.QaVO">
+      SELECT * FROM tbl_qaboard WHERE qa_seq = #{qa_seq}
+   </select>
+   
+   <insert id="insert">
+      INSERT INTO tbl_qaboard 
+      	(qa_seq, qa_category, qa_title, qa_content, qa_writer, qa_secret, qa_regdate, qa_filename) 
+      VALUES (#{qa_seq}, #{qa_category}, #{qa_title}, #{qa_content}, #{qa_writer}, 
+      		  #{qa_secret}, NOW(), #{qa_filename})
+   </insert>
+      
+   <insert id="insertSelectKey" useGeneratedKeys="true" keyProperty="qa_seq" keyColumn="qa_seq">
+      INSERT INTO tbl_qaboard 
+     	 (qa_seq, qa_category, qa_title, qa_content, qa_writer, qa_secret, qa_regdate, qa_filename) 
+      VALUES (#{qa_seq}, #{qa_category}, #{qa_title}, #{qa_content}, #{qa_writer}, 
+      		  #{qa_secret}, NOW(), #{qa_filename})
+   </insert>
+   
+   
+   <delete id="delete">
+      DELETE FROM tbl_qaboard WHERE qa_seq = #{qa_seq}
+   </delete>
+   
+   <update id="update">
+      UPDATE tbl_qaboard 
+      SET
+      	qa_category = #{qa_category}, 
+      	qa_title = #{qa_title}, 
+      	qa_content = #{qa_content}, 
+      	qa_updatedate = NOW(),
+      	qa_secret = #{qa_secret},
+      	qa_filename = #{qa_filename} 
+      WHERE qa_seq = #{qa_seq}
+   </update>
+
+   
+   <select id="getTotalCount" resultType="int">
+   SELECT count(*) FROM tbl_qaboard 
+   <include refid="criteria"></include>
+   </select>
+   
+   <update id="updateReplyCnt">
+    UPDATE tbl_qaboard
+    SET qa_replycnt = qa_replycnt + #{amount}
+	WHERE qa_seq = #{qa_seq}
+   </update>
+   
+   <update id="updateReplyCnt_admin">
+	UPDATE tbl_qaboard
+    SET qa_replycnt_admin = qa_replycnt_admin + #{amount}
+    WHERE qa_seq = #{qa_seq}
+   </update>
+   
+   
+   <select id="readCnt" resultType="int">
+   		SELECT qa_readcnt FROM tbl_qaboard
+		WHERE qa_seq = #{qa_seq}   
+   </select>
+
+   <update id="addCnt">
+   		UPDATE tbl_qaboard
+   		SET qa_readcnt = qa_readcnt + 1  
+		WHERE qa_seq = #{qa_seq}
+   </update>
+   
+</mapper>
