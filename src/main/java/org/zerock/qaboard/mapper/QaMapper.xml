@@ -28,6 +28,7 @@
 
 
    <select id="getListWithPaging" resultType="org.zerock.qaboard.domain.QaVO">
+   	<![CDATA[
    	SELECT qa_seq qa_seq,
    		   qa_category qa_category,
    		   qa_title qa_title,
@@ -40,13 +41,13 @@
    		   qa_replycnt qa_replycnt,
    		   qa_regdate qa_regdate,
    		   qa_updatedate qa_updatedate
-   	FROM tbl_qaboard LEFT JOIN tbl_reply ON tbl_qaboard.qa_seq = tbl_reply.reply_seq
-   						   JOIN tbl_user ON tbl_qaboard.qa_writer = tbl_user.user_id
-   						   
+   	FROM tbl_qaboard 
+   	ORDER BY qa_seq DESC
+   	   ]]>  						   
    	<include refid="criteria"></include>
-   	GROUP BY tbl_qaboard.qa_seq
-   	ORDER BY tbl_qaboard.qa_seq DESC
-   	LIMIT 0, #{amount}
+	<![CDATA[
+    WHERE qa_seq BETWEEN (#{pageNum} - 1) * #{amount} + 1 AND #{pageNum} * #{amount}
+   	 ]]>
    </select>
    
    
@@ -66,15 +67,15 @@
    </select>
    
    <insert id="insert">
-      INSERT INTO tbl_qaboard (
-      qa_seq, qa_category, qa_title, qa_content, qa_writer, qa_secret, qa_regdate, qa_filename) 
+      INSERT INTO tbl_qaboard 
+      	(qa_seq, qa_category, qa_title, qa_content, qa_writer, qa_secret, qa_regdate, qa_filename) 
       VALUES (#{qa_seq}, #{qa_category}, #{qa_title}, #{qa_content}, #{qa_writer}, 
       		  #{qa_secret}, NOW(), #{qa_filename})
    </insert>
       
    <insert id="insertSelectKey" useGeneratedKeys="true" keyProperty="qa_seq" keyColumn="qa_seq">
-      INSERT INTO tbl_qaboard (
-      qa_seq, qa_category, qa_title, qa_content, qa_writer, qa_secret, qa_regdate, qa_filename) 
+      INSERT INTO tbl_qaboard 
+     	 (qa_seq, qa_category, qa_title, qa_content, qa_writer, qa_secret, qa_regdate, qa_filename) 
       VALUES (#{qa_seq}, #{qa_category}, #{qa_title}, #{qa_content}, #{qa_writer}, 
       		  #{qa_secret}, NOW(), #{qa_filename})
    </insert>

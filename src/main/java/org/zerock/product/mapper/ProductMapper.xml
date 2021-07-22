@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.zerock.product.mapper.ProductMapper">
+
+	<update id="finishSelling">
+		UPDATE tbl_product
+		SET product_status = 1
+		WHERE product_seq = #{product_seq}
+	</update>
+
+	<update id="updatePOquantityByOrder">
+		UPDATE tbl_productoption
+		SET po_quantity = po_quantity - #{order_quantity}
+		WHERE productOption_seq = #{order_poseq}
+	</update>
+
+	<delete id="deleteProductOption">
+		DELETE FROM tbl_productoption WHERE productOption_seq = #{productOption_seq}
+	</delete>
+	
+	<update id="updateProductOption">
+		UPDATE tbl_productoption
+		SET
+			po_name = #{po_name},
+			po_quantity = #{po_quantity},
+			po_price = #{po_price}
+		WHERE productOption_seq = #{productOption_seq}
+	</update>
+
+	<update id="userPointUpdate">
+		UPDATE tbl_user
+		SET user_point = #{changedPoint}
+		WHERE user_seq = #{user_seq}
+	</update>
+
+	<select id="readOrderbyOrderSeq" resultType="org.zerock.product.domain.OrderVO">
+		SELECT * FROM tbl_order 
+		WHERE order_seq = #{order_seq} AND order_status = 0
+	</select>
+	
+	<select id="getCategoryMains" resultType="java.lang.String">
+		SELECT category_main FROM tbl_category 
+		GROUP BY CATEGORY_MAIN
+	</select>
+	
+	<select id="getCategorySubs" resultType="java.lang.String">
+		SELECT category_sub FROM tbl_category WHERE category_main = #{category_main}
+	</select>
+	
+	<select id="getCategorySeq" resultType="int">
+		SELECT category_seq FROM tbl_category 
+		WHERE category_main = #{category_main} AND category_sub = #{category_sub}
+	</select>
+	
+	<select id="getCategoryMainAndSubs" resultType="org.zerock.product.domain.CategoryVO">
+		SELECT category_main, category_sub FROM tbl_category WHERE category_seq = #{category_seq}
+	</select>
+
+	<update id="updateProductLike">
+		UPDATE tbl_product 
+		SET product_like = #{product_like} 
+		WHERE product_seq = #{product_seq}
+	</update>
+
+	<insert id="insertProductLike">
+		INSERT INTO tbl_productlike (product_seq, user_seq) 
+		VALUES (#{product_seq}, #{user_seq})
+	</insert>
+	
+	<select id="countUserSeqByProductSeq" resultType="int">
+		SELECT count(user_seq) FROM tbl_productlike WHERE product_seq = #{product_seq}
+	</select>
+	
+	<select id="checkProductLike" resultType="int">
+		SELECT count(*) FROM tbl_productlike 
+		WHERE product_seq = #{product_seq} AND user_seq = #{user_seq}
+	</select>
+	
+	<delete id="deleteProductLike">
+		DELETE from tbl_productlike where product_seq = #{product_seq} AND user_seq = #{user_seq}
+	</delete>
+	
+	<insert id="insertCart">
+		INSERT INTO tbl_order 
+			(order_productseq, order_poseq, order_poname, order_poprice, 
+			 order_quantity, order_userseq, order_username, order_useraddress, order_userphone, 
+			 order_filename, order_status, order_date)
+		VALUES
+			(#{order_productseq}, #{order_poseq}, #{order_poname}, #{order_poprice},
+			 #{order_quantity}, #{order_userseq}, #{order_username}, #{order_useraddress}, 
+			 #{order_userphone}, #{order_filename}, #{order_status}, NOW())
+	</insert>
+	
+	<insert id="insertOrder">
+		INSERT INTO tbl_order 
+			(order_productseq, order_poseq, order_poname, order_poprice, 
+			 order_quantity, order_userseq, order_username, order_useraddress, order_userphone, 
+			 order_filename, order_status, order_date)
+		VALUES
+			(#{order_productseq}, #{order_poseq}, #{order_poname}, #{order_poprice},
+			 #{order_quantity}, #{order_userseq}, #{order_username}, #{order_useraddress}, 
+			 #{order_userphone}, #{order_filename}, #{order_status}, NOW())
+	</insert>
+
+	<insert id="directOrder">
+		INSERT INTO tbl_order 
+			(order_productseq, order_poseq, order_poname, order_poprice, 
+			 order_quantity, order_userseq, order_username, order_useraddress, order_userphone, 
+			 order_filename, order_status, order_date)
+		VALUES
+			(#{order_productseq}, #{order_poseq}, #{order_poname}, #{order_poprice}, 
+			#{order_quantity}, #{order_userseq}, #{order_username}, #{order_useraddress}, 
+			#{order_userphone}, #{order_filename}, 1, NOW())
+	</insert>
+	
+	<update id="updateOrder">
+		UPDATE tbl_order
+		SET
+		order_status = 1,
+		order_date = NOW()
+		WHERE
+		order_seq = #{order_seq}
+	</update>
+
+	<insert id="insertProductOption" >
+		INSERT INTO tbl_productoption 
+			(product_seq, po_name, po_quantity, po_price) 
+		VALUES 
+			 (#{product_seq} ,#{po_name} ,#{po_quantity} ,#{po_price})
+	</insert>
+	
+	<insert id="insert">
+		INSERT INTO tbl_product 
+			(product_name, product_price, product_quantity, product_seller, 
+			 product_filename, product_info, category_seq, user_nickname)
+		VALUES (#{product_name}, #{product_price},#{product_quantity}, #{product_seller}, 
+				#{product_filename}, #{product_info}, #{category_seq}, #{user_nickname})
+	</insert>
+	
+	<select id="getProductOptionList" resultType="org.zerock.product.domain.ProductOptionVO">
+		SELECT productoption_seq, product_seq, po_name, po_quantity, po_price 
+		FROM tbl_productoption 
+		WHERE product_seq = #{product_seq} 
+		ORDER BY productoption_seq ASC;
+	</select>
+	
+	<insert id="insertReturnSeq" keyProperty="product_seq">
+		<selectKey keyProperty="product_seq" order="BEFORE" resultType="Integer">
+  			SELECT * FROM (SELECT max(product_seq)+1 FROM tbl_product
+  		</selectKey> 
+		INSERT INTO tbl_product 
+			(product_seq, product_name, product_price, product_quantity, product_seller, 
+			 product_filename, product_info, category_seq, user_nickname)
+		VALUES 
+			(#{product_seq}, #{product_name}, #{product_price},
+			 #{product_quantity}, #{product_seller}, #{product_filename},
+			 #{product_info}, #{category_seq}, #{user_nickname})
+	</insert>
+
+	<sql id="criteria">
+		<where>
+			<foreach item="type" collection="typeArr" separator="OR">
+				<choose>
+					<when test="type == 'T'.toString()">
+						product_name LIKE CONCAT('%', #{keyword}, '%')
+					</when>
+					<when test="type == 'C'.toString()">
+						product_info LIKE CONCAT('%', #{keyword}, '%')
+					</when>
+					<when test="type == 'W'.toString()">
+						user_nickname LIKE CONCAT('%', #{keyword}, '%')
+					</when>
+				</choose>
+			</foreach>
+			<choose>
+				<when test="categoryNum != null and !categoryNum.equals('')">
+					AND category_seq = #{categoryNum}
+				</when>
+			</choose>
+		</where>
+	</sql>
+
+	<!-- <select id="getList" resultType="org.zerock.domain.BoardVO"> <![CDATA[ 
+		select * from tbl_board where bno > 0 ]]> </select> -->
+
+	<select id="getListWithPaging" resultType="org.zerock.product.domain.ProductVO">
+<![CDATA[   
+   SELECT
+    product_seq product_seq, 
+    product_name product_name, 
+    product_price product_price, 
+    product_quantity product_quantity, 
+    product_seller product_seller, 
+    product_filename product_filename, 
+    product_info product_info, 
+    category_seq product_seq, 
+    product_readcnt product_readcnt, 
+    product_status product_status, 
+    product_regdate product_regdate, 
+    product_updatedate product_updatedate, 
+    user_nickname product_nickname, 
+    product_like product_like 
+   FROM tbl_product
+   ORDER BY 
+ ]]>  
+			<choose>
+				<when test="array == 'latest'">
+					product_seq DESC
+				</when>
+				<when test="array == 'like'">
+					product_like DESC
+				</when>
+				<when test="array == 'priceHign'">
+					product_price DESC
+				</when>
+				<when test="array == 'priceLow'">
+					product_price
+				</when>
+				<when test="array == 'readcnt'">
+					product_readcnt DESC
+				</when>
+				<otherwise>
+					product_seq DESC
+				</otherwise>
+			</choose>
+
+		<include refid="criteria"></include>
+   
+<![CDATA[
+    WHERE product_seq BETWEEN (#{pageNum} - 1) * #{amount} + 1 AND #{pageNum} * #{amount}
+]]>
+	</select>
+
+
+	<!-- <insert id="insertSelectKey"> <selectKey keyProperty="bno" order="BEFORE" 
+		resultType="long"> select seq_board.nextval from dual </selectKey> insert 
+		into tbl_board (bno, title, content, writer) values (#{bno }, #{title}, #{content}, 
+		#{writer}) </insert> -->
+
+	<select id="read" resultType="org.zerock.product.domain.ProductVO">
+		SELECT * FROM tbl_product WHERE product_seq = #{product_seq}
+	</select>
+
+	<update id="readCountUp">
+		UPDATE tbl_product
+		SET product_readcnt = product_readcnt + 1
+		WHERE product_seq = #{product_seq}
+	</update>
+
+	<delete id="delete">
+		DELETE FROM tbl_product WHERE product_seq = #{product_seq}
+	</delete>
+
+	<update id="update">
+		UPDATE tbl_product
+		SET
+			product_name = #{product_name},
+			product_filename = #{product_filename},
+			product_info = #{product_info},
+			category_seq = #{category_seq},
+			user_nickname = #{user_nickname},
+			product_updateDate = NOW()
+		WHERE product_seq = #{product_seq}
+	</update>
+
+	<update id="stopSelling">
+		UPDATE tbl_product
+		SET
+			product_status = 1,
+			product_updateDate = NOW()
+		WHERE product_seq = #{product_seq}
+	</update>
+
+	<select id="getTotalCount" resultType="int">
+		SELECT count(*) FROM tbl_product
+		<include refid="criteria"></include>
+	</select>
+
+</mapper>

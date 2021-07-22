@@ -85,80 +85,105 @@
 	</select>
 	
 	<select id="orderList" resultType="org.zerock.product.domain.OrderVO">
-		SELECT order_seq, order_productseq, order_date, order_poseq, 
-			   order_poname, order_poprice, order_quantity, order_status, 
-			   order_userseq, order_username, order_useraddress, order_userphone, order_filename
+		SELECT 
+			order_seq order_seq, 
+			order_productseq order_productseq, 
+			order_date order_date, 
+			order_poseq order_poseq, 
+			order_poname order_poname, 
+			order_poprice order_poprice, 
+			order_quantity order_quantity, 
+			order_status order_status, 
+			order_userseq order_userseq, 
+			order_username order_username, 
+			order_useraddress order_useraddress, 
+			order_userphone order_userphone, 
+			order_filename order_filename
 		FROM
 			(
-			SELECT
-		 		order_seq, order_productseq, order_date, order_poseq, order_poname, 
-		 		order_poprice,order_quantity, order_status, order_userseq, order_username, 
-		 		order_useraddress, order_userphone, order_filename 
-			FROM tbl_order
+			SELECT * FROM tbl_order
 			WHERE
-				order_userseq = #{order_userseq}
-			AND 
-				order_status = 1		
+				order_userseq = #{order_userseq} AND order_status = 1		
 			)	
  			WHERE
 				order_seq BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} + 1 AND #{cri.pageNum} * #{cri.amount}
+			ORDER BY order_date DESC
 	</select>
 	
 	<select id="cartList" resultType="org.zerock.product.domain.OrderVO">
-		SELECT order_seq, order_productseq, order_date, order_poseq, order_poname, 
-			   order_poprice, order_quantity, order_status, order_userseq, order_username, 
-			   order_useraddress, order_userphone, order_filename
+		SELECT 
+			order_seq order_seq, 
+			order_productseq order_productseq, 
+			order_date order_date, 
+			order_poseq order_poseq, 
+			order_poname order_poname, 
+			order_poprice order_poprice, 
+			order_quantity order_quantity, 
+			order_status order_status, 
+			order_userseq order_userseq, 
+			order_username order_username, 
+			order_useraddress order_useraddress, 
+			order_userphone order_userphone, 
+			order_filename order_filename
 		FROM
 			(
-			SELECT
-		 		order_seq, order_productseq, order_date, order_poseq, order_poname, 
-		 		order_poprice, order_quantity, order_status, order_userseq, order_username, 
-		 		order_useraddress, order_userphone, order_filename 
-			FROM tbl_order
+			SELECT * FROM tbl_order
 			WHERE 
-				order_userseq = #{order_userseq}
-			AND
-				order_status = 0 
+				order_userseq = #{order_userseq} AND order_status = 0 
 			)	
 			WHERE
 				order_seq BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} + 1 AND #{cri.pageNum} * #{cri.amount}
+			ORDER BY order_date DESC
 	</select>
 	
 	<select id="productList" resultType="org.zerock.product.domain.ProductVO">
-		SELECT product_seq, product_name, product_price, product_quantity, 
-			   product_seller, product_filename, product_info, category_seq, product_readcnt, 
-			   product_status, product_regdate, product_updatedate, user_nickname, product_like 
+		SELECT 
+			product_seq, 
+			product_name, 
+			product_price, 
+			product_quantity, 
+			product_seller, 
+			product_filename, 
+			product_info, 
+			category_seq, 
+			product_readcnt, 
+			product_status, 
+			product_regdate, 
+			product_updatedate, 
+			user_nickname, 
+			product_like 
   		FROM
     		(
-    		 SELECT 
-      			product_seq, product_name, product_price, product_quantity, product_seller, 
-      			product_filename, product_info, category_seq, product_readcnt, product_status, 
-      			product_regdate, product_updatedate, user_nickname, product_like
-   		FROM tbl_product
-   		WHERE user_nickname = #{user_nickname}   
+    		 SELECT * FROM tbl_product WHERE user_nickname = #{user_nickname}   
      		 )
   		WHERE
-    		order BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} + 1 AND #{cri.pageNum} * #{cri.amount}
+    		product_seq BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} + 1 AND #{cri.pageNum} * #{cri.amount}
+    	ORDER BY product_regdate DESC
 	
 	</select>
 	
 	<select id="orderInfo" resultType="org.zerock.product.domain.OrderVO">
-		SELECT order_seq, order_productseq, order_date, order_poseq, order_poname, order_poprice,
-			   order_quantity, order_status, order_userseq, order_username, order_useraddress, 
-			   order_userphone, order_filename
+		SELECT 
+			order_seq order_seq, 
+			order_productseq order_productseq, 
+			order_date order_order_date, 
+			order_poseq order_poseq, 
+			order_poname order_poname, 
+			order_poprice order_poprice,
+			order_quantity order_quantity, 
+			order_status order_status, 
+			order_userseq order_userseq, 
+			order_username order_username, 
+			order_useraddress order_useraddress, 
+			order_userphone order_userphone, 
+			order_filename order_filename
 		FROM
 			(
-			SELECT
-				ROW_NUMBER() OVER (ORDER BY order_date DESC) rn,
-		 		order_seq, order_productseq, order_date, order_poseq, order_poname, order_poprice,
-		 		order_quantity, order_status, order_userseq, order_username, order_useraddress, order_userphone
-		 		, order_filename 
-			FROM tbl_order
+			SELECT * FROM tbl_order
 			)	
 			WHERE
-				order_productseq = #{order_productseq}
-			AND
-				order_status = 1
+				order_productseq = #{order_productseq} AND order_status = 1
+			ORDER BY order_date DESC
 	</select>
 	
 	<select id="getOrderInfo" resultType="org.zerock.product.domain.OrderVO">
@@ -186,22 +211,28 @@
 	</select>
 	
 	<select id="sendList" resultType="org.zerock.product.domain.OrderVO">
-		select order_seq, order_productseq, order_date, order_poseq, order_poname, order_poprice,
-			order_quantity, order_status, order_userseq, order_username, order_useraddress, order_userphone
-			, order_filename
+		SELECT 
+			order_seq order_seq, 
+			order_productseq order_productseq, 
+			order_date order_order_date, 
+			order_poseq order_poseq, 
+			order_poname order_poname, 
+			order_poprice order_poprice,
+			order_quantity order_quantity, 
+			order_status order_status, 
+			order_userseq order_userseq, 
+			order_username order_username, 
+			order_useraddress order_useraddress, 
+			order_userphone order_userphone, 
+			order_filename order_filename
 		FROM
 			(
-			SELECT
-				ROW_NUMBER() OVER (ORDER BY order_date DESC) rn,
-		 		order_seq, order_productseq, order_date, order_poseq, order_poname, order_poprice,
-		 		order_quantity, order_status, order_userseq, order_username, order_useraddress, order_userphone
-		 		, order_filename 
-			FROM tbl_order
+			SELECT * FROM tbl_order
 			WHERE 
 				order_productseq = #{order_productseq} AND order_status = 2
 			)	
 			WHERE 
-				rn BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} + 1 AND #{cri.pageNum} * #{cri.amount}	 
+				order_seq BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} + 1 AND #{cri.pageNum} * #{cri.amount}	 
 			ORDER BY order_date DESC
 	</select>
 	
@@ -260,4 +291,19 @@
 	<delete id="deleteHateCheck">
 		DELETE FROM tbl_hatecheck WHERE user_seq = #{user_seq}
 	</delete>
+	
+	
+	<select id="read" resultMap="UserMap">
+  SELECT 
+	u.user_id user_id,
+	u.user_password user_password,
+	u.user_name user_name,
+	u.regdate regdate,
+	a.auth auth
+  FROM 
+    tbl_user u LEFT JOIN tbl_user_auth a ON u.user_id = a.user_id
+  WHERE
+    u.user_id = #{user_id}
+  
+</select>
 </mapper>

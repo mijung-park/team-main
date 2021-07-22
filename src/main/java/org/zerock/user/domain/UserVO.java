@@ -2,6 +2,9 @@ package org.zerock.user.domain;
 
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.List;
+
+import org.zerock.domain.AuthVO;
 
 import lombok.Data;
 
@@ -22,6 +25,8 @@ public class UserVO {
 	private int user_point;
 	private Date user_regdate;
 	private int eventCheck;
+	
+	private List<AuthVO> authList;
 	
 	public Date getUser_regdate() {
 		return Date.from(user_regdate.toInstant().plus(9, ChronoUnit.HOURS)); // rev_regdate의 시간 = oracle cloud의 시간 즉 현재와 9시간차이

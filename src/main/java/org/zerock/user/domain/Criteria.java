@@ -1,5 +1,7 @@
-package org.zerock.domain;
+package org.zerock.user.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -8,7 +10,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Criteria {
-	
 	private int pageNum;
 	private int amount;
 	
@@ -24,17 +25,7 @@ public class Criteria {
 		this.amount = amount;
 	}
 	
-	public int getFrom() {
-		return amount * (pageNum - 1);
-	}
-	
 	public String[] getTypeArr() {
-		if (type == null) {
-			return new String[] {};
-		} else {
-			String[] types = type.split("");
-			return types;
-		}
+		return type == null ? new String[] {} : type.split("");
 	}
-	
 }
