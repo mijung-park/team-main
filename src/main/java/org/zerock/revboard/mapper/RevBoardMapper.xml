@@ -40,16 +40,13 @@
 	</foreach>
 </where>
 </sql>
-	
-	<insert id="insertSelectKey">
-		<selectKey keyProperty="rev_seq" order="BEFORE" resultType="int">
-			SELECT * FROM (SELECT max(rev_seq)+1 FROM tbl_reviewboard
-		</selectKey>
-		INSERT INTO tbl_reviewboard 
-				(rev_seq, rev_category, rev_title, rev_writer,rev_content, rev_filename, rev_regdate)
-		VALUES (#{rev_seq}, #{rev_category}, #{rev_title}, #{rev_writer},
-				#{rev_content}, #{rev_filename}, NOW())
-	</insert>
+		
+	<insert id="insertSelectKey" useGeneratedKeys="true" keyProperty="rev_seq" keyColumn="rev_seq">
+	  	INSERT INTO tbl_reviewboard 
+	  			(rev_seq, rev_category, rev_title, rev_writer,rev_content, rev_filename, rev_regdate)
+	  	VALUES (#{rev_seq}, #{rev_category}, #{rev_title}, #{rev_writer},
+	  			#{rev_content}, #{rev_filename}, NOW())
+    </insert>
 
 	<select id="read" resultType="org.zerock.RevBoard.domain.RevVO">
 		SELECT * FROM tbl_reviewboard WHERE rev_seq = #{rev_seq}
@@ -83,10 +80,10 @@
 	        rev_hate rev_hate, 
 	        rev_regdate rev_regdate, 
 	        rev_updatedate rev_updatedate, 
-	        rev_replyCnt  rev_replyCnt
-	     FROM 
-	      	tbl_reviewboard 
-  		 ORDER BY rev_seq DESC
+	        rev_replyCnt rev_replyCnt
+	     FROM (
+	     	 SELECT @ROWNUM := @ROWNUM+1 AS rn, tbl_reviewboard.* FROM tbl_reviewboard
+         	 ORDER BY rev_seq DESC) r 
  	 ]]>
   			<include refid="criteria"></include>
 		<![CDATA[ 
@@ -191,13 +188,13 @@
 	<!-- 좋아요 인서트 -->
 	<insert id="insertCheck">
 		INSERT INTO tbl_goodcheck (goodno, rev_seq, user_seq)
-		VALUES ((SELECT * FROM (SELECT max(goodno)+1 FROM tbl_goodcheck), #{rev_seq} , #{user_seq})
+		VALUES ((SELECT * FROM (SELECT max(goodno)+1 FROM tbl_goodcheck) next), #{rev_seq} , #{user_seq})
 	</insert>
 	
 	<!-- 싫어요 인서트  -->
 	<insert id="hateinsertCheck">
 		INSERT INTO tbl_hatecheck (hateno, rev_seq, user_seq)
-		VALUES ((SELECT * FROM (SELECT max(hateno)+1 FROM tbl_hatecheck), #{rev_seq} , #{user_seq})
+		VALUES ((SELECT * FROM (SELECT max(hateno)+1 FROM tbl_hatecheck) next), #{rev_seq} , #{user_seq})
 	</insert>
 	
 	<!-- 싫어요 체크 -->

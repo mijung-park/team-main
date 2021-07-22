@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class CriteriaVO {
+public class Criteria {
 
 	private int pageNum;
 	private int amount;
@@ -19,11 +19,11 @@ public class CriteriaVO {
 	private String categoryMain;
 	private String categorySub;
 	
-	public CriteriaVO() {
+	public Criteria() {
 		this(1, 8);
 	}
 
-	public CriteriaVO(int pageNum, int amount) {
+	public Criteria(int pageNum, int amount) {
 		this.pageNum = pageNum;
 		this.amount = amount;
 	}

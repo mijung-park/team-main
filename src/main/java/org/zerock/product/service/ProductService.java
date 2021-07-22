@@ -3,7 +3,7 @@ package org.zerock.product.service;
 import java.util.List;
 
 import org.zerock.product.domain.CategoryVO;
-import org.zerock.product.domain.CriteriaVO;
+import org.zerock.product.domain.Criteria;
 import org.zerock.product.domain.OrderVO;
 import org.zerock.product.domain.ProductLikeVO;
 import org.zerock.product.domain.ProductOptionVO;
@@ -16,7 +16,7 @@ public interface ProductService {
 
 	public void registerReturn(ProductVO product, String[] po_name, String[] po_quantity, String[] po_price);
 	
-	public List<ProductVO> getList(CriteriaVO cri);
+	public List<ProductVO> getList(Criteria cri);
 	 
 	public ProductVO get(int product_seq);
 
@@ -26,7 +26,7 @@ public interface ProductService {
 
 	public boolean finish(int product_seq);
 		 
-	public int getTotal(CriteriaVO cri);
+	public int getTotal(Criteria cri);
 
 	public List<ProductOptionVO> getProductOption(int product_seq);
 

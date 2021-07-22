@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 import org.zerock.product.domain.CategoryVO;
-import org.zerock.product.domain.CriteriaVO;
+import org.zerock.product.domain.Criteria;
 import org.zerock.product.domain.OrderVO;
 import org.zerock.product.domain.ProductLikeVO;
 import org.zerock.product.domain.ProductOptionVO;
@@ -18,7 +18,7 @@ public interface ProductMapper {
 		
 		public int insertReturnSeq(ProductVO product);
 	
-		public List<ProductVO> getListWithPaging(CriteriaVO cri);
+		public List<ProductVO> getListWithPaging(Criteria cri);
 		
 		public ProductVO read(int productSeq);
 	
@@ -32,7 +32,7 @@ public interface ProductMapper {
 		//product_name, product_filename, product_info
 		public int update(ProductVO product);
 		
-		public int getTotalCount(CriteriaVO cri);
+		public int getTotalCount(Criteria cri);
 	
 		public int updateProductLike(@Param("product_seq") int product_seq, @Param("product_like") int product_like);
 	

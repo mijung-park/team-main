@@ -186,7 +186,7 @@
 	<!-- <select id="getList" resultType="org.zerock.domain.BoardVO"> <![CDATA[ 
 		select * from tbl_board where bno > 0 ]]> </select> -->
 
-	<select id="getListWithPaging" resultType="org.zerock.product.domain.ProductVO">
+	   <select id="getListWithPaging" resultType="org.zerock.product.domain.ProductVO">
 <![CDATA[   
    SELECT
     product_seq product_seq, 
@@ -203,36 +203,42 @@
     product_updatedate product_updatedate, 
     user_nickname product_nickname, 
     product_like product_like 
-   FROM tbl_product
-   ORDER BY 
- ]]>  
-			<choose>
-				<when test="array == 'latest'">
-					product_seq DESC
-				</when>
-				<when test="array == 'like'">
-					product_like DESC
-				</when>
-				<when test="array == 'priceHign'">
-					product_price DESC
-				</when>
-				<when test="array == 'priceLow'">
-					product_price
-				</when>
-				<when test="array == 'readcnt'">
-					product_readcnt DESC
-				</when>
-				<otherwise>
-					product_seq DESC
-				</otherwise>
-			</choose>
+   FROM (
+         SELECT @ROWNUM := @ROWNUM+1 AS rn, tbl_product.* FROM tbl_product
+         ORDER BY
+      ]]>
+      
+      <choose>
+            <when test="array == 'latest'">
+               product_seq DESC
+            </when>
+            <when test="array == 'like'">
+               product_like DESC
+            </when>
+            <when test="array == 'priceHign'">
+               product_price DESC
+            </when>
+            <when test="array == 'priceLow'">
+               product_price
+            </when>
+            <when test="array == 'readcnt'">
+               product_readcnt DESC
+            </when>
+            <otherwise>
+               product_seq DESC
+            </otherwise>
+         </choose>
 
-		<include refid="criteria"></include>
+      <include refid="criteria"></include>
    
-<![CDATA[
-    WHERE product_seq BETWEEN (#{pageNum} - 1) * #{amount} + 1 AND #{pageNum} * #{amount}
-]]>
-	</select>
+<![CDATA[   
+         ) p
+         
+   WHERE rn BETWEEN (#{pageNum} - 1) * #{amount} + 1 AND #{pageNum} * #{amount}
+
+ ]]>  
+ 
+   </select>
 
 
 	<!-- <insert id="insertSelectKey"> <selectKey keyProperty="bno" order="BEFORE" 

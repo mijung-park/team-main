@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.zerock.product.domain.CategoryVO;
-import org.zerock.product.domain.CriteriaVO;
+import org.zerock.product.domain.Criteria;
 import org.zerock.product.domain.OrderVO;
 import org.zerock.product.domain.ProductLikeVO;
 import org.zerock.product.domain.ProductOptionVO;
@@ -181,7 +181,7 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Override
 	@Transactional
-	public List<ProductVO> getList(CriteriaVO cri) {
+	public List<ProductVO> getList(Criteria cri) {
 		List<ProductVO> list  = mapper.getListWithPaging(cri);
 		//상품대표가격받아와서 수정+총재고량 업데이트
 		for(ProductVO pVO : list) {
@@ -268,7 +268,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
-	public int getTotal(CriteriaVO cri) {
+	public int getTotal(Criteria cri) {
 		return mapper.getTotalCount(cri);
 	}
 

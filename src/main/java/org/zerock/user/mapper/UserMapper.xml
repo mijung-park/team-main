@@ -12,9 +12,9 @@
 	
 	<insert id="insert">
 		INSERT INTO tbl_user 
-			(user_seq, user_id, user_name, user_nickname, user_password, user_address,
+			(user_id, user_name, user_nickname, user_password, user_address,
 			user_addresscode, user_phone, user_birth, user_regdate)
-		VALUES ({#user_seq}, #{user_id}, #{user_name}, #{user_nickname}, #{user_password}, 
+		VALUES (#{user_id}, #{user_name}, #{user_nickname}, #{user_password}, 
 			#{user_address}, #{user_addresscode}, #{user_phone}, #{user_birth}, NOW())
 	</insert>
 
@@ -51,7 +51,7 @@
 	]]>
 		<include refid="criteria"></include>
 	<![CDATA[
-			)
+			) u
 			WHERE
 				user_seq BETWEEN (#{pageNum} - 1) * #{amount} + 1 AND #{pageNum} * #{amount}
 	]]>	
@@ -99,15 +99,11 @@
 			order_useraddress order_useraddress, 
 			order_userphone order_userphone, 
 			order_filename order_filename
-		FROM
-			(
-			SELECT * FROM tbl_order
-			WHERE
-				order_userseq = #{order_userseq} AND order_status = 1		
-			)	
- 			WHERE
-				order_seq BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} + 1 AND #{cri.pageNum} * #{cri.amount}
-			ORDER BY order_date DESC
+		FROM (
+	     	 SELECT @ROWNUM := @ROWNUM+1 AS rn, tbl_order.* FROM tbl_order
+			 WHERE order_userseq = #{order_userseq} AND order_status = 1		
+         	 ORDER BY order_date DESC) o	
+ 		WHERE order_seq BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} + 1 AND #{cri.pageNum} * #{cri.amount}
 	</select>
 	
 	<select id="cartList" resultType="org.zerock.product.domain.OrderVO">
@@ -125,15 +121,11 @@
 			order_useraddress order_useraddress, 
 			order_userphone order_userphone, 
 			order_filename order_filename
-		FROM
-			(
-			SELECT * FROM tbl_order
-			WHERE 
-				order_userseq = #{order_userseq} AND order_status = 0 
-			)	
-			WHERE
-				order_seq BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} + 1 AND #{cri.pageNum} * #{cri.amount}
-			ORDER BY order_date DESC
+		FROM (
+			SELECT @ROWNUM := @ROWNUM+1 AS rn, tbl_order.* FROM tbl_order
+			WHERE order_userseq = #{order_userseq} AND order_status = 0 
+			ORDER BY order_date DESC) c	
+		WHERE order_seq BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} + 1 AND #{cri.pageNum} * #{cri.amount}
 	</select>
 	
 	<select id="productList" resultType="org.zerock.product.domain.ProductVO">
@@ -152,13 +144,13 @@
 			product_updatedate, 
 			user_nickname, 
 			product_like 
-  		FROM
-    		(
-    		 SELECT * FROM tbl_product WHERE user_nickname = #{user_nickname}   
-     		 )
+  		FROM (
+    		 SELECT @ROWNUM := @ROWNUM+1 AS rn, tbl_product.* FROM tbl_product 
+    		 WHERE user_nickname = #{user_nickname} 
+    		 ORDER BY prodeuct_regdate DESC  
+     		 ) l
   		WHERE
     		product_seq BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} + 1 AND #{cri.pageNum} * #{cri.amount}
-    	ORDER BY product_regdate DESC
 	
 	</select>
 	
@@ -177,13 +169,11 @@
 			order_useraddress order_useraddress, 
 			order_userphone order_userphone, 
 			order_filename order_filename
-		FROM
-			(
-			SELECT * FROM tbl_order
-			)	
-			WHERE
-				order_productseq = #{order_productseq} AND order_status = 1
-			ORDER BY order_date DESC
+		FROM (
+			 SELECT @ROWNUM := @ROWNUM+1 AS rn, tbl_order.* FROM tbl_order
+			 ORDER BY order_date DESC
+			) i
+		WHERE order_productseq = #{order_productseq} AND order_status = 1
 	</select>
 	
 	<select id="getOrderInfo" resultType="org.zerock.product.domain.OrderVO">
@@ -225,15 +215,13 @@
 			order_useraddress order_useraddress, 
 			order_userphone order_userphone, 
 			order_filename order_filename
-		FROM
-			(
-			SELECT * FROM tbl_order
-			WHERE 
-				order_productseq = #{order_productseq} AND order_status = 2
-			)	
-			WHERE 
-				order_seq BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} + 1 AND #{cri.pageNum} * #{cri.amount}	 
+		FROM (
+			SELECT @ROWNUM := @ROWNUM+1 AS rn, tbl_order.* FROM tbl_order
+			WHERE order_productseq = #{order_productseq} AND order_status = 2
 			ORDER BY order_date DESC
+			) s
+			WHERE order_seq BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} + 1 AND #{cri.pageNum} * #{cri.amount}	 
+			
 	</select>
 	
 	<update id="productSend">
@@ -292,18 +280,5 @@
 		DELETE FROM tbl_hatecheck WHERE user_seq = #{user_seq}
 	</delete>
 	
-	
-	<select id="read" resultMap="UserMap">
-  SELECT 
-	u.user_id user_id,
-	u.user_password user_password,
-	u.user_name user_name,
-	u.regdate regdate,
-	a.auth auth
-  FROM 
-    tbl_user u LEFT JOIN tbl_user_auth a ON u.user_id = a.user_id
-  WHERE
-    u.user_id = #{user_id}
-  
-</select>
+
 </mapper>

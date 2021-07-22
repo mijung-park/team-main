@@ -40,9 +40,11 @@
    		   qa_filename qa_filename,
    		   qa_replycnt qa_replycnt,
    		   qa_regdate qa_regdate,
+   		   qa_replycnt_admin qa_replycnt_admin,
    		   qa_updatedate qa_updatedate
-   	FROM tbl_qaboard 
-   	ORDER BY qa_seq DESC
+   	FROM (
+   		 SELECT @ROWNUM := @ROWNUM+1 AS rn, tbl_qaboard.* FROM tbl_qaboard
+         ORDER BY qa_seq DESC) q
    	   ]]>  						   
    	<include refid="criteria"></include>
 	<![CDATA[
@@ -94,7 +96,7 @@
       	qa_updatedate = NOW(),
       	qa_secret = #{qa_secret},
       	qa_filename = #{qa_filename} 
-      WHERE cs_seq = #{qa_seq}
+      WHERE qa_seq = #{qa_seq}
    </update>
 
    

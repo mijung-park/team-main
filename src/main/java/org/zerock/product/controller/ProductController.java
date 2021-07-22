@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.product.domain.CategoryVO;
-import org.zerock.product.domain.CriteriaVO;
+import org.zerock.product.domain.Criteria;
 import org.zerock.product.domain.OrderVO;
 import org.zerock.product.domain.PageDTO;
 import org.zerock.product.domain.ProductLikeVO;
@@ -71,7 +71,7 @@ public class ProductController {
 	}
 
 	@GetMapping("/register")
-	public String register(@ModelAttribute("cri") CriteriaVO cri, HttpServletRequest request, Model model,
+	public String register(@ModelAttribute("cri") Criteria cri, HttpServletRequest request, Model model,
 			RedirectAttributes rttr) {
 
 		/* 로그인 해야지만 register를 할 수 있게끔 */
@@ -208,7 +208,7 @@ public class ProductController {
 	}
 
 	@GetMapping("/list")
-	public void list(@ModelAttribute("cri") CriteriaVO cri, Model model) {
+	public void list(@ModelAttribute("cri") Criteria cri, Model model) {
 
 		// cri => 페이징과 검색
 		// cri의 필드 = pageNum, amount, type, keyword (페이징2 검색2)
@@ -252,7 +252,7 @@ public class ProductController {
 	}
 
 	@GetMapping("/get")
-	public void get(@RequestParam("product_seq") int product_seq, @ModelAttribute("cri") CriteriaVO cri, Model model,
+	public void get(@RequestParam("product_seq") int product_seq, @ModelAttribute("cri") Criteria cri, Model model,
 			HttpServletRequest request) {
 		ProductVO vo = service.getCountUp(product_seq);
 		model.addAttribute("product", vo);
@@ -283,7 +283,7 @@ public class ProductController {
 	}
 
 	@GetMapping("/modify")
-	public String modify(@RequestParam("product_seq") int product_seq, @ModelAttribute("cri") CriteriaVO cri, Model model,
+	public String modify(@RequestParam("product_seq") int product_seq, @ModelAttribute("cri") Criteria cri, Model model,
 			HttpServletRequest request, RedirectAttributes rttr) {
 
 		ProductVO vo = service.get(product_seq);
@@ -321,7 +321,7 @@ public class ProductController {
 	}
 
 	@PostMapping("/modify")
-	public String modify(ProductVO product, CriteriaVO cri, RedirectAttributes rttr, MultipartFile[] upload,
+	public String modify(ProductVO product, Criteria cri, RedirectAttributes rttr, MultipartFile[] upload,
 			HttpServletRequest request, Model model, String[] deletePo_seqArray, String[] productOption_seq,
 			String[] po_name, String[] po_quantity, String[] po_price) {
 
@@ -460,7 +460,7 @@ public class ProductController {
 	}
 
 	@PostMapping("/finish")
-	public String finish(@RequestParam("product_seq") int product_seq, CriteriaVO cri, HttpServletRequest request,
+	public String finish(@RequestParam("product_seq") int product_seq, Criteria cri, HttpServletRequest request,
 			RedirectAttributes rttr) {
 
 		ProductVO vo = service.get(product_seq);
@@ -486,7 +486,7 @@ public class ProductController {
 
 	@GetMapping("/cart")
 	public String cart(int product_seq, String[] order_poseq, String[] order_poname, String[] order_poprice,
-			String[] order_quantity, OrderVO orderVO, CriteriaVO cri, HttpServletRequest request, RedirectAttributes rttr,
+			String[] order_quantity, OrderVO orderVO, Criteria cri, HttpServletRequest request, RedirectAttributes rttr,
 			Model model, String checkCartOrder) {
 
 		/* 상품옵션이 비었을때 돌려보냄 */
@@ -639,7 +639,7 @@ public class ProductController {
 
 	/* 삭제참고용-구현만해둠 */
 	@PostMapping("/remove")
-	public String remove(@RequestParam("product_seq") int product_seq, CriteriaVO cri, HttpServletRequest request,
+	public String remove(@RequestParam("product_seq") int product_seq, Criteria cri, HttpServletRequest request,
 			RedirectAttributes rttr) {
 
 		ProductVO vo = service.get(product_seq);
