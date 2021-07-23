@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="u" tagdir="/WEB-INF/tags" %>
 
 <!DOCTYPE html>
 <html>
@@ -274,7 +275,7 @@ thead {
 	<div id="foot" class="row">
 		<div class="col-7 align-left ml-0 my-lg-2">
 			<!-- 검색  -->
-			<form action="${root }/qa/list" id="searchForm" class="form-inline my-0">			
+			<form action="${appRoot }/qa/list" id="searchForm" class="form-inline my-0">			
 	      		<select name="type" id="inlineFormCustomSelectPref">      
 					<option value="T" ${pageMaker.cri.type eq 'T' ? 'selected' : ''}>제목</option>
 					<option value="C" ${pageMaker.cri.type eq 'C' ? 'selected' : ''}>내용</option>
@@ -294,7 +295,7 @@ thead {
 		<div class="col-5 align-right my-lg-2">
 			<!-- 글쓰기 처리 세션의 user_id 값이 있을때만 글쓰기 버튼 활성화 -->
 			<c:if test="${!empty authUser.user_id}">
-	   			<a href="${root }/qa/register/" id="btn_add">글쓰기</a>
+	   			<a href="${appRoot }/qa/register/" id="btn_add">글쓰기</a>
 	   		</c:if>
 		</div> 	
 	</div>

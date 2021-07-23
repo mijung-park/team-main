@@ -1,6 +1,7 @@
 package org.zerock.user.service;
 
 import java.util.HashMap;
+
 import java.util.List;
 
 import org.json.simple.JSONObject;
@@ -9,13 +10,13 @@ import org.springframework.stereotype.Service;
 import org.zerock.product.domain.OrderVO;
 import org.zerock.product.domain.ProductVO;
 import org.zerock.user.domain.Criteria;
-import org.zerock.user.domain.Message;
 import org.zerock.user.domain.UserVO;
 import org.zerock.user.mapper.UserMapper;
 
 import lombok.AllArgsConstructor;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
+import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
 @Service
@@ -73,14 +74,14 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void smsService(String user_phone, String cerNum) {
-		String api_key = "NCSMFP4QGIYUIY9H";
-    String api_secret = "4ZVE0WCSJYETGN3HDP2UWCOOLQN2K2RZ";
+		String api_key = "NCS33JDKV3KUVIJW";
+    String api_secret = "BRAV2PTBLGUH8RFPDC2KSYQZU9JJQPE3";
     Message coolsms = new Message(api_key, api_secret);
 
     // 4 params(to, from, type, text) are mandatory. must be filled
     HashMap<String, String> params = new HashMap<String, String>();
     params.put("to", user_phone);    // 수신전화번호
-    params.put("from", "010-4066-0806");    // 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
+    params.put("from", "010-6463-1824");    // 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
     params.put("type", "SMS");
     params.put("text", "인증번호는" + "["+cerNum+"]" + "입니다.");
     params.put("app_version", "test app 1.2"); // application name and version
@@ -96,13 +97,13 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public void smsSubmit(String user_phone, String smsContent) { 
-		String api_key = "NCSMFP4QGIYUIY9H";
-    String api_secret = "4ZVE0WCSJYETGN3HDP2UWCOOLQN2K2RZ";
+		String api_key = "NCS33JDKV3KUVIJW";
+    String api_secret = "BRAV2PTBLGUH8RFPDC2KSYQZU9JJQPE3";
     Message coolsms = new Message(api_key, api_secret);
 		
     HashMap<String, String> params = new HashMap<String, String>();
     params.put("to", user_phone);    // 수신전화번호
-    params.put("from", "010-4066-0806");    // 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
+    params.put("from", "010-6463-1824");    // 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
     params.put("type", "LMS");
     params.put("text", smsContent);
     params.put("app_version", "test app 1.2"); // application name and version

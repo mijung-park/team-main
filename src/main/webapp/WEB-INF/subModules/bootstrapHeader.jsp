@@ -20,13 +20,3 @@ security info
 <sec:authorize access="isAuthenticated()">
 	<sec:authentication property="principal" var="pinfo" scope="request" />
 </sec:authorize>
-
-
-
-
-
-
-
-
-
-
