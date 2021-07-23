@@ -1,6 +1,7 @@
 package org.zerock.user.service;
 
 import java.util.HashMap;
+
 import java.util.List;
 
 import org.json.simple.JSONObject;
@@ -9,13 +10,13 @@ import org.springframework.stereotype.Service;
 import org.zerock.product.domain.OrderVO;
 import org.zerock.product.domain.ProductVO;
 import org.zerock.user.domain.Criteria;
-import org.zerock.user.domain.Message;
 import org.zerock.user.domain.UserVO;
 import org.zerock.user.mapper.UserMapper;
 
 import lombok.AllArgsConstructor;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
+import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
 @Service

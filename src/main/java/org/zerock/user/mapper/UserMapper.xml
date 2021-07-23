@@ -147,7 +147,7 @@
   		FROM (
     		 SELECT @ROWNUM := @ROWNUM+1 AS rn, tbl_product.* FROM tbl_product 
     		 WHERE user_nickname = #{user_nickname} 
-    		 ORDER BY prodeuct_regdate DESC  
+    		 ORDER BY product_regdate DESC  
      		 ) l
   		WHERE
     		product_seq BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} + 1 AND #{cri.pageNum} * #{cri.amount}

@@ -147,18 +147,15 @@
 		ORDER BY productoption_seq ASC;
 	</select>
 	
-	<insert id="insertReturnSeq" keyProperty="product_seq">
-		<selectKey keyProperty="product_seq" order="BEFORE" resultType="Integer">
-  			SELECT * FROM (SELECT max(product_seq)+1 FROM tbl_product
-  		</selectKey> 
-		INSERT INTO tbl_product 
-			(product_seq, product_name, product_price, product_quantity, product_seller, 
-			 product_filename, product_info, category_seq, user_nickname)
-		VALUES 
-			(#{product_seq}, #{product_name}, #{product_price},
-			 #{product_quantity}, #{product_seller}, #{product_filename},
-			 #{product_info}, #{category_seq}, #{user_nickname})
-	</insert>
+ 	<insert id="insertReturnSeq" useGeneratedKeys="true" keyProperty="product_seq" keyColumn="product_seq">
+			INSERT INTO tbl_product 
+				(product_name, product_price, product_quantity, product_seller, 
+				 product_filename, product_info, category_seq, user_nickname)
+			VALUES 
+				(#{product_name}, #{product_price},
+				 #{product_quantity}, #{product_seller}, #{product_filename},
+				 #{product_info}, #{category_seq}, #{user_nickname})
+  	</insert>
 
 	<sql id="criteria">
 		<where>
@@ -219,7 +216,7 @@
                product_price DESC
             </when>
             <when test="array == 'priceLow'">
-               product_price
+               product_price 
             </when>
             <when test="array == 'readcnt'">
                product_readcnt DESC
@@ -234,7 +231,7 @@
 <![CDATA[   
          ) p
          
-   WHERE rn BETWEEN (#{pageNum} - 1) * #{amount} + 1 AND #{pageNum} * #{amount}
+   WHERE product_seq BETWEEN (#{pageNum} - 1) * #{amount} + 1 AND #{pageNum} * #{amount}
 
  ]]>  
  
