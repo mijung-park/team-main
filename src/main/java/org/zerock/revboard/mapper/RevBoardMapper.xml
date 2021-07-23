@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.zerock.RevBoard.mapper.RevBoardMapper">
+<mapper namespace="org.zerock.revboard.mapper.RevBoardMapper">
 	
 	<sql id ="criteria">		<!--  sql 태그에 만들어준걸 밑에서 include태그를 이용하여 갖다쓸 수 있음 -->
 <where>
@@ -48,7 +48,7 @@
 	  			#{rev_content}, #{rev_filename}, NOW())
     </insert>
 
-	<select id="read" resultType="org.zerock.RevBoard.domain.RevVO">
+	<select id="read" resultType="org.zerock.revboard.domain.RevVO">
 		SELECT * FROM tbl_reviewboard WHERE rev_seq = #{rev_seq}
 	</select>
 
@@ -66,7 +66,7 @@
 		WHERE rev_seq = #{rev_seq}
 	</update>
 
-	<select id="getListWithPaging" resultType="org.zerock.RevBoard.domain.RevVO">
+	<select id="getListWithPaging" resultType="org.zerock.revboard.domain.RevVO">
     <![CDATA[ 
 	    SELECT 
 	    	rev_seq rev_seq, 

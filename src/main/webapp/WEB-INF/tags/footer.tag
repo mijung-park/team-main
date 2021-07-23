@@ -38,4 +38,3 @@
 		</footer>
 	</section>
 </div>
-</body>

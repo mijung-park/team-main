@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="org.zerock.RevBoard.mapper.RevReplyMapper">
+<mapper namespace="org.zerock.revboard.mapper.RevReplyMapper">
 
 
 	<insert id="insert">
@@ -15,7 +15,7 @@
 	
 	<!-- 댓글 가져오기 -->
 	<!-- SELECT * FROM tbl_reply WHERE reply_boardname = 'RevBoard' AND reply_boardseq = 5;  -->
-	<select id="read" resultType="org.zerock.RevBoard.domain.ReplyVO">
+	<select id="read" resultType="org.zerock.revboard.domain.ReplyVO">
 		SELECT * FROM tbl_reply 
 		WHERE reply_boardname = 'RevBoard' AND reply_seq = #{reply_seq}
 	</select>
@@ -36,7 +36,7 @@
 	</delete>
 	
 	<!-- 댓글 리스트, 페이징 -->	
-		<select id="getListWithPaging" resultType="org.zerock.RevBoard.domain.ReplyVO">
+		<select id="getListWithPaging" resultType="org.zerock.revboard.domain.ReplyVO">
 			SELECT reply_seq, reply_boardname, reply_boardseq, reply_content, 
 				   reply_writer, reply_regdate, reply_updatedate
 			FROM tbl_reply
