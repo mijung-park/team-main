@@ -281,6 +281,7 @@ input, select, textarea {
       <a href="${appRoot }/user/login">Log-in</a>
       <a href="${appRoot }/user/userRegister">Join</a>
       <a href="${appRoot }/qa/list">Q&A</a>
+       <a href="${appRoot }/rev/list">Review</a>
       <a href="${appRoot }/user/cart">Cart</a>
       <a href="${appRoot }/user/userRead?user_id=${authUser.user_id}">Mypage</a>
    </span>
