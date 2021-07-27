@@ -241,7 +241,7 @@ $(document).ready(function(){
    }
    
     table,td,th,textarea {
-       border : 1px solid #F2DCF1;
+       border : 1px solid #FFFFFF;
     }
     table td {
        width : 50%;
@@ -349,13 +349,6 @@ $(document).ready(function(){
                            </div>
                            <div id="totalLike">${product.product_like }</div>
                            <div class="mr-2"></div>
-                           <div class="mx-2" style="font-size: 30px;">
-                              <i class="fas fa-eye"></i>
-                           </div>
-                           <div class="ml-2"></div>
-                           <div>
-                              ${product.product_readcnt }
-                           </div>
                         </div>
                         
                         <select id="optionSelectBox" style="width:280px; margin-left: 6px;" class="form-control">
@@ -373,10 +366,28 @@ $(document).ready(function(){
                      </select>
                      
                      <hr>
+                     
+                        <span style="margin-top: 11px; margin-left: 132px;">결제금액 : </span>
+                        <input class="total_price" style="border:none; width: 87px;" value="0" name="order_totalprice" readonly/>
+                        <c:if test="${product.product_status == 1 }">
+                           <p>판매 종료되었습니다.</p>
+                        </c:if>
+                        <hr>
+                        <button id="cart_btn" class="btn_add" type="button"> 장바구니</button>
+                        <button style="background:#4a4a4a;" id="order_btn" class="btn_add mx-2" type="button"> 구매</button>
                         
+                        <!-- 상품설명 텍스트에어리어
                         <p class="text-left">상품설명 </p>
                         <textarea style="resize: none; border: none" rows="15" cols="50" readonly><c:out value="${product.product_info }"></c:out></textarea>
-   
+                         -->
+                     </div>
+                  </td>
+               </tr>
+               
+               <!--상품 왼쪽아래 부가정보  -->
+               <tr>
+                  <!--이미지리스트썸네일  -->
+                  <td colspan="2"  valign=top>
                      <c:if test="${product.product_status != 1 }">
                         <c:if test="${product.product_seller eq authUser.user_seq}">   
                            <div class="row justify-content-center mt-3">
@@ -413,32 +424,10 @@ $(document).ready(function(){
                            </div>
                         </c:if>
                      </c:if>
-                     <c:if test="${product.product_status == 1 }">
-                        <p>판매가 종료되었습니다.</p>
-                     </c:if>
-                     
-                     </div>
-                  </td>
-               </tr>
-               
-               <!--상품 왼쪽아래 부가정보  -->
-               <tr>
-                  <!--이미지리스트썸네일  -->
-                  <td colspan="2"  valign=top>
-                     <c:forEach items="${productImgList }" var="productImg" varStatus="imgNum">
-                        <img style="opacity : ${visibility}" class="hoveredImage"alt="" src="${appRoot }/resources/upload/${productImg}" height="80px" width="70px">
-                     </c:forEach>
-                     <hr>
-                     <p>부가정보란</p>
-                  <fmt:setTimeZone value = "GMT+9"  />
-                        <p>상품 등록일 : <fmt:formatDate pattern = "yyyy-MM-dd HH:mm:ss" value="${product.product_regdate }"/> </p>
-                        <p>상품 정보 수정일 : <fmt:formatDate pattern = "yyyy-MM-dd HH:mm:ss" value="${product.product_updatedate }"/> </p>
+
                   </td>
                </tr>
                <tr style="height: 52px;">
-                  <td style="width: 60%;">
-                     
-                  </td>
                   <td colspan="2" >
                      <form id="order_form" action="${appRoot }/product/cart" method="get">
                         <input name="product_seq" value="${product.product_seq }" hidden="hidden"/>
@@ -457,8 +446,18 @@ $(document).ready(function(){
                      </form>
                   </td>
                </tr>
+               
                <tr style="height: 70px;">
                   <td colspan="3">
+                  </td>
+               </tr>               
+            </table>
+            
+            <div style="text-align: center;">
+               <h1>이미지 자리</h1>
+            </div>
+               
+               <hr>            
                      <div class="row">
                         <div class="ml-3"></div>
                         <form action="${appRoot }/product/list">
@@ -472,16 +471,7 @@ $(document).ready(function(){
                            <input hidden="hidden" name="categorySub" value="${cri.categorySub }"/>  
                            <button style="background:#4a4a4a;" class="btn_add mx-4"> 목록으로</button>
                         </form>
-                        <div class="col-3"></div>
-                        <span style="margin-top: 11px; margin-left: 132px;">결제금액 : </span>
-                        <input class="total_price" style="border:none; width: 87px;" value="0" name="order_totalprice" readonly/>
-                        <button id="cart_btn" class="btn_add" type="button"> 장바구니</button>
-                        <button style="background:#4a4a4a;" id="order_btn" class="btn_add mx-2" type="button"> 구매</button>
-                     </div>
-                  </td>
-               </tr>               
-            
-            </table>
+                        </div>
    </div>
 
    </section>
