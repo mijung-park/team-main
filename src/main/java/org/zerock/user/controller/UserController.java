@@ -72,6 +72,7 @@ public class UserController {
 	@GetMapping({"/userRead", "/userModify"}) // 회원 정보 및 수정 로딩
 	public void read(@RequestParam String user_id, @ModelAttribute("cri") Criteria cri, Model model) {
 		model.addAttribute("read", service.getUser(user_id));
+		
 	}
 	
 	@PostMapping("/gradeUpdate") // 회원 등급 업데이트

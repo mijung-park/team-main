@@ -16,7 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
 @Controller
-@RequestMapping("/file/*") // 예전 list.do -> List.handler가 일하라고 했던 역할
+@RequestMapping("/file/*")
 @AllArgsConstructor
 @Log4j
 public class FileUploadController {
