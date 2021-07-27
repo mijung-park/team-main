@@ -303,12 +303,19 @@ input, select, textarea {
 
 <div id="header_bg">
    <div class="xans-element- xans-layout xans-layout-statelogoff ">
-      <a href="${appRoot }/user/login">Log-in</a>
-      <a href="${appRoot }/user/userRegister">Join</a>
       <a href="${appRoot }/qa/list">Q&A</a>
       <a href="${appRoot }/rev/list">Review</a>
       <a href="${appRoot }/user/cart">Cart</a>
       <a href="${appRoot }/user/userRead?user_id=${authUser.user_id}">Mypage</a>
+    <c:choose>
+	<c:when test="${authUser == null}">
+      <a href="${appRoot }/user/login">Log-in</a>
+      <a href="${appRoot }/user/userRegister">Join</a>
+    </c:when>
+    <c:otherwise>
+    	<a href="${appRoot }/user/logout">Log-out</a>
+    </c:otherwise>
+    </c:choose>
    </span>
    </div>
          
@@ -338,14 +345,56 @@ input, select, textarea {
 </div>
 
 <div class="container">
-   <section id="container">
-      <div class="row d-flex justify-content-center">
-   <!--상품 bootstrap card 시작  -->
-   
-      </div>
-   <button id="btn_plus" >더보기 +</button>
-   </section>
+	<section id="container">
+		<div class="row d-flex justify-content-center">
+	<!--상품 bootstrap card 시작  -->
+	<c:forEach items="${list }" var="product">  
+		<c:url value="/product/get" var="productLink">
+			<c:param name="product_seq" value="${product.product_seq }"/>
+			<c:param name="pageNum" value="${pageDTO.cri.pageNum }"/>
+			<c:param name="amount" value="${pageDTO.cri.amount }"/>
+			<c:param name="type" value="${pageDTO.cri.type }"/>
+			<c:param name="keyword" value="${pageDTO.cri.keyword }"/>            	
+			<c:param name="array" value="${pageDTO.cri.array }"/>            	
+	  </c:url>
+		<c:set var="visibility" value="100%"></c:set>
+		<c:if test="${product.product_status == 1 }">
+			<c:set var="visibility" value="30%"></c:set>
+		</c:if>   
+		<div class="card m-2">
+			<div class="img_box">
+				<a href="${productLink }" >
+					<img style="opacity : ${visibility}" src="${root }/resources/upload/${product.product_filename }" alt="Card image cap">
+				</a>
+				<div style="position:absolute;top:45%;left:30%">
+					<c:if test="${product.product_status == 1 }">
+						<h5>판매 종료</h5>
+					</c:if>
+				</div>
+			</div>
+			<div class="card-body" >
+				<a href="${productLink }" >
+	            <fmt:formatNumber value="${product.product_price }" type="number" var="price"></fmt:formatNumber>
+				<h5 class="card-title"><c:out value="${price }"></c:out>원</h5>
+				<p><c:out value="${product.product_name }"></c:out></p>
+				</a>
+				<div>
+					<span><i class="fas fa-eye"></i> ${product.product_readcnt }</span>	
+					<span><i class="fas fa-heart"></i> ${product.product_like }</span>										
+				</div>
+	            <fmt:formatNumber value="${product.product_quantity }" type="number" var="quantity"></fmt:formatNumber>
+				<div class="cardLine1">총 ${quantity }개 남음</div>
+					<hr>
+			    <p class="card-text">판매자 : <c:out value="${ product.user_nickname}"></c:out></p>
+			</div>
+		</div>
+	</c:forEach>
+		</div>
+	<button id="btn_plus" >더보기 +</button>
+	</section>
 </div>
+
+
 <!-- 푸터 -->
 <hr id="foothr">
 <div class="container">
