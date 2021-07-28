@@ -161,13 +161,13 @@
 		<where>
 			<foreach item="type" collection="typeArr" separator="OR">
 				<choose>
-					<when test="type == 'T'.toString()">
+					<when test='type == "T".toString()'>
 						product_name LIKE CONCAT('%', #{keyword}, '%')
 					</when>
-					<when test="type == 'C'.toString()">
+					<when test='type == "C".toString()'>
 						product_info LIKE CONCAT('%', #{keyword}, '%')
 					</when>
-					<when test="type == 'W'.toString()">
+					<when test='type == "W".toString()'>
 						user_nickname LIKE CONCAT('%', #{keyword}, '%')
 					</when>
 				</choose>
@@ -193,16 +193,15 @@
     product_seller product_seller, 
     product_filename product_filename, 
     product_info product_info, 
-    category_seq product_seq, 
+    category_seq category_seq, 
     product_readcnt product_readcnt, 
     product_status product_status, 
     product_regdate product_regdate, 
     product_updatedate product_updatedate, 
-    user_nickname product_nickname, 
+    user_nickname user_nickname, 
     product_like product_like 
-   FROM (
-         SELECT @ROWNUM := @ROWNUM+1 AS rn, tbl_product.* FROM tbl_product
-         ORDER BY
+   FROM tbl_product
+   ORDER BY 
       ]]>
       
       <choose>
@@ -228,11 +227,8 @@
 
       <include refid="criteria"></include>
    
-<![CDATA[   
-         ) p
-         
-   WHERE product_seq BETWEEN (#{pageNum} - 1) * #{amount} + 1 AND #{pageNum} * #{amount}
-
+<![CDATA[        
+   LIMIT #{from}, #{amount}
  ]]>  
  
    </select>

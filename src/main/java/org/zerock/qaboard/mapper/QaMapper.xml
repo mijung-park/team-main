@@ -42,13 +42,12 @@
    		   qa_regdate qa_regdate,
    		   qa_replycnt_admin qa_replycnt_admin,
    		   qa_updatedate qa_updatedate
-   	FROM (
-   		 SELECT @ROWNUM := @ROWNUM+1 AS rn, tbl_qaboard.* FROM tbl_qaboard
-         ORDER BY qa_seq DESC) q
+   	FROM tbl_qaboard
    	   ]]>  						   
    	<include refid="criteria"></include>
 	<![CDATA[
-    WHERE qa_seq BETWEEN (#{pageNum} - 1) * #{amount} + 1 AND #{pageNum} * #{amount}
+    ORDER BY qa_seq DESC
+    LIMIT #{from}, #{amount}
    	 ]]>
    </select>
    

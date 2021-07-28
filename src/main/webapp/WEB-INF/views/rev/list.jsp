@@ -115,16 +115,11 @@ thead {
 			<table class="table table-hover">
 				<thead>
 					<tr>
-						<th>#번호</th>
+						<th>NO.</th>
 						<th>카테고리</th>
 						<th>제목</th>
 						<th>작성자</th>
-						<c:if test="${rev.rev_updatedateKST == null }">
 						<th>작성일</th>
-						</c:if>
-						<c:if test="${rev.rev_updatedateKST != null }">
-						<th>수정일</th>
-						</c:if>
 						<th>좋아요</th>
 						<th>싫어요</th>
 						<th>조회수</th>
@@ -142,9 +137,8 @@ thead {
 								<c:param name="keyword" value="${pageMaker.cri.keyword }" />
 								<c:param name="rev_title" value="${rev.rev_title }" />
 							</c:url>
-							<td><c:if test="${rev.rev_category eq 1}">모자</c:if><c:if test="${rev.rev_category eq 2}">신발</c:if><c:if test="${rev.rev_category eq 3}">상의</c:if><c:if test="${rev.rev_category eq 4}">하의</c:if><c:if test="${rev.rev_category eq 5}">전자 기기</c:if><c:if test="${rev.rev_category eq 6}">식품</c:if></td>
-							<td><a href="${revLink }" style="color: black;"> <c:out
-										value="${rev.rev_title}" />
+							<td><c:if test="${rev.rev_category eq 1}">마스크</c:if><c:if test="${rev.rev_category eq 2}">악세사리</c:if><c:if test="${rev.rev_category eq 3}">소독제</c:if><c:if test="${rev.rev_category eq 4}">진단키트</c:if></td>
+							<td><a href="${revLink }" style="color: black;"> <c:out value="${rev.rev_title}" />
 								<c:if test="${rev.rev_replyCnt gt 0 }"> <!-- gt는 > 이거랑같음 -->
 								<span class="badge bg-secondar"><i class="fas fa-comment-dots"></i>${rev.rev_replyCnt }</span>
 								
@@ -152,7 +146,8 @@ thead {
 							</a></td>
 							<td><c:out value="${rev.rev_writer}" /></td>
 							
-							<td><fmt:formatDate value='${rev.rev_regdate}' pattern='yyyy-MM-dd'/></td>
+							<td><fmt:formatDate value="${rev.rev_regdate}" pattern="yyyy-MM-dd"/></td>
+					
 							
 									<td>${rev.rev_good }</td>
 									<td>${rev.rev_hate }</td>

@@ -8,32 +8,26 @@
 <where>
 	<foreach item="type" collection="typeArr" separator="OR"> <!-- separator="OR" 하면 사이사이에 or추가됨 -->
 		<choose>
-			<when test="type == 'T'.toString()">
+			<when test='type == "T"'>
 				rev_title LIKE CONCAT('%', #{keyword}, '%')
 			</when>
-			<when test="type == 'C'.toString()">
+			<when test='type == "C"'>
 				rev_content LIKE CONCAT('%', #{keyword}, '%')
 			</when>
-			<when test="type == 'W'.toString()">
+			<when test='type == "W"'>
 				rev_writer LIKE CONCAT('%', #{keyword}, '%')
 			</when>
-			<when test="type == 'K'.toString(), keyword == '모자'.toString()">	
+			<when test='type == "K", keyword == "마스크"'>	
 				rev_category LIKE CONCAT('%', 1 , '%')
 			</when>
-			<when test="type == 'K'.toString(), keyword == '신발'.toString()">	
+			<when test='type == "K", keyword == "악세사리"'>	
 				rev_category LIKE CONCAT('%', 2 , '%')
 			</when>
-			<when test="type == 'K'.toString(), keyword == '상의'.toString()">	
+			<when test='type == "K", keyword == "소독제"'>	
 				rev_category LIKE CONCAT('%', 3 , '%')
 			</when>
-			<when test="type == 'K'.toString(), keyword == '하의'.toString()">	
+			<when test='type == "K", keyword == "진단키트"'>	
 				rev_category LIKE CONCAT('%', 4 , '%')
-			</when>
-			<when test="type == 'K'.toString(), keyword == '전자 기기'.toString()">	
-				rev_category LIKE CONCAT('%', 5 , '%')
-			</when>
-			<when test="type == 'K'.toString(), keyword == '식품'.toString()">	
-				rev_category LIKE CONCAT('%', 6 , '%')
 			</when>
 			
 		</choose>
@@ -81,13 +75,12 @@
 	        rev_regdate rev_regdate, 
 	        rev_updatedate rev_updatedate, 
 	        rev_replyCnt rev_replyCnt
-	     FROM (
-	     	 SELECT @ROWNUM := @ROWNUM+1 AS rn, tbl_reviewboard.* FROM tbl_reviewboard
-         	 ORDER BY rev_seq DESC) r 
+	     FROM tbl_reviewboard
  	 ]]>
   			<include refid="criteria"></include>
 		<![CDATA[ 
-  		 WHERE rev_seq BETWEEN (#{pageNum} - 1) * #{amount} + 1 AND #{pageNum} * #{amount}
+		 ORDER BY rev_seq DESC	
+  		 LIMIT #{from}, #{amount}
   		]]>
 	</select>
 	
@@ -132,7 +125,7 @@
     <update id="pointUpdate">
         UPDATE tbl_user
         SET
-            user_point = user_point + 500000, EventCheck = 1
+            user_point = user_point + 500000, eventcheck = 1
         WHERE
             user_id = #{user_id}
     </update>
@@ -145,7 +138,7 @@
 	
 	<!-- 좋아요 눌렀을때 +1  -->
 	<update id="goodCheck">
-    UPDATE tbl_goodCheck
+    UPDATE tbl_goodcheck
     SET like_check = like_check + 1 
     WHERE user_seq = #{user_seq} AND rev_seq = #{rev_seq}
   </update>
@@ -154,13 +147,13 @@
   
   	<!-- 좋아요 취소시 행삭제 -->
   <delete id="goodCheck_cancel">
-    DELETE tbl_goodCheck
+    DELETE FROM tbl_goodcheck
     WHERE user_seq = #{user_seq} AND rev_seq = #{rev_seq}
   </delete>
   
   <!-- 싫어요 취소시 행삭제 -->
   <delete id="hateCheck_cancel">
-    DELETE tbl_hateCheck
+    DELETE FROM tbl_hatecheck
     WHERE user_seq = #{user_seq} AND rev_seq = #{rev_seq}
   </delete>
   
@@ -181,42 +174,42 @@
 	<!-- 좋아요 체크 -->
   <select id="checkread" resultType="int">
   	SELECT count(like_check) 
-  	FROM tbl_goodCheck 
+  	FROM tbl_goodcheck 
   	WHERE user_seq = #{user_seq} AND rev_seq = #{rev_seq}
   </select>
   
 	<!-- 좋아요 인서트 -->
 	<insert id="insertCheck">
-		INSERT INTO tbl_goodcheck (goodno, rev_seq, user_seq)
-		VALUES ((SELECT * FROM (SELECT max(goodno)+1 FROM tbl_goodcheck) next), #{rev_seq} , #{user_seq})
+		INSERT INTO tbl_goodcheck (rev_seq, user_seq)
+		VALUES (#{rev_seq} , #{user_seq})
 	</insert>
 	
 	<!-- 싫어요 인서트  -->
 	<insert id="hateinsertCheck">
-		INSERT INTO tbl_hatecheck (hateno, rev_seq, user_seq)
-		VALUES ((SELECT * FROM (SELECT max(hateno)+1 FROM tbl_hatecheck) next), #{rev_seq} , #{user_seq})
+		INSERT INTO tbl_hatecheck (rev_seq, user_seq)
+		VALUES (#{rev_seq} , #{user_seq})
 	</insert>
 	
 	<!-- 싫어요 체크 -->
   <select id="hatecheckread" resultType="int">
   	SELECT count(hate_check) 
-  	FROM tbl_hateCheck 
+  	FROM tbl_hatecheck 
   	WHERE user_seq = #{user_seq} AND rev_seq = #{rev_seq}
   </select>
   
   <!-- 싫어요 눌렀을때 +1  -->
 	<update id="hateCheck">
-    UPDATE tbl_hateCheck
+    UPDATE tbl_hatecheck
     SET hate_check = hate_check + 1 
     WHERE user_seq = #{user_seq} AND rev_seq = #{rev_seq}
   </update>
 	<!-- 글 삭제시에 관련 좋아요행 삭제  -->
 	<delete id="goodCheckremove">
-		DELETE FROM tbl_goodCheck WHERE rev_seq = #{rev_seq}
+		DELETE FROM tbl_goodcheck WHERE rev_seq = #{rev_seq}
 	</delete>
 	<!-- 글 삭제시에 관련 싫어요행 삭제  -->
 	<delete id="hateCheckremove">
-		DELETE FROM tbl_hateCheck WHERE rev_seq = #{rev_seq}
+		DELETE FROM tbl_hatecheck WHERE rev_seq = #{rev_seq}
 	</delete>
 	
 </mapper>
