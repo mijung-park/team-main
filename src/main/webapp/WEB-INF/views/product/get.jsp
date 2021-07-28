@@ -366,27 +366,30 @@ $(document).ready(function(){
                      </select>
                      
                      <hr>
-                     
+                        
+                        <c:if test="${product.product_status != 1 }">
                         <span style="margin-top: 11px; margin-left: 132px;">결제금액 : </span>
                         <input class="total_price" style="border:none; width: 87px;" value="0" name="order_totalprice" readonly/>
+                        </c:if>
                         <c:if test="${product.product_status == 1 }">
                            <p>판매 종료되었습니다.</p>
                         </c:if>
                         <hr>
-                        <button id="cart_btn" class="btn_add" type="button"> 장바구니</button>
-                        <button style="background:#4a4a4a;" id="order_btn" class="btn_add mx-2" type="button"> 구매</button>
+                        <c:if test="${product.product_status != 1 }">
+                           <button id="cart_btn" class="btn_add" type="button"> 장바구니</button>
+                           <button style="background:#4a4a4a;" id="order_btn" class="btn_add mx-2" type="button"> 구매</button>
+                        </c:if>
+                        
                         
                         <!-- 상품설명 텍스트에어리어
                         <p class="text-left">상품설명 </p>
                         <textarea style="resize: none; border: none" rows="15" cols="50" readonly><c:out value="${product.product_info }"></c:out></textarea>
                          -->
                      </div>
+                        
                   </td>
                </tr>
-               
-               <!--상품 왼쪽아래 부가정보  -->
                <tr>
-                  <!--이미지리스트썸네일  -->
                   <td colspan="2"  valign=top>
                      <c:if test="${product.product_status != 1 }">
                         <c:if test="${product.product_seller eq authUser.user_seq}">   
@@ -420,15 +423,35 @@ $(document).ready(function(){
                               </c:url>
                               <form action="${productFinish }" method="post">
                                  <button class="btn_add mx-2">판매종료</button>
-                              </form>   
+                              </form>
+                              
+                              
                            </div>
                         </c:if>
                      </c:if>
-
                   </td>
                </tr>
                <tr style="height: 52px;">
+                 
                   <td colspan="2" >
+                     <c:if test="${product.product_seller eq authUser.user_seq}">
+                     <c:url value="/product/remove" var="productRemove">
+                        <c:param name="product_seq" value="${product.product_seq }"></c:param>
+                        <c:param name="pageNum" value="${cri.pageNum }"></c:param>
+                        <c:param name="amount" value="${cri.amount }"></c:param>
+                        <c:param name="type" value="${cri.type }"></c:param>
+                        <c:param name="keyword" value="${cri.keyword }"></c:param>      
+                        <c:param name="array" value="${cri.array }"></c:param>
+                        <c:param name="categoryNum" value="${cri.categoryNum }"/>
+                        <c:param name="categoryMain" value="${cri.categoryMain }"/>
+                        <c:param name="categorySub" value="${cri.categorySub }"/> 
+                     </c:url>
+                     <form action="${productRemove }" method="post">
+                        <button class="btn_add mx-2">상품삭제</button>
+                     </form>
+                  </c:if>
+                  </td>
+                   <td colspan="2" >
                      <form id="order_form" action="${appRoot }/product/cart" method="get">
                         <input name="product_seq" value="${product.product_seq }" hidden="hidden"/>
                         <input name="order_filename" value="${productImgList[0] }" hidden="hidden"/>

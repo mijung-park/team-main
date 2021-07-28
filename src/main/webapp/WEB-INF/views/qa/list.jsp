@@ -158,11 +158,11 @@ thead {
 					<!-- 리스트 게시물의 상단 메뉴 -->
       				<thead>
 				       <tr>
-				         <th id="menu_no">NO</th>
-				         <th id="menu_category">종류</th>
+				         <th id="menu_no">NO.</th>
+				         <th id="menu_category">분류</th>
 				         <th id="menu_title">제목</th>
-				         <th id="menu_nickname"><i class="far fa-user"></i></th>
-				         <th id="menu_readcnt"><i class="fas fa-eye"></i></th>
+				         <th id="menu_nickname">작성자</th>
+				         <th id="menu_readcnt">조회수</th>
 				         <th id="menu_status">답변 상태</th>
 				       </tr>
 				    </thead>

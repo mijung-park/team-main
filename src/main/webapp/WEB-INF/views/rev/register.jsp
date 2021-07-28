@@ -86,7 +86,7 @@ $(document).ready(function (){
 	<c:when test="${authUser != null}">
 		<div class="container">
 			<section id="container1">
-				<h3>게시글 쓰기</h3><br>
+				<h3>리뷰 작성</h3><br>
 				<form action="${appRoot }/rev/register" id="RevRegister" method="POST" enctype="multipart/form-data"style="width:100%">
     
 			    <c:if test="${errors.noCategory }">
@@ -101,12 +101,10 @@ $(document).ready(function (){
         				<div id="autosave_wrapper write_div " style="margin-bottom:8px;">
 				            <select name="rev_category" class="form-control" style="width:160px;" required>
 								<option value="">카테고리 선택</option>
-								<option value="1">모자</option>
-								<option value="2">신발</option>
-								<option value="3">상의</option>
-								<option value="4">하의</option>
-								<option value="5">전자 기기</option>
-								<option value="6">식품</option>
+								<option value="1">마스크</option>
+								<option value="2">악세사리</option>
+								<option value="3">소독제</option>
+								<option value="4">진단키트</option>
 							</select>
          				</div>
         
@@ -122,12 +120,12 @@ $(document).ready(function (){
         	<label for="wr_content" class="sound_only">내용<strong>필수</strong></label>
         	<div class="wr_content " style="margin-bottom:8px;">
                  <span class="sound_only">웹에디터 시작</span>
-			<textarea id="rev_content" name="rev_content" class="frm_input full_input required" value="" maxlength="1000" style="width:100%;height:300px" placeholder="내용을 입력해 주세요. 1000자 이하 " required></textarea>
+			<textarea id="rev_content" name="rev_content" class="frm_input full_input required" value="" maxlength="1000" style="width:100%;height:300px" placeholder="내용을 입력해 주세요. 2000자 이내 " required></textarea>
 			<span class="sound_only">웹 에디터 끝</span>                    </div>
         	<input type="text" name="rev_writer" class="form-group" value="${authUser.user_id }" hidden/>
     	</div>
 
-		<div class="bo_w_info"><b>관련 파일</b>
+		<div class="bo_w_info mt-3" ><b>사진선택</b>
      		<div class = "inputArea">
 				<label for="revImg"></label>
 	
@@ -152,7 +150,7 @@ $(document).ready(function (){
 										if(!f.type.match("image.*")){
 											
 											// 이전에 쓰던 모달창 복붙한거로나오게
-											var message = "그림파일형석만 허용됩니다";
+											var message = "그림파일형식만 허용됩니다";
 											function checkModal(message){
 												if (message && history.state == null) {
 													$("#myModal .modal-body p").html(message)

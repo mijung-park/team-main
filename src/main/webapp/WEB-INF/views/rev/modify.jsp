@@ -143,12 +143,11 @@ $(document).ready(function(){
         <div id="autosave_wrapper write_div" style="margin-bottom:8px;">
             <select name="rev_category" class="form-control required" style="width:160px;" >
 				<option value="${RevBoard.rev_category }">카테고리 선택</option>
-				<option value="1">모자</option>
-				<option value="2">신발</option>
-				<option value="3">상의</option>
-				<option value="4">하의</option>
-				<option value="5">전자 기기</option>
-				<option value="6">식품</option>
+				<option value="1">마스크</option>
+				<option value="2">악세사리</option>
+				<option value="3">소독제</option>
+				<option value="4">진단키트</option>
+
 			</select>
          </div>
         
@@ -171,7 +170,7 @@ $(document).ready(function(){
         <input type="text" name="rev_writer" class="form-group" value="${authUser.user_id }" hidden/>
     </div>
 
-	<div class="bo_w_info"><b>관련 파일</b></div>
+	<div class="bo_w_info mt-3"><b>사진선택</b></div>
      <div class = "inputArea">
 	<label for="revImg"></label>
 	 <div class="select_img"><img src="" /></div>

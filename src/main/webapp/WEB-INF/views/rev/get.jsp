@@ -595,12 +595,10 @@ showList();
 					<p>
 						<strong>카테고리 : </strong>
 						<c:choose>
-							<c:when test="${RevBoard.rev_category eq 1}">모자</c:when>
-							<c:when test="${RevBoard.rev_category eq 2}">신발</c:when>
-							<c:when test="${RevBoard.rev_category eq 3}">상의</c:when>
-							<c:when test="${RevBoard.rev_category eq 4}">하의</c:when>
-							<c:when test="${RevBoard.rev_category eq 5}">전자 기기</c:when>
-							<c:otherwise>식품</c:otherwise>
+							<c:when test="${RevBoard.rev_category eq 1}">마스크</c:when>
+							<c:when test="${RevBoard.rev_category eq 2}">악세사리</c:when>
+							<c:when test="${RevBoard.rev_category eq 3}">소독제</c:when>
+							<c:otherwise>진단키트</c:otherwise>
 						</c:choose>
 					</p>
 					<p><strong>조회수 : </strong>${RevBoard.rev_readCnt}</p>

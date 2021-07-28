@@ -8,9 +8,8 @@
 
 	<insert id="insert">
 		INSERT INTO tbl_reply 
-			(reply_seq, reply_boardname, reply_boardseq, reply_content, reply_writer, reply_regdate) 
-		VALUES ((SELECT * FROM (SELECT max(reply_seq)+1 FROM tbl_reply), 
-				#{reply_boardname}, #{reply_boardseq}, #{reply_content}, #{reply_writer}, NOW() )
+			(reply_boardname, reply_boardseq, reply_content, reply_writer, reply_regdate) 
+		VALUES (#{reply_boardname}, #{reply_boardseq}, #{reply_content}, #{reply_writer}, NOW())
 	</insert>
 	
 	<!-- 댓글 가져오기 -->

@@ -24,6 +24,10 @@ public class Criteria {
 		this.amount = amount;
 	}
 	
+	public int getFrom() {
+		return amount * (pageNum - 1);
+	}
+	
 	public String[] getTypeArr() {
 		if (this.type == null) {
 			return new String[] {};
