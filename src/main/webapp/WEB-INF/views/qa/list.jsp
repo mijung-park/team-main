@@ -20,7 +20,7 @@
   src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
 
-<title>질문 답변 게시판</title>
+<title>문의게시판</title>
 <style>
 select {
 width: 170px;
@@ -152,6 +152,7 @@ thead {
 <u:mainNav/>
 <div class="container">
 	<section id ="container">
+	<h3>문의 게시판</h3>
 		<div class="container-sm">
   			<div class="row">
 			    <table class="table table-hover ">
@@ -182,12 +183,6 @@ thead {
 					            		<span id="lock" class="badge badge-secondary"> 
 					            			<i class="fas fa-lock"></i> 비밀글
 					            		</span>
-				            			<%-- qa_updatedate의 값이 비어 있지 않을때 --%>
-					            		<c:if test="${not empty board.qa_updatedate}">
-					            			<span class="badge badge-secondary"> 
-					            				<i class="fas fa-edit"></i> 수정됨
-					            			</span>
-					            		</c:if>
 										<%-- qa_readcnt 의 값이 100이 넘을시 --%>
 						            	<c:if test="${board.qa_readcnt > 100}">
 						            		<span id="star" class="badge badge-secondary"> 
@@ -207,12 +202,6 @@ thead {
 										<span class="badge badge-secondary"> 
 											<i class="fas fa-unlock"></i> 공개글
 										</span>
-										<%-- qa_updatedate의 값이 비어 있지 않을때 --%>
-										<c:if test="${not empty board.qa_updatedate}">
-						            		<span class="badge badge-secondary"> 
-						            		<i class="fas fa-edit"></i> 수정됨
-						            		</span>
-						            	</c:if>
 										<%-- qa_readcnt 의 값이 100이 넘을시 --%>
 						            	<c:if test="${board.qa_readcnt > 100}">
 						            		<span id="star" class="badge badge-secondary"> 
@@ -222,7 +211,7 @@ thead {
 						            	<%-- qa_filename 의 값이 비어 있지 않을시  --%>
 						            	<c:if test="${not empty board.qa_filename}">
 						            		<span id="star" class="badge badge-secondary"> 
-						            			<i class="far fa-image"></i> 이미지
+						            			<i class="far fa-image"></i>
 						            		</span>
 						            	</c:if>			            	
 									</c:when>									

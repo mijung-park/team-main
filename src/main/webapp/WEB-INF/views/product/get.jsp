@@ -391,10 +391,11 @@ $(document).ready(function(){
                </tr>
                <tr>
                   <td colspan="2"  valign=top>
-                     <c:if test="${product.product_status != 1 }">
-                        <c:if test="${product.product_seller eq authUser.user_seq}">   
                            <div class="row justify-content-center mt-3">
                               <!--수정버튼(작성자만보이도록)  -->
+                              
+                             <c:if test="${product.product_status != 1 }">
+                           <c:if test="${product.product_seller eq authUser.user_seq}">
                               <c:url value="/product/modify" var="productModify">
                                  <c:param name="product_seq" value="${product.product_seq }"></c:param>
                                     <c:param name="pageNum" value="${cri.pageNum }"></c:param>
@@ -406,10 +407,14 @@ $(document).ready(function(){
                                   <c:param name="categoryMain" value="${cri.categoryMain }"/>
                                  <c:param name="categorySub" value="${cri.categorySub }"/>    
                               </c:url>
+                              </c:if>
+                              </c:if>
                               
                               <button class="btn_add mx-2" style="background:#4a4a4a;" type="button" onclick="location.href='${productModify}' ">정보 수정</button>
                               
                               <!--삭제버튼(작성자만보이도록)-->
+                              <c:if test="${product.product_status != 1 }">
+                           <c:if test="${product.product_seller eq authUser.user_seq}">
                               <c:url value="/product/finish" var="productFinish">
                                  <c:param name="product_seq" value="${product.product_seq }"></c:param>
                                     <c:param name="pageNum" value="${cri.pageNum }"></c:param>
@@ -424,17 +429,10 @@ $(document).ready(function(){
                               <form action="${productFinish }" method="post">
                                  <button class="btn_add mx-2">판매종료</button>
                               </form>
+                              </c:if>
+                              </c:if>
                               
-                              
-                           </div>
-                        </c:if>
-                     </c:if>
-                  </td>
-               </tr>
-               <tr style="height: 52px;">
-                 
-                  <td colspan="2" >
-                     <c:if test="${product.product_seller eq authUser.user_seq}">
+                              <c:if test="${product.product_seller eq authUser.user_seq}">
                      <c:url value="/product/remove" var="productRemove">
                         <c:param name="product_seq" value="${product.product_seq }"></c:param>
                         <c:param name="pageNum" value="${cri.pageNum }"></c:param>
@@ -450,7 +448,11 @@ $(document).ready(function(){
                         <button class="btn_add mx-2">상품삭제</button>
                      </form>
                   </c:if>
+                              
+                           </div>
                   </td>
+               </tr>
+               <tr style="height: 52px;">
                    <td colspan="2" >
                      <form id="order_form" action="${appRoot }/product/cart" method="get">
                         <input name="product_seq" value="${product.product_seq }" hidden="hidden"/>
