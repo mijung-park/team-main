@@ -601,8 +601,8 @@ showList();
 							<c:otherwise>진단키트</c:otherwise>
 						</c:choose>
 					</p>
-					<p><strong>조회수 : </strong>${RevBoard.rev_readCnt}</p>
-					<p><strong>댓글수 : </strong>${RevBoard.rev_replyCnt }</p>
+					<p><strong>조회수 : </strong>${RevBoard.rev_readcnt}</p>
+					<p><strong>댓글수 : </strong>${RevBoard.rev_replycnt }</p>
 					<p>
 						<strong>작성자 : ${RevBoard.rev_writer } </strong>
 					</p>
@@ -616,7 +616,7 @@ showList();
 						<c:if test="${RevBoard.rev_updatedate != null }">
 							<p>
 								<strong>수정일 :</strong>
-								<fmt:formatDate value='${RevBoard.rev_updatedateKST}' pattern='yyyy년 MM월 dd일 h시 m분'/>
+								<fmt:formatDate value='${RevBoard.rev_updatedate}' pattern='yyyy년 MM월 dd일 h시 m분'/>
 							</p>
 						</c:if>
 					

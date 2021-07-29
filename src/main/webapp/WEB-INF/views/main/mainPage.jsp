@@ -306,6 +306,7 @@ input, select, textarea {
       <a href="${appRoot }/qa/list">Q&A</a>
       <a href="${appRoot }/rev/list">Review</a>
       <a href="${appRoot }/user/cart">Cart</a>
+      <a href="${appRoot }/user/userOrderList" >Order</a>
       <a href="${appRoot }/user/userRead?user_id=${authUser.user_id}">Mypage</a>
     <c:choose>
 	<c:when test="${authUser == null}">
@@ -316,19 +317,19 @@ input, select, textarea {
     	<a href="${appRoot }/user/logout">Log-out</a>
     </c:otherwise>
     </c:choose>
-   </span>
    </div>
          
 </div>
 
 <div id="header">                  
-      <div class="logo"><a href="${appRoot }/main/mainPage"><img src="${appRoot }/resources/logo/logo.jpg" alt="로고"></a></div>
-   </div>
+      <div class="logo"><a href="${appRoot }/main/mainPage"><img src="${appRoot }/resources/logo/logo.jpg" alt="로고"></a>
+      </div>
 </div>
 
 <div class="xans-element- xans-layout xans-layout-category">
     <div class="postion">
    </div>
+   
 </div>
 
 

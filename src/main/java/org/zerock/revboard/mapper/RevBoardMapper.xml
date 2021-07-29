@@ -3,125 +3,125 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.zerock.revboard.mapper.RevBoardMapper">
-	
-	<sql id ="criteria">		<!--  sql 태그에 만들어준걸 밑에서 include태그를 이용하여 갖다쓸 수 있음 -->
+   
+   <sql id ="criteria">      <!--  sql 태그에 만들어준걸 밑에서 include태그를 이용하여 갖다쓸 수 있음 -->
 <where>
-	<foreach item="type" collection="typeArr" separator="OR"> <!-- separator="OR" 하면 사이사이에 or추가됨 -->
-		<choose>
-			<when test='type == "T"'>
-				rev_title LIKE CONCAT('%', #{keyword}, '%')
-			</when>
-			<when test='type == "C"'>
-				rev_content LIKE CONCAT('%', #{keyword}, '%')
-			</when>
-			<when test='type == "W"'>
-				rev_writer LIKE CONCAT('%', #{keyword}, '%')
-			</when>
-			<when test='type == "K", keyword == "마스크"'>	
-				rev_category LIKE CONCAT('%', 1 , '%')
-			</when>
-			<when test='type == "K", keyword == "악세사리"'>	
-				rev_category LIKE CONCAT('%', 2 , '%')
-			</when>
-			<when test='type == "K", keyword == "소독제"'>	
-				rev_category LIKE CONCAT('%', 3 , '%')
-			</when>
-			<when test='type == "K", keyword == "진단키트"'>	
-				rev_category LIKE CONCAT('%', 4 , '%')
-			</when>
-			
-		</choose>
-	</foreach>
+   <foreach item="type" collection="typeArr" separator="OR"> <!-- separator="OR" 하면 사이사이에 or추가됨 -->
+      <choose>
+         <when test='type == "T"'>
+            rev_title LIKE CONCAT('%', #{keyword}, '%')
+         </when>
+         <when test='type == "C"'>
+            rev_content LIKE CONCAT('%', #{keyword}, '%')
+         </when>
+         <when test='type == "W"'>
+            rev_writer LIKE CONCAT('%', #{keyword}, '%')
+         </when>
+         <when test='type == "K", keyword == "마스크"'>   
+            rev_category LIKE CONCAT('%', 1 , '%')
+         </when>
+         <when test='type == "K", keyword == "악세사리"'>   
+            rev_category LIKE CONCAT('%', 2 , '%')
+         </when>
+         <when test='type == "K", keyword == "소독제"'>   
+            rev_category LIKE CONCAT('%', 3 , '%')
+         </when>
+         <when test='type == "K", keyword == "진단키트"'>   
+            rev_category LIKE CONCAT('%', 4 , '%')
+         </when>
+         
+      </choose>
+   </foreach>
 </where>
 </sql>
-		
-	<insert id="insertSelectKey" useGeneratedKeys="true" keyProperty="rev_seq" keyColumn="rev_seq">
-	  	INSERT INTO tbl_reviewboard 
-	  			(rev_seq, rev_category, rev_title, rev_writer,rev_content, rev_filename, rev_regdate)
-	  	VALUES (#{rev_seq}, #{rev_category}, #{rev_title}, #{rev_writer},
-	  			#{rev_content}, #{rev_filename}, NOW())
+      
+   <insert id="insertSelectKey" useGeneratedKeys="true" keyProperty="rev_seq" keyColumn="rev_seq">
+        INSERT INTO tbl_reviewboard 
+              (rev_seq, rev_category, rev_title, rev_writer,rev_content, rev_filename, rev_regdate)
+        VALUES (#{rev_seq}, #{rev_category}, #{rev_title}, #{rev_writer},
+              #{rev_content}, #{rev_filename}, NOW())
     </insert>
 
-	<select id="read" resultType="org.zerock.revboard.domain.RevVO">
-		SELECT * FROM tbl_reviewboard WHERE rev_seq = #{rev_seq}
-	</select>
+   <select id="read" resultType="org.zerock.revboard.domain.RevVO">
+      SELECT * FROM tbl_reviewboard WHERE rev_seq = #{rev_seq}
+   </select>
 
-	<delete id="delete">
-		DELETE FROM tbl_reviewboard WHERE rev_seq = #{rev_seq}
-	</delete>
+   <delete id="delete">
+      DELETE FROM tbl_reviewboard WHERE rev_seq = #{rev_seq}
+   </delete>
 
-	<update id="update">
-		UPDATE tbl_reviewboard
-		SET rev_category = #{rev_category},
-			rev_title = #{rev_title},
-			rev_content = #{rev_content},
-			rev_filename = #{rev_filename},
-			rev_updatedate = NOW()
-		WHERE rev_seq = #{rev_seq}
-	</update>
+   <update id="update">
+      UPDATE tbl_reviewboard
+      SET rev_category = #{rev_category},
+         rev_title = #{rev_title},
+         rev_content = #{rev_content},
+         rev_filename = #{rev_filename},
+         rev_updatedate = NOW()
+      WHERE rev_seq = #{rev_seq}
+   </update>
 
-	<select id="getListWithPaging" resultType="org.zerock.revboard.domain.RevVO">
+   <select id="getListWithPaging" resultType="org.zerock.revboard.domain.RevVO">
     <![CDATA[ 
-	    SELECT 
-	    	rev_seq rev_seq, 
-	    	rev_category rev_category, 
-	    	rev_title rev_title, 
-	    	rev_content rev_content, 
-	    	rev_writer rev_writer, 
-	    	rev_filename rev_filename,
-	        rev_readcnt rev_readcnt, 
-	        rev_good rev_good, 
-	        rev_hate rev_hate, 
-	        rev_regdate rev_regdate, 
-	        rev_updatedate rev_updatedate, 
-	        rev_replyCnt rev_replyCnt
-	     FROM tbl_reviewboard
- 	 ]]>
-  			<include refid="criteria"></include>
-		<![CDATA[ 
-		 ORDER BY rev_seq DESC	
-  		 LIMIT #{from}, #{amount}
-  		]]>
-	</select>
-	
+       SELECT 
+          rev_seq rev_seq, 
+          rev_category rev_category, 
+          rev_title rev_title, 
+          rev_content rev_content, 
+          rev_writer rev_writer, 
+          rev_filename rev_filename,
+           rev_readcnt rev_readcnt, 
+           rev_good rev_good, 
+           rev_hate rev_hate, 
+           rev_regdate rev_regdate, 
+           rev_updatedate rev_updatedate, 
+           rev_replycnt rev_replycnt
+        FROM tbl_reviewboard
+     ]]>
+           <include refid="criteria"></include>
+      <![CDATA[ 
+       ORDER BY rev_seq DESC   
+         LIMIT #{from}, #{amount}
+        ]]>
+   </select>
+   
 
-	<select id="countGood" resultType="int">
-		SELECT rev_good FROM tbl_reviewboard WHERE rev_seq = #{rev_seq}
-	</select>
-	
-	<select id="getTotalCount" resultType="int">
-		SELECT count(*) FROM tbl_reviewboard
-		<include refid="criteria"></include>
-	</select>
+   <select id="countGood" resultType="int">
+      SELECT rev_good FROM tbl_reviewboard WHERE rev_seq = #{rev_seq}
+   </select>
+   
+   <select id="getTotalCount" resultType="int">
+      SELECT count(*) FROM tbl_reviewboard
+      <include refid="criteria"></include>
+   </select>
 
-	<update id="addGood">
-		UPDATE tbl_reviewboard
-		SET rev_good = rev_good + 1 
-		WHERE rev_seq = #{rev_seq}
-	</update>
-	
-	<select id="countReadCnt" resultType="int">
-		SELECT rev_readcnt 
-		FROM tbl_reviewboard
-		WHERE rev_seq = #{rev_seq}
-	</select>
-	
-	<update id="addReadCnt">
-		UPDATE tbl_reviewboard
-		SET rev_readcnt = rev_readcnt + 1  
-		WHERE rev_seq = #{rev_seq}
-	</update>
-	
-	<update id="addHate">
-		UPDATE tbl_reviewboard
-		SET rev_hate = rev_hate + 1 
-		WHERE rev_seq = #{rev_seq}
-	</update>
-	<!-- 글을 5개 쓰면 오십만 포인트를 주는 쿼리 -->
-	<select id="boardSelect" resultType="int">
+   <update id="addGood">
+      UPDATE tbl_reviewboard
+      SET rev_good = rev_good + 1 
+      WHERE rev_seq = #{rev_seq}
+   </update>
+   
+   <select id="countReadCnt" resultType="int">
+      SELECT rev_readcnt 
+      FROM tbl_reviewboard
+      WHERE rev_seq = #{rev_seq}
+   </select>
+   
+   <update id="addReadCnt">
+      UPDATE tbl_reviewboard
+      SET rev_readcnt = rev_readcnt + 1  
+      WHERE rev_seq = #{rev_seq}
+   </update>
+   
+   <update id="addHate">
+      UPDATE tbl_reviewboard
+      SET rev_hate = rev_hate + 1 
+      WHERE rev_seq = #{rev_seq}
+   </update>
+   <!-- 글을 5개 쓰면 오십만 포인트를 주는 쿼리 -->
+   <select id="boardSelect" resultType="int">
         SELECT COUNT(rev_seq) FROM tbl_reviewboard WHERE rev_writer = #{rev_writer}
     </select>
-	<!-- 포인트 50만원 증정 , 중복 체크-->
+   <!-- 포인트 50만원 증정 , 중복 체크-->
     <update id="pointUpdate">
         UPDATE tbl_user
         SET
@@ -131,13 +131,13 @@
     </update>
     
     <update id="updateReplyCnt">
-		UPDATE tbl_reviewboard 
-		SET rev_replycnt = rev_replycnt + #{amount}
-		WHERE rev_seq = #{reply_boardseq}
-	</update>
-	
-	<!-- 좋아요 눌렀을때 +1  -->
-	<update id="goodCheck">
+      UPDATE tbl_reviewboard 
+      SET rev_replycnt = rev_replycnt + #{amount}
+      WHERE rev_seq = #{reply_boardseq}
+   </update>
+   
+   <!-- 좋아요 눌렀을때 +1  -->
+   <update id="goodCheck">
     UPDATE tbl_goodcheck
     SET like_check = like_check + 1 
     WHERE user_seq = #{user_seq} AND rev_seq = #{rev_seq}
@@ -145,7 +145,7 @@
   
   
   
-  	<!-- 좋아요 취소시 행삭제 -->
+     <!-- 좋아요 취소시 행삭제 -->
   <delete id="goodCheck_cancel">
     DELETE FROM tbl_goodcheck
     WHERE user_seq = #{user_seq} AND rev_seq = #{rev_seq}
@@ -159,57 +159,57 @@
   
    <!-- 좋아요 -1 addGood과 반대. -->
   <update id="goodCancel">
-		UPDATE tbl_reviewboard
-		SET rev_good = rev_good - 1 
-		WHERE rev_seq = #{rev_seq}
-	</update>
-	
-	<!-- 싫어요 -1 addHate와 반대. -->
+      UPDATE tbl_reviewboard
+      SET rev_good = rev_good - 1 
+      WHERE rev_seq = #{rev_seq}
+   </update>
+   
+   <!-- 싫어요 -1 addHate와 반대. -->
   <update id="hateCancel">
-		UPDATE tbl_reviewboard
-		SET rev_hate = rev_hate - 1 
-		WHERE rev_seq = #{rev_seq}
-	</update>
+      UPDATE tbl_reviewboard
+      SET rev_hate = rev_hate - 1 
+      WHERE rev_seq = #{rev_seq}
+   </update>
   
-	<!-- 좋아요 체크 -->
+   <!-- 좋아요 체크 -->
   <select id="checkread" resultType="int">
-  	SELECT count(like_check) 
-  	FROM tbl_goodcheck 
-  	WHERE user_seq = #{user_seq} AND rev_seq = #{rev_seq}
+     SELECT count(like_check) 
+     FROM tbl_goodcheck 
+     WHERE user_seq = #{user_seq} AND rev_seq = #{rev_seq}
   </select>
   
-	<!-- 좋아요 인서트 -->
-	<insert id="insertCheck">
-		INSERT INTO tbl_goodcheck (rev_seq, user_seq)
-		VALUES (#{rev_seq} , #{user_seq})
-	</insert>
-	
-	<!-- 싫어요 인서트  -->
-	<insert id="hateinsertCheck">
-		INSERT INTO tbl_hatecheck (rev_seq, user_seq)
-		VALUES (#{rev_seq} , #{user_seq})
-	</insert>
-	
-	<!-- 싫어요 체크 -->
+   <!-- 좋아요 인서트 -->
+   <insert id="insertCheck">
+      INSERT INTO tbl_goodcheck (goodno, rev_seq, user_seq)
+      VALUES (#{goodno}, #{rev_seq} , #{user_seq})
+   </insert>
+   
+   <!-- 싫어요 인서트  -->
+   <insert id="hateinsertCheck">
+      INSERT INTO tbl_hatecheck (hateno, rev_seq, user_seq)
+      VALUES (#{hateno}, #{rev_seq} , #{user_seq})
+   </insert>
+   
+   <!-- 싫어요 체크 -->
   <select id="hatecheckread" resultType="int">
-  	SELECT count(hate_check) 
-  	FROM tbl_hatecheck 
-  	WHERE user_seq = #{user_seq} AND rev_seq = #{rev_seq}
+     SELECT count(hate_check) 
+     FROM tbl_hatecheck 
+     WHERE user_seq = #{user_seq} AND rev_seq = #{rev_seq}
   </select>
   
   <!-- 싫어요 눌렀을때 +1  -->
-	<update id="hateCheck">
+   <update id="hateCheck">
     UPDATE tbl_hatecheck
     SET hate_check = hate_check + 1 
     WHERE user_seq = #{user_seq} AND rev_seq = #{rev_seq}
   </update>
-	<!-- 글 삭제시에 관련 좋아요행 삭제  -->
-	<delete id="goodCheckremove">
-		DELETE FROM tbl_goodcheck WHERE rev_seq = #{rev_seq}
-	</delete>
-	<!-- 글 삭제시에 관련 싫어요행 삭제  -->
-	<delete id="hateCheckremove">
-		DELETE FROM tbl_hatecheck WHERE rev_seq = #{rev_seq}
-	</delete>
-	
+   <!-- 글 삭제시에 관련 좋아요행 삭제  -->
+   <delete id="goodCheckremove">
+      DELETE FROM tbl_goodcheck WHERE rev_seq = #{rev_seq}
+   </delete>
+   <!-- 글 삭제시에 관련 싫어요행 삭제  -->
+   <delete id="hateCheckremove">
+      DELETE FROM tbl_hatecheck WHERE rev_seq = #{rev_seq}
+   </delete>
+   
 </mapper>

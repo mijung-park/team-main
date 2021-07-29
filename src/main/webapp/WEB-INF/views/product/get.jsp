@@ -76,17 +76,19 @@ $(document).ready(function(){
       if (exist == 0) {
          $("#optionBox").append(
             '<div id="optionContainer"'+poSeq+'>' +
-               '<input style="width:130px;" class="border-0" type="text" name="order_poname" value="'+po_name+'" readonly/>' +
+               '<input class="border-0" type="text" name="order_poname" value="'+po_name+'" hidden/>' +
                '<input style="width:70px; text-align:right;" class="border-0 po_price" type="number" name="order_poprice" value="'+po_price+'" readonly/>'+"원"+
                '<input type="number" name="order_poseq" value="'+poSeq+'"hidden/>' +
-               '<input type="number" name="maxPoQuantity" value="'+po_quantity+'"hidden/>' +
                '<span class="mx-3"></span>' +
+               '<input type="number" name="maxPoQuantity" value="'+po_quantity+'"hidden/>' +
                '<button class="minus_btn optionBtn" type="button"><i class="fas fa-minus"></i></button>'+
-               '<input style="width:50px;" class="amount" type="number" max="'+po_quantity+'" min="1" value="1" name="order_quantity"/>'+
+               '<input style="width:40px;" class="amount" type="number" max="'+po_quantity+'" min="1" value="1" name="order_quantity"/>'+
                '<button class="plus_btn optionBtn" type="button"><i class="fas fa-plus"></i></button>'+
-               '<button class="removeOption_btn optionBtn" type="button">제거</button>'+
-               '<input style="width:80px; text-align:right;" class="border-0 po_groupprice" type="number" name="" value="'+po_price+'" readonly/>'+"원" +
-            '</div>'
+               '<span class="mx-3"></span>' +
+               '<button class="removeOption_btn optionBtn" type="button"><i class="fas fa-times"></i></button>'+
+               '<input style="width:50px; text-align:right;" class="border-0 po_groupprice" type="number" name="" value="'+po_price+'" hidden/>'+
+               '<hr>'+
+               '</div>'
          );
          
          totalp();
@@ -366,7 +368,23 @@ $(document).ready(function(){
                      </select>
                      
                      <hr>
-                        
+                     
+                        <form id="order_form" action="${appRoot }/product/cart" method="get">
+                        <input name="product_seq" value="${product.product_seq }" hidden="hidden"/>
+                        <input name="order_filename" value="${productImgList[0] }" hidden="hidden"/>
+                        <input name="order_productseq" value="${product.product_seq }" hidden="hidden"/>
+                        <input name="order_userseq" value="${authUser.user_seq }" hidden="hidden"/>
+                        <input name="order_username" value="${authUser.user_name }" hidden="hidden"/>
+                        <input name="order_useraddress" value="${authUser.user_address }" hidden="hidden"/>
+                        <input name="order_userphone" value="${authUser.user_phone }" hidden="hidden"/>
+                        <input hidden="hidden" name="type" value="${cri.type }"/>
+                         <input hidden="hidden" name="keyword" value="${cri.keyword }"/>      
+                         <input hidden="hidden" name="array" value="${cri.array }"/> 
+                         <input id="checkCartOrder" hidden="hidden" name="checkCartOrder" value=""/> 
+                        <div id="optionBox">
+                        </div>
+                     </form>
+                     
                         <c:if test="${product.product_status != 1 }">
                         <span style="margin-top: 11px; margin-left: 132px;">결제금액 : </span>
                         <input class="total_price" style="border:none; width: 87px;" value="0" name="order_totalprice" readonly/>
@@ -375,6 +393,9 @@ $(document).ready(function(){
                            <p>판매 종료되었습니다.</p>
                         </c:if>
                         <hr>
+   
+                     
+                        
                         <c:if test="${product.product_status != 1 }">
                            <button id="cart_btn" class="btn_add" type="button"> 장바구니</button>
                            <button style="background:#4a4a4a;" id="order_btn" class="btn_add mx-2" type="button"> 구매</button>
@@ -390,11 +411,12 @@ $(document).ready(function(){
                   </td>
                </tr>
                <tr>
-                  <td colspan="2"  valign=top>
-                     <c:if test="${product.product_status != 1 }">
-                        <c:if test="${product.product_seller eq authUser.user_seq}">   
+                  <td colspan="2">
                            <div class="row justify-content-center mt-3">
                               <!--수정버튼(작성자만보이도록)  -->
+                              
+                             <c:if test="${product.product_status != 1 }">
+                           <c:if test="${product.product_seller eq authUser.user_seq}">
                               <c:url value="/product/modify" var="productModify">
                                  <c:param name="product_seq" value="${product.product_seq }"></c:param>
                                     <c:param name="pageNum" value="${cri.pageNum }"></c:param>
@@ -406,10 +428,14 @@ $(document).ready(function(){
                                   <c:param name="categoryMain" value="${cri.categoryMain }"/>
                                  <c:param name="categorySub" value="${cri.categorySub }"/>    
                               </c:url>
+                              </c:if>
+                              </c:if>
                               
                               <button class="btn_add mx-2" style="background:#4a4a4a;" type="button" onclick="location.href='${productModify}' ">정보 수정</button>
                               
                               <!--삭제버튼(작성자만보이도록)-->
+                              <c:if test="${product.product_status != 1 }">
+                           <c:if test="${product.product_seller eq authUser.user_seq}">
                               <c:url value="/product/finish" var="productFinish">
                                  <c:param name="product_seq" value="${product.product_seq }"></c:param>
                                     <c:param name="pageNum" value="${cri.pageNum }"></c:param>
@@ -424,17 +450,10 @@ $(document).ready(function(){
                               <form action="${productFinish }" method="post">
                                  <button class="btn_add mx-2">판매종료</button>
                               </form>
+                              </c:if>
+                              </c:if>
                               
-                              
-                           </div>
-                        </c:if>
-                     </c:if>
-                  </td>
-               </tr>
-               <tr style="height: 52px;">
-                 
-                  <td colspan="2" >
-                     <c:if test="${product.product_seller eq authUser.user_seq}">
+                              <c:if test="${product.product_seller eq authUser.user_seq}">
                      <c:url value="/product/remove" var="productRemove">
                         <c:param name="product_seq" value="${product.product_seq }"></c:param>
                         <c:param name="pageNum" value="${cri.pageNum }"></c:param>
@@ -450,26 +469,13 @@ $(document).ready(function(){
                         <button class="btn_add mx-2">상품삭제</button>
                      </form>
                   </c:if>
-                  </td>
-                   <td colspan="2" >
-                     <form id="order_form" action="${appRoot }/product/cart" method="get">
-                        <input name="product_seq" value="${product.product_seq }" hidden="hidden"/>
-                        <input name="order_filename" value="${productImgList[0] }" hidden="hidden"/>
-                        <input name="order_productseq" value="${product.product_seq }" hidden="hidden"/>
-                        <input name="order_userseq" value="${authUser.user_seq }" hidden="hidden"/>
-                        <input name="order_username" value="${authUser.user_name }" hidden="hidden"/>
-                        <input name="order_useraddress" value="${authUser.user_address }" hidden="hidden"/>
-                        <input name="order_userphone" value="${authUser.user_phone }" hidden="hidden"/>
-                        <input hidden="hidden" name="type" value="${cri.type }"/>
-                         <input hidden="hidden" name="keyword" value="${cri.keyword }"/>      
-                         <input hidden="hidden" name="array" value="${cri.array }"/> 
-                         <input id="checkCartOrder" hidden="hidden" name="checkCartOrder" value=""/> 
-                        <div id="optionBox">
-                        </div>
-                     </form>
+                              
+                           </div>
                   </td>
                </tr>
-               
+               <tr style="height: 52px;">
+                   
+               </tr>
                <tr style="height: 70px;">
                   <td colspan="3">
                   </td>

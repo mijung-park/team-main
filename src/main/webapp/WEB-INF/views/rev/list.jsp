@@ -2,6 +2,7 @@
   pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="u" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -110,7 +111,7 @@ thead {
 			
 	<div class="container">
 	<section id="container">	
-	
+	<h3>상품 후기 게시판</h3>
 		<div class="row">
 			<table class="table table-hover">
 				<thead>
@@ -129,6 +130,7 @@ thead {
 					<c:forEach items="${list}" var="rev">
 						<tr>
 							<td>${rev.rev_seq}</td>
+							
 							<c:url value="/rev/get" var="revLink">
 								<c:param value="${rev.rev_seq }" name="rev_seq" />
 								<c:param value="${pageMaker.cri.pageNum }" name="pageNum" />
@@ -137,23 +139,19 @@ thead {
 								<c:param name="keyword" value="${pageMaker.cri.keyword }" />
 								<c:param name="rev_title" value="${rev.rev_title }" />
 							</c:url>
+							
 							<td><c:if test="${rev.rev_category eq 1}">마스크</c:if><c:if test="${rev.rev_category eq 2}">악세사리</c:if><c:if test="${rev.rev_category eq 3}">소독제</c:if><c:if test="${rev.rev_category eq 4}">진단키트</c:if></td>
 							<td><a href="${revLink }" style="color: black;"> <c:out value="${rev.rev_title}" />
-								<c:if test="${rev.rev_replyCnt gt 0 }"> <!-- gt는 > 이거랑같음 -->
-								<span class="badge bg-secondar"><i class="fas fa-comment-dots"></i>${rev.rev_replyCnt }</span>
+								<c:if test="${rev.rev_replycnt gt 0 }"> <!-- gt는 > 이거랑같음 -->
+								<span class="badge bg-secondar"><i class="fas fa-comment-dots"></i>${rev.rev_replycnt }</span>
 								
 								</c:if>
 							</a></td>
-							<td><c:out value="${rev.rev_writer}" /></td>
-							
+							<td><c:out value="${rev.rev_writer}" /></td>	
 							<td><fmt:formatDate value="${rev.rev_regdate}" pattern="yyyy-MM-dd"/></td>
-					
-							
-									<td>${rev.rev_good }</td>
-									<td>${rev.rev_hate }</td>
-									<td>${rev.rev_readCnt }</td>
-									
-		
+							<td>${rev.rev_good }</td>
+							<td>${rev.rev_hate }</td>
+							<td>${rev.rev_readcnt }</td>
 						</tr>
 					</c:forEach>
 				</tbody>

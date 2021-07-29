@@ -23,11 +23,5 @@ public class QaVO {
 	private int qa_replycnt_admin;
 	private String qa_password;
 	
-	public Date getQa_regdateKST() {
-		return Date.from(qa_regdate.toInstant().plus(9, ChronoUnit.HOURS));
-	}
-	
-	public Date getQa_updatedateKST() {
-		return Date.from(qa_updatedate.toInstant().plus(9, ChronoUnit.HOURS));
-	}
+
 }
