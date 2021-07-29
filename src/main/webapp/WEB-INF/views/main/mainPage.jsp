@@ -125,7 +125,6 @@ $(document).ready(function() {
 </style>
 
 <style>
-
 body, code{
    font: 0.75em "돋움",Dotum,AppleGothic,sans-serif;
     color: #1c1c1c;
@@ -136,7 +135,6 @@ body, code{
     margin: 0 auto;
     text-align: center;
 }
-
 #header_bg {
     width: 100%;
     border-bottom: 1px solid #e1e1e1;
@@ -158,21 +156,17 @@ body, code{
     letter-spacing: 1px;
     *zoom: 1;
 }
-
 img, fieldset {
     border: none;
     vertical-align: top;
 }
-
 .xans-layout-logotop {
     text-align: center;
     width: 1280px;
 }
-
 .xans-layout-logotop .logo {
     margin-top: 20px;
 }
-
 .xans-layout-category {
     margin: 0 auto;
     width: 1280px;
@@ -181,33 +175,28 @@ img, fieldset {
     border-bottom: 1px solid /* #ff0000 */ #d3d3d3;
     clear: both;
 }
-
 .xans-layout-category .postion {
     z-index: 1;
     margin: 0 auto;
 }
-
 .xans-layout-category li {
     position: relative;
     display: inline-block;
     padding: 0 15px;
     z-index: 99000;
 }
-
 .xans-layout-category li a {
     display: block;
     height: 34px;
     padding-top: 6px;
     font-weight: bold;
 }
-
 a {
     text-decoration: none;
     color: #555;
     outline: none;
     selector-dummy: expression(this.hideFocus=true);
 }
-
 #top_cs_line {
     width: 1280px;
     margin: 0 auto;
@@ -215,7 +204,6 @@ a {
     height: 114px;
     border-bottom: 1px solid #d3d3d3;
 }
-
 #top_cs_line .top_bbs {
     float: left;
     padding-top: 38px;
@@ -223,21 +211,17 @@ a {
     border-bottom: 1px solid #d3d3d3;
     padding-bottom: 23px;
 }
-
 #top_cs_line .top_bbs li {
     float: left;
     padding-right: 6px;
 }
-
 #top_cs_line .top_cs {
     float: left;
     padding-top: 31px;
 }
-
 li {
     list-style: none;
 }
-
 .xans-layout-searchheader #keyword {
     width: 238px;
     height: 23px;
@@ -248,7 +232,6 @@ li {
     color: #444;
     font-size: 11px;
 }
-
 input, select, textarea {
     font-size: 100%;
     font-family: "돋움",Dotum;
@@ -258,18 +241,15 @@ input, select, textarea {
 .xans-layout-searchheader img {
     cursor: pointer;
 } 
-
 #top_cs_line .top_search {
     float: left;
     padding-top: 34px;
 }
-
 .xans-layout-searchheader fieldset {
     float: right;
     line-height: 0;
     border: 1px solid #d7d7d7;
 }
-
 .box {
     position: relative;
     font-size: 0;
@@ -279,7 +259,6 @@ input, select, textarea {
     box-sizing: border-box;
     width: 300px;
 }
-
 .box .form_input {
     display: block;
     width: 200px;
@@ -291,7 +270,6 @@ input, select, textarea {
     margin-left: 24px;
     font-size: 14px;
 }
-
 .box .btn {
     position: absolute;
     top: 5px;
