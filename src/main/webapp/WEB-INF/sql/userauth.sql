@@ -1,5 +1,0 @@
-CREATE TABLE tbl_user_auth (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id VARCHAR(50) NOT NULL,
-    auth VARCHAR(50) NOT NULL
-);
