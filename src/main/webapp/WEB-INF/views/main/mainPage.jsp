@@ -418,16 +418,6 @@ input, select, textarea {
       </footer>
    </section>
 </div>
-<c:if test="${authUser != null}">
-   <div id="_chatbox" style="display: none">
-      <!-- <fieldset> -->
-         <div id="messageWindow"></div>
-            <input id="inputMessage" style="width: 180px; margin-top:258px;" type="text" onkeyup="enterkey()" />
-            <input type="submit" style="float:right; margin-top: 258px; margin-right: 29px;" value="send" onclick="send()" />
-      <!-- </fieldset> -->
-   </div>
-   <img class="chat" src="${appRoot}/resources/chat.png" />
-</c:if>
 <script>
   
 </script>

@@ -416,7 +416,7 @@ $(document).ready(function(){
                               <!--수정버튼(작성자만보이도록)  -->
                               
                              <c:if test="${product.product_status != 1 }">
-                           <c:if test="${product.product_seller eq authUser.user_seq}">
+                           <c:if test="${authUser.user_grade == 0}">
                               <c:url value="/product/modify" var="productModify">
                                  <c:param name="product_seq" value="${product.product_seq }"></c:param>
                                     <c:param name="pageNum" value="${cri.pageNum }"></c:param>
@@ -428,14 +428,15 @@ $(document).ready(function(){
                                   <c:param name="categoryMain" value="${cri.categoryMain }"/>
                                  <c:param name="categorySub" value="${cri.categorySub }"/>    
                               </c:url>
+                                  <form action="${productModify}" method="post">
+                                 <button class="btn_add mx-2">정보수정</button>
+                              </form>
                               </c:if>
                               </c:if>
-                              
-                              <button class="btn_add mx-2" style="background:#4a4a4a;" type="button" onclick="location.href='${productModify}' ">정보 수정</button>
-                              
+                  
                               <!--삭제버튼(작성자만보이도록)-->
                               <c:if test="${product.product_status != 1 }">
-                           <c:if test="${product.product_seller eq authUser.user_seq}">
+                           <c:if test="${authUser.user_grade == 0}">
                               <c:url value="/product/finish" var="productFinish">
                                  <c:param name="product_seq" value="${product.product_seq }"></c:param>
                                     <c:param name="pageNum" value="${cri.pageNum }"></c:param>

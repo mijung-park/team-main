@@ -397,7 +397,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 	      <div class="row">
 	        <div class="input-field col s12 center">
 	          <h4>회원가입</h4>
-	          <p class="center">BCD 쇼핑몰에 오신걸 환영합니다.</p>
+	          <p class="center">일론마스크에 오신걸 환영합니다.</p>
 	        </div>
 	      </div>
 				<div class="row margin">
