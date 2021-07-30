@@ -313,12 +313,13 @@ input, select, textarea {
 
 <div id="top_cs_line">
 
-  
-
 <div class="box" style="float: right; margin-top: 35px;"> 
 <!-- <span style="margin-left:115px;"><img src="./images/s45_search_img.jpg"></span> -->
-<input type="text" name="search_str" id="search_str" class="form_input" autocomplete="off" placeholder="검색어를 입력하세요.">
-<input type="image" src="${appRoot }/resources/logo/mi.png" alt="검색" class="btn">
+	<form action="${appRoot }/product/list" method="get" class="form-inline">
+		<input name="type" value="TC" hidden="hidden"/>
+		<input type="text" name="keyword" id="search_str" class="form_input" autocomplete="off" placeholder="검색어를 입력하세요.">
+		<input type="image" src="${appRoot }/resources/logo/mi.png" alt="검색" class="btn-search">
+	</form>
 </div>
 
 </div>
@@ -343,7 +344,7 @@ input, select, textarea {
 		<div class="card m-2">
 			<div class="img_box">
 				<a href="${productLink }" >
-					<img style="opacity : ${visibility}" src="${root }/resources/upload/${product.product_filename }" alt="Card image cap">
+					<img style="opacity : ${visibility}" src="${appRoot }/resources/upload/${product.product_filename }" alt="Card image cap">
 				</a>
 				<div style="position:absolute;top:45%;left:30%">
 					<c:if test="${product.product_status == 1 }">
