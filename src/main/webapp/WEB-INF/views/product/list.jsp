@@ -343,7 +343,7 @@ $(document).ready(function(){
 			
 			<!-- 등록 -->
 			<div class="mr-1">
-				<c:if test="${not empty authUser.user_id}">
+				<c:if test="${authUser.user_grade == 0}">
  						<div>
 							<button onclick = "location.href = '${appRoot}/product/register'" class="btn_add">상품 등록</button>
 						</div>

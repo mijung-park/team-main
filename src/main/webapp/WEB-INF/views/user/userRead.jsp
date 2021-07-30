@@ -183,7 +183,7 @@
                   </tr>
                   <tr>
                      <th>연락처</th>
-                     <td id="userPhone"></td>
+                     <td id="userPhone">${read.user_phone }</td>
                   </tr>
                   <tr>
                      <th>생년월일</th>
@@ -263,7 +263,7 @@
                      <input type="button" value="목록" onclick="location.href='${listLink}'" id="btn_remove">
                   </c:when>
                   <c:otherwise>
-                     <input type="button" value="돌아가기" onclick="location.href='${appRoot}/main/mainPage'" id="btn_remove">
+                     <input type="button" value="주문목록" onclick="location.href='${appRoot}/user/userOrderList'" id="btn_remove">
                   </c:otherwise>
                </c:choose>
                <c:if test="${authUser.user_id eq read.user_id }">
