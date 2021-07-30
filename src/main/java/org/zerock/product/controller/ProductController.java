@@ -637,10 +637,12 @@ public class ProductController {
 		return "redirect:/user/userOrderList";
 	}
 
-	/* 삭제참고용-구현만해둠 */
+	/* 상품삭제 */
 	@PostMapping("/remove")
-	public String remove(@RequestParam("product_seq") int product_seq, Criteria cri, HttpServletRequest request,
-			RedirectAttributes rttr) {
+	public String remove(@RequestParam("order_seq") ArrayList<Integer> order_seq, 
+						 @RequestParam("product_seq") int product_seq, 
+						 Criteria cri, HttpServletRequest request,
+						 RedirectAttributes rttr) {
 
 		ProductVO vo = service.get(product_seq);
 
@@ -664,6 +666,11 @@ public class ProductController {
 					file.delete();
 				}
 			}
+			/* 장바구니 삭제 */
+			for (int no : order_seq) {
+				userService.orderDel(no);
+			}
+			
 
 			rttr.addFlashAttribute("message", "해당 상품이 삭제되었습니다.");
 		}
