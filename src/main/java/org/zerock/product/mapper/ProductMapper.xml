@@ -161,14 +161,11 @@
 		<where>
 			<foreach item="type" collection="typeArr" separator="OR">
 				<choose>
-					<when test='type == "T".toString()'>
+					<when test='type == "T"'>
 						product_name LIKE CONCAT('%', #{keyword}, '%')
 					</when>
-					<when test='type == "C".toString()'>
+					<when test='type == "C"'>
 						product_info LIKE CONCAT('%', #{keyword}, '%')
-					</when>
-					<when test='type == "W".toString()'>
-						user_nickname LIKE CONCAT('%', #{keyword}, '%')
 					</when>
 				</choose>
 			</foreach>
@@ -201,9 +198,9 @@
     user_nickname user_nickname, 
     product_like product_like 
    FROM tbl_product
-   ORDER BY 
       ]]>
-      
+      <include refid="criteria"></include>
+   ORDER BY     
       <choose>
             <when test="array == 'latest'">
                product_seq DESC
@@ -211,7 +208,7 @@
             <when test="array == 'like'">
                product_like DESC
             </when>
-            <when test="array == 'priceHign'">
+            <when test="array == 'priceHigh'">
                product_price DESC
             </when>
             <when test="array == 'priceLow'">
@@ -223,10 +220,7 @@
             <otherwise>
                product_seq DESC
             </otherwise>
-         </choose>
-
-      <include refid="criteria"></include>
-   
+         </choose>  
 <![CDATA[        
    LIMIT #{from}, #{amount}
  ]]>  
