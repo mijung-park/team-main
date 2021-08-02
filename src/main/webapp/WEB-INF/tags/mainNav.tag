@@ -282,7 +282,10 @@ input, select, textarea {
       <a href="${appRoot }/rev/list">Review</a>
       <a href="${appRoot }/user/cart">Cart</a>
       <a href="${appRoot }/user/userOrderList" >Order</a>
-      <a href="${appRoot }/user/userRead?user_id=${authUser.user_id}">Mypage</a>
+      <a href="${appRoot }/user/userRead?user_id=${authUser.user_id}">MyPage</a>
+    <c:if test="${authUser.user_grade == 0}">
+      <a href="${appRoot }/user/userList">UserList</a>
+    </c:if>
     <c:choose>
 	<c:when test="${authUser == null}">
       <a href="${appRoot }/user/login">Log-in</a>
