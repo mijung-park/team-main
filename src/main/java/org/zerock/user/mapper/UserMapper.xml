@@ -99,11 +99,10 @@
 			order_useraddress order_useraddress, 
 			order_userphone order_userphone, 
 			order_filename order_filename
-		FROM (
-	     	 SELECT @ROWNUM := @ROWNUM+1 AS rn, tbl_order.* FROM tbl_order
-			 WHERE order_userseq = #{order_userseq} AND order_status = 1		
-         	 ORDER BY order_date DESC) o	
- 		WHERE order_seq BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} + 1 AND #{cri.pageNum} * #{cri.amount}
+		FROM tbl_order 
+		WHERE order_userseq = #{order_userseq} AND order_status = 1
+		ORDER BY order_date DESC	
+		LIMIT #{cri.from}, #{cri.amount}
 	</select>
 	
 	<select id="cartList" resultType="org.zerock.product.domain.OrderVO">
@@ -121,11 +120,10 @@
 			order_useraddress order_useraddress, 
 			order_userphone order_userphone, 
 			order_filename order_filename
-		FROM (
-			SELECT @ROWNUM := @ROWNUM+1 AS rn, tbl_order.* FROM tbl_order
-			WHERE order_userseq = #{order_userseq} AND order_status = 0 
-			ORDER BY order_date DESC) c	
-		WHERE order_seq BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} + 1 AND #{cri.pageNum} * #{cri.amount}
+		FROM tbl_order 
+		WHERE order_userseq = #{order_userseq} AND order_status = 0
+		ORDER BY order_date DESC
+		LIMIT #{cri.from}, #{cri.amount}
 	</select>
 	
 	<select id="productList" resultType="org.zerock.product.domain.ProductVO">
@@ -144,13 +142,11 @@
 			product_updatedate, 
 			user_nickname, 
 			product_like 
-  		FROM (
-    		 SELECT @ROWNUM := @ROWNUM+1 AS rn, tbl_product.* FROM tbl_product 
-    		 WHERE user_nickname = #{user_nickname} 
-    		 ORDER BY product_regdate DESC  
-     		 ) l
-  		WHERE
-    		product_seq BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} + 1 AND #{cri.pageNum} * #{cri.amount}
+		FROM tbl_order 
+		WHERE user_nickname = #{user_nickname}
+		ORDER BY product_regdate DESC  
+		LIMIT #{cri.from}, #{cri.amount}
+ 
 	
 	</select>
 	
@@ -169,11 +165,10 @@
 			order_useraddress order_useraddress, 
 			order_userphone order_userphone, 
 			order_filename order_filename
-		FROM (
-			 SELECT @ROWNUM := @ROWNUM+1 AS rn, tbl_order.* FROM tbl_order
-			 ORDER BY order_date DESC
-			) i
+		FROM tbl_order
 		WHERE order_productseq = #{order_productseq} AND order_status = 1
+		ORDER BY order_date DESC
+		LIMIT #{cri.from}, #{cri.amount}
 	</select>
 	
 	<select id="getOrderInfo" resultType="org.zerock.product.domain.OrderVO">
@@ -185,7 +180,7 @@
 	</select>
 	
 	<select id="getTotalOrderList" resultType="int">
-		SELECT COUNT(*) FROM tbl_order WHERE order_userseq = #{order_userseq}
+		SELECT COUNT(*) FROM tbl_order WHERE order_userseq = #{order_userseq} AND order_status = 1
 	</select>
 	
 	<select id="getTotalCartList" resultType="int">
@@ -215,12 +210,10 @@
 			order_useraddress order_useraddress, 
 			order_userphone order_userphone, 
 			order_filename order_filename
-		FROM (
-			SELECT @ROWNUM := @ROWNUM+1 AS rn, tbl_order.* FROM tbl_order
-			WHERE order_productseq = #{order_productseq} AND order_status = 2
-			ORDER BY order_date DESC
-			) s
-			WHERE order_seq BETWEEN (#{cri.pageNum} - 1) * #{cri.amount} + 1 AND #{cri.pageNum} * #{cri.amount}	 
+		FROM tbl_order
+		WHERE order_productseq = #{order_productseq} AND order_status = 2
+		ORDER BY order_date DESC
+		LIMIT #{cri.from}, #{cri.amount}
 			
 	</select>
 	

@@ -322,8 +322,6 @@ function reload() {
 							<c:out value="${cri.type eq 'N' ? 'selected' : '' }"/>>이름</option>
 						<option value="I"
 							<c:out value="${cri.type eq 'I' ? 'selected' : '' }"/>>아이디</option>
-						<option value="G"
-							<c:out value="${cri.type eq 'G' ? 'selected' : '' }"/>>성별</option>
 						<option value="P"
 							<c:out value="${cri.type eq 'P' ? 'selected' : '' }"/>>휴대폰</option>
 						<option value="NI"
