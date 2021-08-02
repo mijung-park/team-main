@@ -2,6 +2,7 @@ package org.zerock.qaboard.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
 import org.zerock.qaboard.domain.Criteria;
 import org.zerock.qaboard.domain.QaVO;
 
@@ -24,7 +25,13 @@ public interface QaService {
 
 	public void addCnt(int qa_seq);
 		
-	public int readCnt(int qa_seq);	
+	public int readCnt(int qa_seq);
+
+	public void register(QaVO board, MultipartFile file);
+
+
+
+
 	
 	
 }
