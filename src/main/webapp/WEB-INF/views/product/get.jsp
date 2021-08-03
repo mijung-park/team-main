@@ -483,8 +483,15 @@ $(document).ready(function(){
                </tr>               
             </table>
             
-            <div style="text-align: center;">
-               <h1>이미지 자리</h1>
+            <!-- 상품 상세이미지 불러오기 -->
+            <div style="text-align: center;">              
+               <div class="imgs_wrap">
+	               <c:forEach items="${productImgList }" var="product_img">	
+					<div>
+						<img width="500" src="${appRoot }/resources/upload/${product_img }"/>
+					</div>
+					</c:forEach>
+               </div>
             </div>
                
                <hr>            
