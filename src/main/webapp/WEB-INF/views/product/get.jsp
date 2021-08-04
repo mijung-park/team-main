@@ -482,6 +482,8 @@ $(document).ready(function(){
                </tr>               
             </table>
             
+            <hr>
+            
             <!-- 상품 상세이미지 불러오기 -->
             <div style="text-align: center;">              
                <div class="imgs_wrap">
