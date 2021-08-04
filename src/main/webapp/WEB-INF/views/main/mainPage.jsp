@@ -366,8 +366,6 @@ input, select, textarea {
 				</div>
 	            <fmt:formatNumber value="${product.product_quantity }" type="number" var="quantity"></fmt:formatNumber>
 				<div class="cardLine1">총 ${quantity }개 남음</div>
-					<hr>
-			    <p class="card-text">판매자 : <c:out value="${ product.user_nickname}"></c:out></p>
 			</div>
 		</div>
 	</c:forEach>

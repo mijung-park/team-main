@@ -344,7 +344,6 @@ $(document).ready(function(){
                         <h5 class="text-right"><c:out value="${price }"></c:out>원</h5>               
                         <fmt:formatNumber value="${product.product_quantity }" type="number" var="quantity"></fmt:formatNumber>
                         <p class="text-right">총 <c:out value="${quantity }"></c:out>개 남음</p>
-                        <p class="text-right">판매자 : <c:out value="${ product.user_nickname }"></c:out></p>
                         <div style="font-size: 30px;" class="container d-flex align-items-center justify-content-end">
                            <div id="like">
                               <div class="HeartAnimation"></div>
@@ -482,6 +481,8 @@ $(document).ready(function(){
                   </td>
                </tr>               
             </table>
+            
+            <hr>
             
             <!-- 상품 상세이미지 불러오기 -->
             <div style="text-align: center;">              
