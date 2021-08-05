@@ -487,7 +487,7 @@ $(document).ready(function(){
             <!-- 상품 상세이미지 불러오기 -->
             <div style="text-align: center;">              
                <div class="imgs_wrap">
-	               <c:forEach items="${productImgList }" var="product_img">	
+	               <c:forEach items="${productImgList }" var="product_img" begin="1">	
 					<div>
 						<img width="1000" src="${appRoot }/resources/upload/${product_img }"/>
 					</div>
