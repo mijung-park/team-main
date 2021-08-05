@@ -489,7 +489,7 @@ $(document).ready(function(){
                <div class="imgs_wrap">
 	               <c:forEach items="${productImgList }" var="product_img">	
 					<div>
-						<img width="500" src="${appRoot }/resources/upload/${product_img }"/>
+						<img width="1000" src="${appRoot }/resources/upload/${product_img }"/>
 					</div>
 					</c:forEach>
                </div>
