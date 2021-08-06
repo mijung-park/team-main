@@ -592,17 +592,7 @@ showList();
 			<div class="headWrap">
 				<p class="mr-t10">${RevBoard.rev_title }</p>
 				<div class="date">
-					<p>
-						<strong>카테고리 : </strong>
-						<c:choose>
-							<c:when test="${RevBoard.rev_category eq 1}">마스크</c:when>
-							<c:when test="${RevBoard.rev_category eq 2}">악세사리</c:when>
-							<c:when test="${RevBoard.rev_category eq 3}">소독제</c:when>
-							<c:otherwise>진단키트</c:otherwise>
-						</c:choose>
-					</p>
-					<p><strong>조회수 : </strong>${RevBoard.rev_readcnt}</p>
-					<p><strong>댓글수 : </strong>${RevBoard.rev_replycnt }</p>
+		
 					<p>
 						<strong>작성자 : ${RevBoard.rev_writer } </strong>
 					</p>

@@ -394,12 +394,6 @@ $(document).ready(function() {
 												<button onclick="location.href='${appRoot}/user/shippingCheck?order_seq=${orders.order_seq }&product_seq=${orders.order_productseq }'" 
 													class="RectButton__Wrapper-sc-1k9quwu-0 iBLteB DesktopOrderBoxStyle__DesktopOrderBoxBundleSelfServiceButton-gnmni8-7 kSkBV">
 													배송조회
-												</button> 
-												<button class="RectButton__Wrapper-sc-1k9quwu-0 iBLteB DesktopOrderBoxStyle__DesktopOrderBoxBundleSelfServiceButton-gnmni8-7 kSkBV">
-													교환신청
-												</button>
-												<button class="RectButton__Wrapper-sc-1k9quwu-0 iBLteB DesktopOrderBoxStyle__DesktopOrderBoxBundleSelfServiceButton-gnmni8-7 kSkBV">
-													반품신청
 												</button>
 												<button onclick="location.href='${appRoot}/rev/list'" 
 												 class="RectButton__Wrapper-sc-1k9quwu-0 iBLteB DesktopOrderBoxStyle__DesktopOrderBoxBundleSelfServiceButton-gnmni8-7 kSkBV">

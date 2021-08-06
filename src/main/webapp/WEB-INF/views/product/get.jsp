@@ -385,7 +385,7 @@ $(document).ready(function(){
                      </form>
                      
                         <c:if test="${product.product_status != 1 }">
-                        <span style="margin-top: 11px; margin-left: 132px;">결제금액 : </span>
+                        <span style="margin-top: 11px; margin-left: 100px;">결제금액 : </span>
                         <input class="total_price" style="border:none; width: 87px;" value="0" name="order_totalprice" readonly/>
                         </c:if>
                         <c:if test="${product.product_status == 1 }">

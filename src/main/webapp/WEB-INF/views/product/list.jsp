@@ -328,8 +328,6 @@ $(document).ready(function(){
                <select class="custom-select my-1 mr-sm-2" name="type" 
                   id="inlineFormCustomSelectPref">
                   <option value="T" ${pageDTO.cri.type eq 'T' ? 'selected' : '' } >상품명</option>
-                  <option value="C" ${pageDTO.cri.type eq 'C' ? 'selected' : '' } >상품 설명</option>
-                  <option value="TC" ${pageDTO.cri.type eq 'TC' ? 'selected' : '' }>상품명 or 설명</option>
                </select> 
                <input class="form-control mr-sm-2" type="search" name="keyword" value="${pageDTO.cri.keyword }"
                   placeholder="Search" aria-label="Search" required>
