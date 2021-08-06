@@ -208,7 +208,7 @@
             <when test="array == 'like'">
                product_like DESC
             </when>
-            <when test="array == 'priceHigh'">
+            <when test="array == 'priceHign'">
                product_price DESC
             </when>
             <when test="array == 'priceLow'">

@@ -284,7 +284,6 @@ input, select, textarea {
       <a href="${appRoot }/qa/list">Q&A</a>
       <a href="${appRoot }/rev/list">Review</a>
       <a href="${appRoot }/user/cart">Cart</a>
-      <a href="${appRoot }/user/userOrderList" >Order</a>
       <a href="${appRoot }/user/userRead?user_id=${authUser.user_id}">MyPage</a>
     <c:if test="${authUser.user_grade == 0}">
       <a href="${appRoot }/user/userList">UserList</a>
@@ -367,8 +366,6 @@ input, select, textarea {
 				</div>
 	            <fmt:formatNumber value="${product.product_quantity }" type="number" var="quantity"></fmt:formatNumber>
 				<div class="cardLine1">총 ${quantity }개 남음</div>
-					<hr>
-			    <p class="card-text">판매자 : <c:out value="${ product.user_nickname}"></c:out></p>
 			</div>
 		</div>
 	</c:forEach>

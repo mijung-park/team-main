@@ -115,7 +115,48 @@ public class QaController {
 			return "redirect:/qa/register";
 		}
 		
-		board.setQa_filename(file.getOriginalFilename());
+		// 파일이 업로드 될 경로 설정
+		String saveDir = request.getSession().getServletContext().getRealPath("/resources/qaboard/upload");
+		// 위에서 설정한 경로의 폴더가 없을 경우 생성
+		System.out.println(saveDir);
+		File dir = new File(saveDir);
+
+		if (!dir.exists()) {
+			dir.mkdirs();
+			} // 파일 업로드
+
+		List<String> reNames = new ArrayList<String>();
+
+		for (MultipartFile f : upload) {
+			if (!f.isEmpty()) {
+				// 기존 파일 이름을 받고 확장자 저장
+				String orifileName = f.getOriginalFilename();
+//				String ext = orifileName.substring(orifileName.lastIndexOf("."));
+//				// 이름 값 변경을 위한 설정
+//				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd-HHmmssSSS");
+//				int rand = (int) (Math.random() * 1000);
+//				// 파일 이름 변경
+//				String reName = sdf.format(System.currentTimeMillis()) + "_" + rand + ext;
+				// 파일 저장
+				try {
+					f.transferTo(new File(saveDir + "/" + orifileName));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				reNames.add(orifileName);
+					}
+				}
+				if (!reNames.isEmpty()) { // 파일이 비어있지않을때
+					board.setQa_filename(reNames.get(0));
+				} else { // 파일이 비어있을때
+					board.setQa_filename("");
+				}
+				// list를 string 쉼표구분으로 만들기
+				String filenames = String.join(",", reNames);
+				board.setQa_filename(filenames);
+				System.out.println(filenames);
+			
 		
 		service.register(board, file);
 						
@@ -237,20 +278,20 @@ public class QaController {
 			if (!f.isEmpty()) {
 				// 기존 파일 이름을 받고 확장자 저장
 				String orifileName = f.getOriginalFilename();
-				String ext = orifileName.substring(orifileName.lastIndexOf("."));
-				// 이름 값 변경을 위한 설정
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd-HHmmssSSS");
-				int rand = (int) (Math.random() * 1000);
-				// 파일 이름 변경
-				String reName = sdf.format(System.currentTimeMillis()) + "_" + rand + ext;
-				// 파일 저장
+//				String ext = orifileName.substring(orifileName.lastIndexOf("."));
+//				// 이름 값 변경을 위한 설정
+//				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd-HHmmssSSS");
+//				int rand = (int) (Math.random() * 1000);
+//				// 파일 이름 변경
+//				String reName = sdf.format(System.currentTimeMillis()) + "_" + rand + ext;
+//				// 파일 저장
 				try {
-					f.transferTo(new File(saveDir + "/" + reName));
+					f.transferTo(new File(saveDir + "/" + orifileName));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 
-				reNames.add(reName);
+				reNames.add(orifileName);
 			}
 		}
 		if (!reNames.isEmpty()) {

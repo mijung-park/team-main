@@ -154,21 +154,21 @@ public class ProductController {
 			if (!f.isEmpty()) {
 				// 기존 파일 이름을 받고 확장자 저장
 				String orifileName = f.getOriginalFilename();
-				String ext = orifileName.substring(orifileName.lastIndexOf("."));
-				// 이름 값 변경을 위한 설정
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd-HHmmssSSS");
-				int rand = (int) (Math.random() * 1000);
-				// 파일 이름 변경
-				String reName = sdf.format(System.currentTimeMillis()) + "_" + rand + ext;
-				// 파일 저장
+//				String ext = orifileName.substring(orifileName.lastIndexOf("."));
+//				// 이름 값 변경을 위한 설정
+//				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd-HHmmssSSS");
+//				int rand = (int) (Math.random() * 1000);
+//				// 파일 이름 변경
+//				String reName = sdf.format(System.currentTimeMillis()) + "_" + rand + ext;
+//				// 파일 저장
 				try {
-					f.transferTo(new File(saveDir + "/" + reName));
+					f.transferTo(new File(saveDir + "/" + orifileName));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 
 				// 철수추가
-				reNames.add(reName);
+				reNames.add(orifileName);
 			}
 		}
 
