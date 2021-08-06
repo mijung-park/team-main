@@ -289,12 +289,12 @@ input, select, textarea {
       <a href="${appRoot }/user/userList">UserList</a>
     </c:if>
     <c:choose>
-	<c:when test="${authUser == null}">
+   <c:when test="${authUser == null}">
       <a href="${appRoot }/user/login">Log-in</a>
       <a href="${appRoot }/user/userRegister">Join</a>
     </c:when>
     <c:otherwise>
-    	<a href="${appRoot }/user/logout">Log-out</a>
+       <a href="${appRoot }/user/logout">Log-out</a>
     </c:otherwise>
     </c:choose>
    </div>
@@ -317,61 +317,61 @@ input, select, textarea {
 
 <div class="box" style="float: right; margin-top: 35px;"> 
 <!-- <span style="margin-left:115px;"><img src="./images/s45_search_img.jpg"></span> -->
-	<form action="${appRoot }/product/list" method="get" class="form-inline">
-		<input name="type" value="TC" hidden="hidden"/>
-		<input type="text" name="keyword" id="search_str" class="form_input" autocomplete="off" placeholder="검색어를 입력하세요.">
-		<input type="image" src="${appRoot }/resources/logo/mi.png" alt="검색" class="btn-search">
-	</form>
+   <form action="${appRoot }/product/list" method="get" class="form-inline">
+      <input name="type" value="TC" hidden="hidden"/>
+      <input type="text" name="keyword" id="search_str" class="form_input" autocomplete="off" placeholder="검색어를 입력하세요.">
+      <input type="image" src="${appRoot }/resources/logo/mi.png" alt="검색" class="btn-search">
+   </form>
 </div>
 
 </div>
 
 <div class="container">
-	<section id="container">
-		<div class="row d-flex justify-content-center">
-	<!--상품 bootstrap card 시작  -->
-	<c:forEach items="${list }" var="product">  
-		<c:url value="/product/get" var="productLink">
-			<c:param name="product_seq" value="${product.product_seq }"/>
-			<c:param name="pageNum" value="${pageDTO.cri.pageNum }"/>
-			<c:param name="amount" value="${pageDTO.cri.amount }"/>
-			<c:param name="type" value="${pageDTO.cri.type }"/>
-			<c:param name="keyword" value="${pageDTO.cri.keyword }"/>            	
-			<c:param name="array" value="${pageDTO.cri.array }"/>            	
-	  </c:url>
-		<c:set var="visibility" value="100%"></c:set>
-		<c:if test="${product.product_status == 1 }">
-			<c:set var="visibility" value="30%"></c:set>
-		</c:if>   
-		<div class="card m-2">
-			<div class="img_box">
-				<a href="${productLink }" >
-					<img style="opacity : ${visibility}" src="${appRoot }/resources/upload/${product.product_filename }" alt="Card image cap">
-				</a>
-				<div style="position:absolute;top:45%;left:30%">
-					<c:if test="${product.product_status == 1 }">
-						<h5>판매 종료</h5>
-					</c:if>
-				</div>
-			</div>
-			<div class="card-body" >
-				<a href="${productLink }" >
-	            <fmt:formatNumber value="${product.product_price }" type="number" var="price"></fmt:formatNumber>
-				<h5 class="card-title"><c:out value="${price }"></c:out>원</h5>
-				<p><c:out value="${product.product_name }"></c:out></p>
-				</a>
-				<div>
-					<span><i class="fas fa-eye"></i> ${product.product_readcnt }</span>	
-					<span><i class="fas fa-heart"></i> ${product.product_like }</span>										
-				</div>
-	            <fmt:formatNumber value="${product.product_quantity }" type="number" var="quantity"></fmt:formatNumber>
-				<div class="cardLine1">총 ${quantity }개 남음</div>
-			</div>
-		</div>
-	</c:forEach>
-		</div>
-	<button id="btn_plus" >더보기 +</button>
-	</section>
+   <section id="container">
+      <div class="row d-flex justify-content-center">
+   <!--상품 bootstrap card 시작  -->
+   <c:forEach items="${list }" var="product">  
+      <c:url value="/product/get" var="productLink">
+         <c:param name="product_seq" value="${product.product_seq }"/>
+         <c:param name="pageNum" value="${pageDTO.cri.pageNum }"/>
+         <c:param name="amount" value="${pageDTO.cri.amount }"/>
+         <c:param name="type" value="${pageDTO.cri.type }"/>
+         <c:param name="keyword" value="${pageDTO.cri.keyword }"/>               
+         <c:param name="array" value="${pageDTO.cri.array }"/>               
+     </c:url>
+      <c:set var="visibility" value="100%"></c:set>
+      <c:if test="${product.product_status == 1 }">
+         <c:set var="visibility" value="30%"></c:set>
+      </c:if>   
+      <div class="card m-2">
+         <div class="img_box">
+            <a href="${productLink }" >
+               <img style="opacity : ${visibility}" src="${appRoot }/resources/upload/${product.product_filename }" alt="Card image cap">
+            </a>
+            <div style="position:absolute;top:45%;left:30%">
+               <c:if test="${product.product_status == 1 }">
+                  <h5>판매 종료</h5>
+               </c:if>
+            </div>
+         </div>
+         <div class="card-body" >
+            <a href="${productLink }" >
+               <fmt:formatNumber value="${product.product_price }" type="number" var="price"></fmt:formatNumber>
+            <h5><c:out value="${product.product_name }"></c:out></h5>
+            <h6 class="card-title"><c:out value="${price }"></c:out>원</h6>
+            </a>
+            <div>
+               <span><i class="fas fa-eye"></i> ${product.product_readcnt }</span>   
+               <span><i class="fas fa-heart"></i> ${product.product_like }</span>                              
+            </div>
+               <fmt:formatNumber value="${product.product_quantity }" type="number" var="quantity"></fmt:formatNumber>
+            <div class="cardLine1">재고량 ${quantity }</div>
+         </div>
+      </div>
+   </c:forEach>
+      </div>
+   <button id="btn_plus" >더보기 +</button>
+   </section>
 </div>
 
 

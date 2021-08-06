@@ -484,11 +484,14 @@ $(document).ready(function() {
 				</div>
 			</div>
 			<div class="bodyWrap">
-				<div class="form-group" style="margin-top:5px;">
-					<c:forEach items="${getQafileNameList }" var="qaImg" varStatus="imgNum">
-						<img onerror="this.src='${appRoot }/resources/noimage.jpg'" src="${appRoot }/resources/qaboard/upload/${qaImg }" width="245px" height="245px">
-					</c:forEach>
-				</div>
+		
+			<c:if test="${not empty board.qa_filename }">
+					<div>
+						<img class="img-fluid" 
+						src="${imgRoot}${board.qa_seq }/${board.qa_filename}">
+					</div>
+			</c:if> 
+
 				<p>${board.qa_content }</p>
 			</div>
 		</div>

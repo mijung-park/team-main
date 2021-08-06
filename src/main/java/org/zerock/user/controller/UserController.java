@@ -102,7 +102,7 @@ public class UserController {
 			rttr.addAttribute("pageNum", cri.getPageNum());
 			rttr.addAttribute("amount", cri.getAmount());
 			
-			return "redirect:/user/userModify";
+			return "redirect:/user/login";
 		}
 		
 		String inputPass = changePw;
@@ -120,7 +120,7 @@ public class UserController {
 		rttr.addAttribute("type", cri.getType());
 		rttr.addAttribute("keyword", cri.getKeyword());
 		
-		return "redirect:/main/mainPage";
+		return "redirect:/user/login";
 	}
 	
 	@PostMapping("/userDelete") // 회원 삭제 (안 씀)

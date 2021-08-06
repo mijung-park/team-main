@@ -30,7 +30,6 @@
 		<beans:property name="defaultEncoding" value="UTF-8"/>
         <beans:property name="maxUploadSize" value="52428800"/> 
         <beans:property name="maxInMemorySize" value="1048576"/> 
-
 	</beans:bean>
 	 --> 
 	

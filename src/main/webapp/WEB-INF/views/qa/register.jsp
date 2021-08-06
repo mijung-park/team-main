@@ -114,7 +114,7 @@
 				<!--이미지첨부시작  -->
 				<div class="input-group mb-3">
 					<label class="input-group-text" for="input_imgs">이미지</label>
-					<input class="form-control" type="file" name="upload" id="input_imgs" multiple="multiple" accept="image/*" value="${filename }"/>
+					<input class="form-control" type="file" name="file" id="input_imgs" accept="image/*" />
 				</div>
 				
 				<!-- 파일 선택시 미리 보여짐 -->

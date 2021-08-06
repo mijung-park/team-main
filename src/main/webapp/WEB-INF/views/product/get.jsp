@@ -237,13 +237,13 @@ $(document).ready(function(){
    }
    
    table {
-       width: 85%;
-        height : 800px;
+       width: 80%;
+        height : 700px;
         margin-left: 4%;
    }
    
     table,td,th,textarea {
-       border : 1px solid #FFFFFF;
+       border : 1px solid #ffffff;
     }
     table td {
        width : 50%;
@@ -314,9 +314,9 @@ $(document).ready(function(){
                <p class="text-left ml-5">상품 카테고리 > ${category.category_main } > ${category.category_sub }</p>
             <table>
                <colgroup>
+                   <col width="10%"/>
                    <col width="20%"/>
-                   <col width="30%"/>
-                   <col width="50%"/>
+                   <col width="40%"/>
                  </colgroup>
                
                <tr>
@@ -337,7 +337,7 @@ $(document).ready(function(){
                   </td>
                   
                   <!-- 상품정보 오른쪽 항목 -->
-                  <td rowspan="2" class="align-top">
+                  <td colspan="2" class="align-top">
                      <div class="m-5">
                         <h3 class="text-left"><c:out value="${product.product_name }"></c:out></h3>
                         <fmt:formatNumber value="${product.product_price }" type="number" var="price"></fmt:formatNumber>
@@ -409,7 +409,7 @@ $(document).ready(function(){
                         
                   </td>
                </tr>
-               <tr>
+               <tr style="height: 52px;">
                   <td colspan="2">
                            <div class="row justify-content-center mt-3">
                               <!--수정버튼(작성자만보이도록)  -->
@@ -473,6 +473,7 @@ $(document).ready(function(){
                            </div>
                   </td>
                </tr>
+               <!-- 
                <tr style="height: 52px;">
                    
                </tr>
@@ -480,6 +481,7 @@ $(document).ready(function(){
                   <td colspan="3">
                   </td>
                </tr>               
+                -->
             </table>
             
             <hr>
@@ -487,11 +489,11 @@ $(document).ready(function(){
             <!-- 상품 상세이미지 불러오기 -->
             <div style="text-align: center;">              
                <div class="imgs_wrap">
-	               <c:forEach items="${productImgList }" var="product_img" begin="1">	
-					<div>
-						<img width="1000" src="${appRoot }/resources/upload/${product_img }"/>
-					</div>
-					</c:forEach>
+                  <c:forEach items="${productImgList }" var="product_img" begin="1">   
+               <div>
+                  <img width="1000" src="${appRoot }/resources/upload/${product_img }"/>
+               </div>
+               </c:forEach>
                </div>
             </div>
                
