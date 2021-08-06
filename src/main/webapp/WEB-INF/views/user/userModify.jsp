@@ -51,7 +51,7 @@ $(document).ready(function() {
 		$("#myModal").modal("show");
 		
 		$("#yes").click(function() {
-			$("#modify-form").attr("action", "${appRoot}/user/userModify");
+			$("#modify-form").attr("action", "${appRoot}/user/login");
 			$("#modify-form").submit();
 		});	
 	});

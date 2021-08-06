@@ -41,11 +41,20 @@ public class QaController {
 
 	// 페이지 리스트 
 	@GetMapping("/list")
-	public void list(@ModelAttribute("criteria") Criteria cri, Model model) {
+	public void list(@ModelAttribute("criteria") Criteria cri, Model model, QaVO vo) {
 		
 		// 게시물 리스트 가져오기
 		List<QaVO> list = service.getList(cri);	
 		
+		for (QaVO qaVO : list) {
+			// filename에 값이 있을 경우 0 번째의 파일명을 가져옴
+			if(qaVO.getQa_filename() != null && !qaVO.getQa_filename().isEmpty()) {			
+				@SuppressWarnings("unchecked")
+				List<String> fileNamesList = Arrays.asList(qaVO.getQa_filename().split(","));
+				String fileNameFirst = fileNamesList.get(0);
+				qaVO.setQa_filename(fileNameFirst);
+				}
+		}
 		// 페이징 처리
 		int total = service.getTotal(cri);
 		PageDTO dto = new PageDTO(cri, total);	
@@ -73,7 +82,7 @@ public class QaController {
 	// 게시물 작성
 	@PostMapping("/register")
 	public String register(QaVO board, RedirectAttributes rttr, 
-			@RequestParam("file") MultipartFile file, HttpServletRequest request, HttpSession session) {
+			MultipartFile[] upload, HttpServletRequest request, HttpSession session) {
 		if (session.getAttribute("authUser") == null) {
 			return "redirect:/qa/writer_error";
 		} else {		
@@ -108,7 +117,7 @@ public class QaController {
 			rttr.addFlashAttribute("errors", errors);
 			rttr.addFlashAttribute("category", board.getQa_category());
 			rttr.addFlashAttribute("secret", board.getQa_secret());
-			rttr.addFlashAttribute("title", board.getQa_title());
+			rttr.addFlashAttribute("title",board.getQa_title());
 			rttr.addFlashAttribute("content", board.getQa_content());
 			rttr.addFlashAttribute("filename", board.getQa_filename());
 			
@@ -158,26 +167,30 @@ public class QaController {
 				System.out.println(filenames);
 			
 		
-		service.register(board, file);
-						
+		service.register(board);				
 		rttr.addFlashAttribute("result", board.getQa_seq());
-		
 		return "redirect:/qa/list";
 		}
 	}
 	
 	// 게시물 가져오기
-	@GetMapping("/get")
+	@GetMapping({"/get"})
 	public String get(@RequestParam("qa_seq") int qa_seq, UserVO user,
 			@ModelAttribute("criteria") Criteria cri, Model model,
 			HttpSession session, RedirectAttributes rttr) {
-			
+		
 		QaVO vo = service.get(qa_seq);
 		// 게시물의 qa_secret값이 공개 일경우
 		if("공개".equals(vo.getQa_secret())) {
 			service.addCnt(qa_seq);
 			model.addAttribute("board", vo);
-			return "/qa/get";
+			if (vo.getQa_filename() != null && !vo.getQa_filename().isEmpty()) {
+				@SuppressWarnings("unchecked")
+				List<String> fileNamesList = Arrays.asList(vo.getQa_filename().split(","));
+				model.addAttribute("getQafileNameList", fileNamesList);
+				
+				return "/qa/get";
+			}
 		} else { // 게시물의 qa_secret값이 공개가 아닐경우 (곧 비공개 일경우)
 			if(session.getAttribute("authUser") == null) { // 세션에 authUser의 값이 없을경우
 				System.out.println("세션 없음");				
@@ -193,7 +206,11 @@ public class QaController {
 					//	get 페이지로 이동
 					service.addCnt(qa_seq);
 					model.addAttribute("board", vo);
-
+					if (vo.getQa_filename() != null && !vo.getQa_filename().isEmpty()) {
+						@SuppressWarnings("unchecked")
+						List<String> fileNamesList = Arrays.asList(vo.getQa_filename().split(","));
+						model.addAttribute("getQafileNameList", fileNamesList);
+					} 
 					return "/qa/get";
 
 				} else { // 로그인은 되어있지만 일반 유저인경우 (자신의 글이 아닌경우 포함)
@@ -201,7 +218,7 @@ public class QaController {
 				}
 			}
 		}
-		
+			return null;
 	}
 	
 	// get 페이지에서 세션에 없거나 자신의 글이 아닌경우 보내지는 페이지

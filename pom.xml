@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" 
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
-   <modelVersion>4.0.0</modelVersion>
-   <groupId>org.zerock</groupId>
-   <artifactId>team</artifactId>
-   <name>team-main</name>
-   <packaging>war</packaging>
-   <version>1.0.0-BUILD-SNAPSHOT</version>
-   <properties>
-      <java-version>1.8</java-version>
-      <org.springframework-version>5.0.7.RELEASE</org.springframework-version>
-      <org.aspectj-version>1.6.10</org.aspectj-version>
-      <org.slf4j-version>1.6.6</org.slf4j-version>
-      <aws.java.sdk.version>2.16.1</aws.java.sdk.version>
-   </properties>
-   <!-- aws -->
-   <dependencyManagement>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.zerock</groupId>
+	<artifactId>team</artifactId>
+	<name>team-main</name>
+	<packaging>war</packaging>
+	<version>1.0.0-BUILD-SNAPSHOT</version>
+	<properties>
+		<java-version>1.8</java-version>
+		<org.springframework-version>5.0.7.RELEASE</org.springframework-version>
+		<org.aspectj-version>1.6.10</org.aspectj-version>
+		<org.slf4j-version>1.6.6</org.slf4j-version>
+		<aws.java.sdk.version>2.16.1</aws.java.sdk.version>
+	</properties>
+	
+	<dependencyManagement>
        <dependencies>
          <dependency>
            <groupId>software.amazon.awssdk</groupId>
@@ -28,12 +28,15 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        </dependencies>
    </dependencyManagement>
    
-   <dependencies>
-   <!-- aws s3 -->
-    <dependency>
-       <groupId>software.amazon.awssdk</groupId>
-       <artifactId>s3</artifactId>
-    </dependency>
+	<dependencies>
+	
+			<!-- https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client -->
+		<dependency>
+			<groupId>org.mariadb.jdbc</groupId>
+			<artifactId>mariadb-java-client</artifactId>
+			<version>2.1.2</version>
+		</dependency>
+
    
   		<dependency>
          <groupId>software.amazon.awssdk</groupId>
