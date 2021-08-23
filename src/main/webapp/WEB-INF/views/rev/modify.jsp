@@ -251,20 +251,7 @@ $(document).ready(function(){
     </div>
     </form>
 </div>
-    <footer>
-    	<div class="container">
-    		<section id="container1">
-    		
-			<div id="footdiv">
-			
-				<!-- div class="container1" style="margin-left:100px;width:100%;"> -->
-					사업자명 : BCD쇼핑몰 ㅣ 사업자 번호 : 123-45-78901 ㅣ 개인정보관리책임자 : 이원석
-					주소 : 서울특별시 마포구 신촌로 176 5층 501호ㅣ 전화 : 0507-1409-1711안내ㅣ 메일 : lws3793@naver.com
-				<!-- </div> -->
-			</div>
-			</section>
-    	</div>
-		</footer> 
+<u:footer/>
     </c:when>
     <c:otherwise>
     		<script type="text/javascript">
