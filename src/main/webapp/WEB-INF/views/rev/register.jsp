@@ -184,15 +184,7 @@ $(document).ready(function (){
 
     <div class="btn_confirm write_div">
         <input type="submit" value="작성완료" id="btn_submit" accesskey="s" class="btn_submit btn-secondary" style="border: thin;">
-        <footer>
-			<div id="footdiv">
-			
-				<div class="container" style="width:100%;">
-					사업자명 : BCD쇼핑몰 ㅣ 사업자 번호 : 123-45-78901 ㅣ 개인정보관리책임자 : 이원석
-					주소 : 서울특별시 마포구 신촌로 176 5층 501호ㅣ 전화 : 0507-1409-1711안내ㅣ 메일 : lws3793@naver.com
-				</div>
-			</div>
-		</footer> 
+        <u:footer/>
     </div> 
     </form>
 </section>
