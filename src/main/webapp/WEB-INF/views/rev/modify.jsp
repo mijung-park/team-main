@@ -251,7 +251,11 @@ $(document).ready(function(){
     </div>
     </form>
 </div>
+<<<<<<< HEAD
 <u:footer/>
+=======
+    <u:footer/> 
+>>>>>>> branch 'master' of https://github.com/mijung-park/team-main.git
     </c:when>
     <c:otherwise>
     		<script type="text/javascript">
