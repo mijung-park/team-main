@@ -574,16 +574,6 @@ $(document).ready(function() {
 			</div>		
 		</div>
 	</div>
-	<div class="container-md">
-	<section id="containers">
-		<article id="bo_v" style="width:100%">
-<<<<<<< HEAD
-	<u:footer />
-=======
-	<u:footer/>
->>>>>>> branch 'master' of https://github.com/mijung-park/team-main.git
-	</article>
-	</section>
-	</div>
+<u:footer/>
 </body>
 </html>

@@ -184,11 +184,9 @@ $(document).ready(function (){
 
     <div class="btn_confirm write_div">
         <input type="submit" value="작성완료" id="btn_submit" accesskey="s" class="btn_submit btn-secondary" style="border: thin;">
-<<<<<<< HEAD
+
     <u:footer />
-=======
-        <u:footer/>
->>>>>>> branch 'master' of https://github.com/mijung-park/team-main.git
+
     </div> 
     </form>
 </section>

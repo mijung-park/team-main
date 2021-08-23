@@ -660,7 +660,9 @@ showList();
 		<!-- 댓글 리스트 -->
 		<div class="recommView" id="reply_list"></div><br><br>
 	
+	<u:footer/>
 	</section>
+	
 
 	<%-- modal 새 댓글 form --%>
 	<div class="modal fade" id="new-reply-modal">
@@ -694,9 +696,13 @@ showList();
 					<button id="reply-submit-button"type="button" class="btn btn-primary">등록</button>
 				</div>
 				
+				
+				
 			</div>
 		</div>
 	</div>
+	
+	
 	<%-- modal 수정 form --%>
 	<div class="modal fade" id="modify-reply-modal">
 		<div class="modal-dialog">
@@ -735,6 +741,5 @@ showList();
 		</div>
 	</div>
 
-<u:footer/>
 </body>
 </html>
